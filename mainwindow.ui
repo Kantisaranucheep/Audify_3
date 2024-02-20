@@ -25,7 +25,7 @@
       <x>10</x>
       <y>10</y>
       <width>261</width>
-      <height>481</height>
+      <height>501</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -147,7 +147,7 @@ background-color:rgb(140,140,140);
        <x>10</x>
        <y>130</y>
        <width>241</width>
-       <height>341</height>
+       <height>361</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -210,7 +210,7 @@ background-color:rgb(140,140,140);
       <x>280</x>
       <y>10</y>
       <width>521</width>
-      <height>481</height>
+      <height>501</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -289,7 +289,7 @@ background-color:rgb(140,140,140);
        <x>10</x>
        <y>130</y>
        <width>501</width>
-       <height>341</height>
+       <height>361</height>
       </rect>
      </property>
      <property name="styleSheet">
@@ -411,7 +411,7 @@ background-color:rgb(140,140,140);
       <x>810</x>
       <y>10</y>
       <width>261</width>
-      <height>481</height>
+      <height>501</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -512,9 +512,9 @@ border-radius: 20px;
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>500</y>
+      <y>520</y>
       <width>1061</width>
-      <height>191</height>
+      <height>161</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -735,7 +735,7 @@ color:rgb(27, 27, 27);
 }</string>
      </property>
      <property name="text">
-      <string>repeat</string>
+      <string>Repeat</string>
      </property>
     </widget>
     <widget class="QPushButton" name="push_shuffle">
@@ -753,7 +753,8 @@ color:rgb(27, 27, 27);
 border: none;
 border-radius:30px;
 background-color:rgb(186, 186, 186);
-color:rgb(53, 255, 42);
+color:rgb(27, 27, 27);
+font-weight: bold;
 min-width: 60px;
 max-width: 60px;
 min-height: 60px;
@@ -768,7 +769,7 @@ background-color:rgb(140,140,140);
 }</string>
      </property>
      <property name="text">
-      <string/>
+      <string>Shuffle</string>
      </property>
     </widget>
     <widget class="QSlider" name="horizontalSlider">

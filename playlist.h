@@ -14,6 +14,7 @@ public:
     void importSong(const Song& song);
     void removeSong(int index);
     QList<Song> getSongs() const;
+    int getSongCount() const;
 
 private:
     QString name;

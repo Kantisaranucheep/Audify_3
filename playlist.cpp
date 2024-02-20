@@ -27,3 +27,8 @@ QList<Song> Playlist::getSongs() const
 {
     return songs;
 }
+
+int Playlist::getSongCount() const
+{
+    return songs.size();
+}

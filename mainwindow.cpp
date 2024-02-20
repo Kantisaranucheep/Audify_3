@@ -303,11 +303,11 @@ void MainWindow::updateSongList(const QString &playlistName)
 {
     // Get the playlist from the Inventory based on the label text
     const Playlist* selectedPlaylist = nullptr;
-    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();  // Use const reference
 
     for (const Playlist& playlist : allPlaylists) {
         if (playlist.getName() == playlistName) {
-            selectedPlaylist = &playlist;
+            selectedPlaylist = const_cast<Playlist*>(&playlist);
             break;
         }
     }
@@ -326,7 +326,6 @@ void MainWindow::updateSongList(const QString &playlistName)
         qDebug() << "Updated listWidget_song for playlist: " << playlistName;
     }
 }
-
 
 
 void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
@@ -395,7 +394,7 @@ void MainWindow::on_pushaddsong_clicked()
                     ui->listWidget_song->addItem(filename2);
                 }
 
-                qDebug() << "Playlist size after adding a song: " << playlist.size();
+                qDebug() << "Playlist size after adding a song: " << selectedPlaylist->getSongCount();
             }
         }
     }
@@ -482,57 +481,89 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
 
 void MainWindow::on_push_skip_clicked()
 {
+    QString playlistName = clickedItem->text();
 
-    qDebug() << "Playlist size: " << playlist.size();
+    // Get the playlist from the Inventory based on the label text
+    const Playlist* selectedPlaylist = nullptr;
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+    for (const Playlist& playlist : allPlaylists) {
+        if (playlist.getName() == playlistName) {
+            selectedPlaylist = &playlist;
+            break;
+        }
+    }
+
+    qDebug() << "Playlist size: " << selectedPlaylist->getSongCount();
+
     // Check if the playlist is not empty
-    if (!playlist.isEmpty() && ui->listWidget_song->currentRow() >= 0) {
-        // Increment the current index
-        int selectedSongIndex = ui->listWidget_song->currentRow();
-
-        qDebug() << "Selected Song Index: " << selectedSongIndex;
-
-        currentindex = (selectedSongIndex + 1)% playlist.size();
+    if (selectedPlaylist && selectedPlaylist->getSongCount() > 0 && ui->listWidget_song->currentRow() >= 0) {
+        // Increment the index and loop back to the first song if it exceeds the playlist size
+        currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
 
         // Get the next song in the playlist
-        const Song& nextSong = playlist[currentindex];
+        const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
 
-        qDebug() << "Next Song: " << nextSong.getfilename();
+        qDebug() << "current Song: " << nextSong.getfilename();
 
         // Set the source and start playing the next song
         MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
-        audioOutput->setVolume(ui->horizontalSlider_2->value());
+        audioOutput->setVolume(ui->horizontalSlider_2->value()/100.0);
         MPlayer->play();
 
         // Update the label with the file name
-        ui->label_File_Name->setText(nextSong.getfilename());
+        ui->label_File_Name->setText(QFileInfo(nextSong.getfilename()).fileName());
+
+        // Update selectedSongIndex to currentindex
+        int selectedSongIndex = currentindex;
+        qDebug() << "Selected Song Index: " << selectedSongIndex;
 
         // Optional: Update UI or perform additional actions
     }
-
 }
+
 
 void MainWindow::on_push_back_clicked()
 {
+    QString playlistName = clickedItem->text();
+
+    // Get the playlist from the Inventory based on the label text
+    const Playlist* selectedPlaylist = nullptr;
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+    for (const Playlist& playlist : allPlaylists) {
+        if (playlist.getName() == playlistName) {
+            selectedPlaylist = &playlist;
+            break;
+        }
+    }
+
+    qDebug() << "Playlist size: " << selectedPlaylist->getSongCount();
+
     // Check if the playlist is not empty
-    if (!playlist.isEmpty()) {
-        // Decrement the current index
-        int selectedSongIndex = ui->listWidget_song->currentRow();
-        currentindex = (selectedSongIndex - 1) % playlist.size();
+    if (selectedPlaylist && selectedPlaylist->getSongCount() > 0 && ui->listWidget_song->currentRow() >= 0) {
+        // Decrement the index and loop back to the last song if it goes below 0
+        currentindex = (currentindex - 1 + selectedPlaylist->getSongCount()) % selectedPlaylist->getSongCount();
 
-        // Get the previous song in the playlist
-        const Song& prevSong = playlist[currentindex];
+        // Get the next song in the playlist
+        const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
 
-        // Set the source and start playing the previous song
-        MPlayer->setSource(QUrl::fromLocalFile(prevSong.getfilename()));
-        audioOutput->setVolume(ui->horizontalSlider_2->value());
+        qDebug() << "current Song: " << nextSong.getfilename();
+
+        // Set the source and start playing the next song
+        MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
+        audioOutput->setVolume(ui->horizontalSlider_2->value()/100.0);
         MPlayer->play();
 
         // Update the label with the file name
-        ui->label_File_Name->setText(prevSong.getfilename());
+        ui->label_File_Name->setText(QFileInfo(nextSong.getfilename()).fileName());
+
+        // Update selectedSongIndex to currentindex
+        int selectedSongIndex = currentindex;
+        qDebug() << "Selected Song Index: " << selectedSongIndex;
 
         // Optional: Update UI or perform additional actions
     }
-
 }
 
 void MainWindow::scrollFileName()
