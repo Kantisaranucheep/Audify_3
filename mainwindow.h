@@ -84,7 +84,14 @@ private slots:
 
     void scrollFileName();
 
+    void handleMediaStatusChanged(QMediaPlayer::MediaStatus status);
 
+
+    void on_push_shuffle_clicked();
+
+    QList<int> generateShuffledIndices(int count);
+
+    void playNextSong(const Song& nextSong);
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;
@@ -106,6 +113,9 @@ private:
 
     QTimer *scrollTimer;
     QString currentFileName;
+
+    bool isShuffleEnabled = false;
+    QList<int> shuffleIndices;
 
 
 

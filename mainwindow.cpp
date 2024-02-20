@@ -10,6 +10,7 @@
 #include <QVBoxLayout>
 #include <QFont>
 #include <QDebug>
+#include <QTime>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -54,6 +55,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->listWidget, &QListWidget::itemClicked, this, &MainWindow::on_listWidget_itemClicked);
     // connect(ui->pushaddsong, &QPushButton::clicked, this, &MainWindow::on_pushaddsong_clicked);
 
+    connect(MPlayer, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::handleMediaStatusChanged);
+
     // disconnect(ui->listWidget, &QListWidget::itemClicked, 0, 0);
 
     // // Connect the listWidget itemClicked signal to the on_listWidget_itemClicked slot
@@ -69,6 +72,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Set the interval for scrolling (adjust as needed)
     int scrollInterval = 160;  // milliseconds
     scrollTimer->setInterval(scrollInterval);
+
+    srand(static_cast<uint>(QTime::currentTime().msec()));
 
 
 }
@@ -498,30 +503,22 @@ void MainWindow::on_push_skip_clicked()
 
     // Check if the playlist is not empty
     if (selectedPlaylist && selectedPlaylist->getSongCount() > 0 && ui->listWidget_song->currentRow() >= 0) {
-        // Increment the index and loop back to the first song if it exceeds the playlist size
-        currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
-
-        // Get the next song in the playlist
-        const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
-
-        qDebug() << "current Song: " << nextSong.getfilename();
-
-        // Set the source and start playing the next song
-        MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
-        audioOutput->setVolume(ui->horizontalSlider_2->value()/100.0);
-        MPlayer->play();
-
-        // Update the label with the file name
-        ui->label_File_Name->setText(QFileInfo(nextSong.getfilename()).fileName());
-
-        // Update selectedSongIndex to currentindex
-        int selectedSongIndex = currentindex;
-        qDebug() << "Selected Song Index: " << selectedSongIndex;
-
-        // Optional: Update UI or perform additional actions
+        if (isShuffleEnabled) {
+            // If shuffle is enabled, increment the shuffle index and play the corresponding song
+            currentindex = ( currentindex + 1) % shuffleIndices.size();
+            int shuffledIndex = shuffleIndices[ currentindex];
+            const Song& nextSong = selectedPlaylist->getSongs().at(shuffledIndex);
+            qDebug() << "Current Song (Shuffled): " << nextSong.getfilename();
+            playNextSong(nextSong);
+        } else {
+            // If shuffle is not enabled, increment the index and loop back to the first song if needed
+            currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
+            const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
+            qDebug() << "Current Song: " << nextSong.getfilename();
+            playNextSong(nextSong);
+        }
     }
 }
-
 
 void MainWindow::on_push_back_clicked()
 {
@@ -542,28 +539,38 @@ void MainWindow::on_push_back_clicked()
 
     // Check if the playlist is not empty
     if (selectedPlaylist && selectedPlaylist->getSongCount() > 0 && ui->listWidget_song->currentRow() >= 0) {
-        // Decrement the index and loop back to the last song if it goes below 0
-        currentindex = (currentindex - 1 + selectedPlaylist->getSongCount()) % selectedPlaylist->getSongCount();
-
-        // Get the next song in the playlist
-        const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
-
-        qDebug() << "current Song: " << nextSong.getfilename();
-
-        // Set the source and start playing the next song
-        MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
-        audioOutput->setVolume(ui->horizontalSlider_2->value()/100.0);
-        MPlayer->play();
-
-        // Update the label with the file name
-        ui->label_File_Name->setText(QFileInfo(nextSong.getfilename()).fileName());
-
-        // Update selectedSongIndex to currentindex
-        int selectedSongIndex = currentindex;
-        qDebug() << "Selected Song Index: " << selectedSongIndex;
-
-        // Optional: Update UI or perform additional actions
+        if (isShuffleEnabled) {
+            // If shuffle is enabled, decrement the shuffle index and play the corresponding song
+             currentindex = ( currentindex - 1 + shuffleIndices.size()) % shuffleIndices.size();
+            int shuffledIndex = shuffleIndices[ currentindex];
+            const Song& nextSong = selectedPlaylist->getSongs().at(shuffledIndex);
+            qDebug() << "Current Song (Shuffled): " << nextSong.getfilename();
+            playNextSong(nextSong);
+        } else {
+            // If shuffle is not enabled, decrement the index and loop back to the last song if needed
+            currentindex = (currentindex - 1 + selectedPlaylist->getSongCount()) % selectedPlaylist->getSongCount();
+            const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
+            qDebug() << "Current Song: " << nextSong.getfilename();
+            playNextSong(nextSong);
+        }
     }
+}
+
+void MainWindow::playNextSong(const Song& nextSong)
+{
+    // Set the source and start playing the next song
+    MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
+    audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
+    MPlayer->play();
+
+    // Update the label with the file name
+    ui->label_File_Name->setText(QFileInfo(nextSong.getfilename()).fileName());
+
+    // Update selectedSongIndex to currentindex
+    int selectedSongIndex = isShuffleEnabled ? shuffleIndices[currentindex] : currentindex;
+    qDebug() << "Selected Song Index: " << selectedSongIndex;
+
+    // Optional: Update UI or perform additional actions
 }
 
 void MainWindow::scrollFileName()
@@ -576,3 +583,117 @@ void MainWindow::scrollFileName()
     }
 }
 
+
+void MainWindow::on_push_shuffle_clicked()
+{
+    isShuffleEnabled = !isShuffleEnabled;
+
+    // Change the shuffle icon text color to blue if shuffle is enabled
+    if (isShuffleEnabled) {
+        ui->push_shuffle->setStyleSheet("QPushButton { color: blue;"
+                                        "border: none;"
+                                        "border-radius:30px;"
+                                        "background-color:rgb(186, 186, 186);"
+                                        "font-weight: bold; "
+                                        "min-width: 60px;"
+                                        "max-width: 60px;"
+                                        "min-height: 60px;"
+                                        "padding:0px;"
+                                        "max-height: 60px;}"
+                                        "QPushButton::Hover{background-color:rgb(140,140,140);}");
+
+        // If shuffle is enabled, generate shuffled indices for the playlist
+         shuffleIndices = generateShuffledIndices(ui->listWidget_song->count());
+        currentindex = 0;
+    } else {
+        ui->push_shuffle->setStyleSheet("QPushButton { color: black;"
+                                        "border: none;"
+                                        "border-radius:30px;"
+                                        "background-color:rgb(186, 186, 186);"
+                                        "font-weight: bold; "
+                                        "min-width: 60px;"
+                                        "max-width: 60px;"
+                                        "min-height: 60px;"
+                                        "padding:0px;"
+                                        "max-height: 60px;}"
+                                        "QPushButton::Hover{background-color:rgb(140,140,140);}"
+                                        );
+
+        // If shuffle is disabled, reset shuffled indices
+         shuffleIndices.clear();
+        currentindex = -1;
+    }
+}
+void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
+{
+    if (status == QMediaPlayer::EndOfMedia) {
+        // The current media has finished playing
+        // Automatically play the next song based on shuffle status
+
+        QString playlistName = clickedItem->text();
+
+        // Get the playlist from the Inventory based on the label text
+        const Playlist* selectedPlaylist = nullptr;
+        const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+        for (const Playlist& playlist : allPlaylists) {
+            if (playlist.getName() == playlistName) {
+                selectedPlaylist = &playlist;
+                break;
+            }
+        }
+
+        qDebug() << "Playlist size: " << selectedPlaylist->getSongCount();
+
+        // Check if the playlist is not empty
+        if (selectedPlaylist && selectedPlaylist->getSongCount() > 0) {
+            if (isShuffleEnabled) {
+                // Shuffle is enabled, randomize the next song
+                shuffleIndices= generateShuffledIndices(selectedPlaylist->getSongCount());
+                currentindex = shuffleIndices.at((currentindex + 1) % selectedPlaylist->getSongCount());
+            } else {
+                // Shuffle is disabled, play the next song in order
+                currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
+            }
+
+            // Get the next song in the playlist
+            const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
+
+            qDebug() << "Next Song: " << nextSong.getfilename();
+
+            // Set the source and start playing the next song
+            MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
+            audioOutput->setVolume(ui->horizontalSlider_2->value()/100.0);
+            MPlayer->play();
+
+            // Update the label with the file name
+            ui->label_File_Name->setText(QFileInfo(nextSong.getfilename()).fileName());
+
+            // Update selectedSongIndex to currentindex
+            int selectedSongIndex = currentindex;
+            qDebug() << "Selected Song Index: " << selectedSongIndex;
+
+            // Optional: Update UI or perform additional actions
+        }
+    }
+}
+
+QList<int> MainWindow::generateShuffledIndices(int count)
+{
+    QList<int> indices;
+    for (int i = 0; i < count; ++i) {
+        indices.append(i);
+    }
+
+    // Shuffle the indices using Fisher-Yates algorithm
+    for (int i = count - 1; i > 0; --i) {
+        int j = rand() % (i + 1);
+
+        // Swap elements manually
+        int temp = indices[i];
+        indices[i] = indices[j];
+        indices[j] = temp;
+    }
+
+    return indices;
+}
