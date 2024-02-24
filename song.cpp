@@ -9,3 +9,7 @@ QString Song::getfilename() const
 {
     return filename;
 }
+
+bool Song::operator==(const Song& other) const {
+    return filename == other.filename;
+}

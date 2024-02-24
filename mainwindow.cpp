@@ -50,7 +50,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(MPlayer, &QMediaPlayer::positionChanged, this, &MainWindow::positionChanged);
 
 
-
     connect(ui->pushdelplaylist_2, &QPushButton::clicked, this, &MainWindow::on_pushdelplaylist_2_clicked);
     connect(ui->listWidget, &QListWidget::itemClicked, this, &MainWindow::on_listWidget_itemClicked);
     // connect(ui->pushaddsong, &QPushButton::clicked, this, &MainWindow::on_pushaddsong_clicked);
@@ -401,9 +400,11 @@ void MainWindow::on_pushaddsong_clicked()
 
                 qDebug() << "Playlist size after adding a song: " << selectedPlaylist->getSongCount();
             }
+        } else {
+                // Display an error message if no playlist is selected
+                QMessageBox::critical(this, tr("Error"), tr("Please select a playlist or create a new one."));
         }
     }
-
 }
 
 

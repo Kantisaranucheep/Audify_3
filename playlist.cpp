@@ -1,3 +1,4 @@
+//playlist.cpp
 #include "playlist.h"
 
 Playlist::Playlist(const QString& name)
@@ -12,6 +13,13 @@ QString Playlist::getName() const
 
 void Playlist::importSong(const Song& song)
 {
+    for (const Song& existingSong : songs)
+    {
+        if (existingSong == song)
+        {
+            return;
+        }
+    }
     songs.append(song);
 }
 
