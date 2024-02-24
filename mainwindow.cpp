@@ -557,7 +557,6 @@ void MainWindow::on_pushdelsong_clicked()
         }
     }
     updatePlaylistLabels();
-
 }
 
 
@@ -782,8 +781,10 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
         if (selectedPlaylist && selectedPlaylist->getSongCount() > 0) {
 
             if(selectedPlaylist->getSongCount() == 1){
-                currentindex = 0;
-            }else {
+                // Only one song in the playlist, repeat the same song
+                MPlayer->setPosition(0);  // Restart the same song from the beginning
+                MPlayer->play();
+            } else {
                 if (isShuffleEnabled) {
                     // Shuffle is enabled, randomize the next song
                     shuffleIndices= generateShuffledIndices(selectedPlaylist->getSongCount());
