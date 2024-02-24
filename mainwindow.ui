@@ -217,38 +217,6 @@ background-color:rgb(140,140,140);
       <string>Search</string>
      </property>
     </widget>
-    <widget class="QFontComboBox" name="fontComboBox">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>10</y>
-       <width>361</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QFontComboBox{
-
- /* Background color */
-    background-color: rgb(39, 39, 39);
-
-    /* Border style and color */
-    border: 1px solid #dcdcdc;
-    border-radius: 5px;
-
-    /* Padding */
-    padding: 5px;
-
-    /* Text color */
-    color: #333;
-
-}
-</string>
-     </property>
-     <property name="currentText">
-      <string/>
-     </property>
-    </widget>
     <widget class="QListWidget" name="listWidget_song">
      <property name="geometry">
       <rect>
@@ -429,6 +397,16 @@ background-color:rgb(140,140,140);
      </property>
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboSong">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>10</y>
+       <width>371</width>
+       <height>28</height>
+      </rect>
      </property>
     </widget>
    </widget>
@@ -831,7 +809,7 @@ QSlider::handle:horizontal {
       <rect>
        <x>240</x>
        <y>30</y>
-       <width>41</width>
+       <width>40</width>
        <height>20</height>
       </rect>
      </property>

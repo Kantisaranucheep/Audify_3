@@ -102,6 +102,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->total_duration->setText("Duration: 0:00");
     ui->total_song->setText("0 songs");
 
+    Playlist defaultPlaylist("All Songs");
+    inventory->addPlaylist(defaultPlaylist);
+
+    QListWidgetItem *defaultPlaylistItem = new QListWidgetItem(ui->listWidget);
+    defaultPlaylistItem->setText(defaultPlaylist.getName());
+    ui->listWidget->addItem(defaultPlaylistItem);
+
+    // ui->listWidget->setCurrentItem(defaultPlaylistItem);
+    clickedItem = defaultPlaylistItem;
+    ui->label_Playlist_Name->setText(defaultPlaylist.getName());
+
+
 }
 
 
@@ -464,6 +476,7 @@ void MainWindow::on_pushdelplaylist_2_clicked()
 
 void MainWindow::on_pushaddsong_clicked()
 {
+    qDebug() << "import clicked ";
     // Check if a playlist item is selected in the QListWidget
     if (clickedItem) {
         QString playlistName = clickedItem->text();
@@ -499,10 +512,16 @@ void MainWindow::on_pushaddsong_clicked()
 
                 qDebug() << "Playlist size after adding a song: " << selectedPlaylist->getSongCount();
             }
+        } else {
+            // Display a message box indicating that no playlist is selected
+            QMessageBox::information(this, tr("No Playlist Selected"), tr("Please select a playlist before adding a song."));
         }
+    } else {
+        // Display a message box indicating that no item is clicked
+        QMessageBox::information(this, tr("No Item Clicked"), tr("Please select a playlist before adding a song."));
     }
-    updatePlaylistLabels();
 
+    updatePlaylistLabels();
 }
 
 void MainWindow::on_pushdelsong_clicked()
