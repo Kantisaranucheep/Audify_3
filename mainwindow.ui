@@ -66,50 +66,6 @@
       <string>Playlist</string>
      </property>
     </widget>
-    <widget class="QFontComboBox" name="fontComboBox_2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>241</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QFontComboBox {
-    /* Background color */
-    background-color: rgb(39, 39, 39); /* Gray color for the box */
-
-    /* Border style and color */
-    border: 1px solid #ffffff; /* White border color */
-    border-radius: 5px;
-
-    /* Padding */
-    padding: 5px;
-
-    /* Text color */
-    color: #333;
-
-    QComboBox::drop-down {
-        border-radius: 5px;
-        border: none;
-        width: 20px;
-        background-color: #808080; /* Gray color for the box */
-    }
-
-    QComboBox::down-arrow {
-        subcontrol-origin: padding;
-        subcontrol-position: center right;
-        border-radius: 5px; /* Adjust the radius for the curve effect */
-        width: 10px; /* Adjust the width of the arrow */
-        background-color: #808080; /* Gray color for the arrow */
-    }
-}</string>
-     </property>
-     <property name="currentText">
-      <string/>
-     </property>
-    </widget>
     <widget class="QPushButton" name="pushaddplaylist">
      <property name="geometry">
       <rect>
@@ -201,6 +157,16 @@ background-color:rgb(140,140,140);
      </property>
      <property name="text">
       <string> - Delete </string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="comboPlaylist">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>241</width>
+       <height>28</height>
+      </rect>
      </property>
     </widget>
    </widget>
@@ -295,7 +261,7 @@ background-color:rgb(140,140,140);
      <property name="styleSheet">
       <string notr="true">QListWidget{
 background-color: rgb(121, 121, 121);
-                          border-radius: 10px;
+                          border-radius: 15px;
 
 
 }
@@ -308,7 +274,12 @@ color:rgb(255, 255, 255);
 font-weight: bold;
 
 
-    }</string>
+    }
+
+QListWidget::vertical::handle {
+    border-radius: 5px;  /* Set the desired border-radius for the scroll bar handle */
+}
+</string>
      </property>
      <property name="horizontalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -404,6 +375,62 @@ background-color:rgb(140,140,140);
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
+    <widget class="QLabel" name="total_duration">
+     <property name="geometry">
+      <rect>
+       <x>330</x>
+       <y>50</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+
+	color:rgb(255, 255, 255);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="total_song">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>50</y>
+       <width>121</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel{
+
+	color:rgb(255, 255, 255);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+    </widget>
    </widget>
    <widget class="QFrame" name="frame_4">
     <property name="geometry">
@@ -452,36 +479,12 @@ background-color:rgb(140,140,140);
       <string>Song</string>
      </property>
     </widget>
-    <widget class="QFrame" name="frame_5">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>241</width>
-       <height>231</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QFrame{
-
-background: rgb(121, 121, 121);
-border-radius: 20px;
-
-}</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_File_Name">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>290</y>
-       <width>231</width>
+       <x>10</x>
+       <y>260</y>
+       <width>241</width>
        <height>41</height>
       </rect>
      </property>
@@ -507,6 +510,22 @@ border-radius: 20px;
       <number>0</number>
      </property>
     </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>-95</x>
+       <y>-70</y>
+       <width>450</width>
+       <height>450</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <zorder>label_4</zorder>
+    <zorder>label_File_Name</zorder>
+    <zorder>label_2</zorder>
    </widget>
    <widget class="QFrame" name="frame">
     <property name="geometry">

@@ -11,6 +11,7 @@
 #include <QFont>
 #include <QDebug>
 #include <QTime>
+#include <QMovie>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -57,6 +58,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(MPlayer, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::handleMediaStatusChanged);
 
+    connect(MPlayer, &QMediaPlayer::durationChanged, this, [&](qint64 dur) {
+        qDebug() << "duration = " << dur;
+
+        currentSongDuration = dur;
+        updatePlaylistLabels();
+    });
+
+    connect(ui->comboPlaylist, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &MainWindow::on_comboPlaylist_currentIndexChanged);
+
+    // updateComboBox();
+
     // disconnect(ui->listWidget, &QListWidget::itemClicked, 0, 0);
 
     // // Connect the listWidget itemClicked signal to the on_listWidget_itemClicked slot
@@ -75,6 +88,19 @@ MainWindow::MainWindow(QWidget *parent)
 
     srand(static_cast<uint>(QTime::currentTime().msec()));
 
+    // Create a QMovie instance and set the GIF file path
+    gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc2.gif");
+
+    // Set the movie to the QLabel
+    ui->label_4->setMovie(gifMovie);
+    gifMovie->setScaledSize(ui->label_4->size());
+    gifMovie->setSpeed(20);
+
+    gifMovie->jumpToFrame(0);
+    gifMovie->stop();
+
+    ui->total_duration->setText("Duration: 0:00");
+    ui->total_song->setText("0 songs");
 
 }
 
@@ -85,6 +111,7 @@ MainWindow::~MainWindow()
     delete MPlayer;
     delete audioOutput;
     delete inventory;
+    delete gifMovie;
     // Optionally add more cleanup code here
 }
 
@@ -146,6 +173,7 @@ void MainWindow::on_push_play_clicked()
         ui->push_play->setIcon(playIcon);
 
         MPlayer->pause();
+        gifMovie->stop();
 
         isPause = true;
     }
@@ -156,6 +184,7 @@ void MainWindow::on_push_play_clicked()
         ui->push_play->setIcon(pauseIcon);
 
         MPlayer->play();
+        gifMovie->start();
 
         isPause = false;
     }
@@ -216,7 +245,35 @@ void MainWindow::on_push_repeat_clicked()
         QIcon pauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
         ui->push_play->setIcon(pauseIcon);
         MPlayer->play();
+        gifMovie->start();
         isPause = false;
+    }
+
+}
+
+
+void MainWindow::updateComboBox()
+{
+    // ui->comboPlaylist->clear();  // Clear existing items
+
+    // // Get playlist names from the inventory and add them to the combobox
+    // const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+    // for (const Playlist& playlist : allPlaylists) {
+    //     ui->comboPlaylist->addItem(playlist.getName());
+    // }
+}
+
+void MainWindow::on_comboPlaylist_currentIndexChanged(int index)
+{
+    // Handle the combobox selection change
+    if (index >= 0 && index < ui->comboPlaylist->count()) {
+        QString selectedPlaylistName = ui->comboPlaylist->itemText(index);
+
+        // Update UI or perform other actions based on the selected playlist name
+        qDebug() << "Selected Playlist: " << selectedPlaylistName;
+
+        // You can also update the song list or any other related UI elements
+        updateSongList(selectedPlaylistName);
     }
 
 }
@@ -234,10 +291,10 @@ void MainWindow::on_pushaddplaylist_clicked()
         Playlist newPlaylist(playlistName);
         inventory->addPlaylist(newPlaylist);
 
-        QLabel *playlistlabel = new QLabel(playlistName, this);
-        playlistlabel->setStyleSheet("QLabel { color : white; font-weight: bold; margin-left: 5px;"
-                                     "border-radius: 10px; }");  // Set the text color to blue for indication
-        playlistlabel->setCursor(Qt::PointingHandCursor);
+        // QLabel *playlistlabel = new QLabel(playlistName, this);
+        // playlistlabel->setStyleSheet("QLabel { color : white; font-weight: bold; margin-left: 5px;"
+        //                              "border-radius: 10px; }");  // Set the text color to blue for indication
+        // playlistlabel->setCursor(Qt::PointingHandCursor);
 
         // playlistlabel->installEventFilter(this);
 
@@ -245,12 +302,15 @@ void MainWindow::on_pushaddplaylist_clicked()
         QListWidgetItem *item = new QListWidgetItem(ui->listWidget);
         item->setText(playlistName);
         ui->listWidget->addItem(item);
+
+        // ui->comboPlaylist->addItem(playlistName);
         // ui->listWidget->setItemWidget(item, playlistlabel);
 
-        updatePlaylistLabels();
+        // updatePlaylistLabels();
 
         qDebug() << "New Playlist Name: " << playlistName;
     }
+
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
@@ -271,7 +331,34 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 
 void MainWindow::updatePlaylistLabels()
 {
+    if (clickedItem) {
+        QString playlistName = clickedItem->text();
 
+        const Playlist* selectedPlaylist = nullptr;
+        const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+        for (const Playlist& playlist : allPlaylists) {
+            if (playlist.getName() == playlistName) {
+                selectedPlaylist = &playlist;
+                break;
+            }
+        }
+
+        if (selectedPlaylist) {
+            int numberOfSongs = selectedPlaylist->getSongCount();
+
+            // Update the label displaying the number of songs
+            ui->total_song->setText(QString::number(numberOfSongs) + " songs");
+
+            // // Update the label displaying the total duration
+            // qint64 totalDuration = selectedPlaylist->getTotalDuration();  // Use the function from Playlist class
+
+            // QTime totalDurationTime((totalDuration / 3600) % 60, (totalDuration / 60) % 60, totalDuration % 60, (totalDuration * 1000) % 1000);
+            // ui->total_duration->setText("Duration: " + totalDurationTime.toString("mm:ss"));
+
+            // qDebug() << "Total duration: " << totalDurationTime.toString("mm:ss");
+        }
+    }
 }
 
 void MainWindow::onPlaylistLabelClicked(QLabel *clickedLabel)
@@ -301,6 +388,7 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
     ui->label_Playlist_Name->setText(playlistName);
 
     updateSongList(playlistName);
+    updatePlaylistLabels();
 
 }
 
@@ -318,6 +406,8 @@ void MainWindow::updateSongList(const QString &playlistName)
     }
 
     if (selectedPlaylist) {
+
+        qint64 totalDuration = 0;
         // Clear the current listWidget_song
         ui->listWidget_song->clear();
 
@@ -326,10 +416,18 @@ void MainWindow::updateSongList(const QString &playlistName)
         for (const Song& song : songs) {
             QString filename2 = QFileInfo(song.getfilename()).fileName();
             ui->listWidget_song->addItem(filename2);
+
+            // totalDuration += song.getDuration();
         }
+
+        // Update the label with the total duration
+        // QTime totalDurationTime((totalDuration / 3600) % 60, (totalDuration / 60) % 60, totalDuration % 60, (totalDuration * 1000) % 1000);
+        // ui->total_duration->setText(totalDurationTime.toString("mm:ss"));
 
         qDebug() << "Updated listWidget_song for playlist: " << playlistName;
     }
+
+    updatePlaylistLabels();
 }
 
 
@@ -403,9 +501,9 @@ void MainWindow::on_pushaddsong_clicked()
             }
         }
     }
+    updatePlaylistLabels();
 
 }
-
 
 void MainWindow::on_pushdelsong_clicked()
 {
@@ -439,6 +537,7 @@ void MainWindow::on_pushdelsong_clicked()
             }
         }
     }
+    updatePlaylistLabels();
 
 }
 
@@ -476,6 +575,7 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
             currentFileName = fileInfo.fileName();  // Extract only the file name
             ui->label_File_Name->setText(currentFileName);
             MPlayer->play();
+            gifMovie->start();
 
             // Start the timer for scrolling
             scrollTimer->start();
@@ -488,9 +588,16 @@ void MainWindow::on_push_skip_clicked()
 {
     QString playlistName = clickedItem->text();
 
+
     // Get the playlist from the Inventory based on the label text
     const Playlist* selectedPlaylist = nullptr;
     const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+    // // Check if the selected playlist is found
+    // if (!selectedPlaylist) {
+    //     qDebug() << "Error: Playlist not found!";
+    //     return;
+    // }
 
     for (const Playlist& playlist : allPlaylists) {
         if (playlist.getName() == playlistName) {
@@ -498,6 +605,7 @@ void MainWindow::on_push_skip_clicked()
             break;
         }
     }
+
 
     qDebug() << "Playlist size: " << selectedPlaylist->getSongCount();
 
@@ -533,6 +641,12 @@ void MainWindow::on_push_back_clicked()
             selectedPlaylist = &playlist;
             break;
         }
+    }
+
+    // Check if the selected playlist is found
+    if (!selectedPlaylist) {
+        qDebug() << "Error: Playlist not found!";
+        return;
     }
 
     qDebug() << "Playlist size: " << selectedPlaylist->getSongCount();
@@ -647,13 +761,18 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
 
         // Check if the playlist is not empty
         if (selectedPlaylist && selectedPlaylist->getSongCount() > 0) {
-            if (isShuffleEnabled) {
-                // Shuffle is enabled, randomize the next song
-                shuffleIndices= generateShuffledIndices(selectedPlaylist->getSongCount());
-                currentindex = shuffleIndices.at((currentindex + 1) % selectedPlaylist->getSongCount());
-            } else {
-                // Shuffle is disabled, play the next song in order
-                currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
+
+            if(selectedPlaylist->getSongCount() == 1){
+                currentindex = 0;
+            }else {
+                if (isShuffleEnabled) {
+                    // Shuffle is enabled, randomize the next song
+                    shuffleIndices= generateShuffledIndices(selectedPlaylist->getSongCount());
+                    currentindex = shuffleIndices.at((currentindex + 1) % selectedPlaylist->getSongCount());
+                } else {
+                    // Shuffle is disabled, play the next song in order
+                    currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
+                }
             }
 
             // Get the next song in the playlist
@@ -697,3 +816,4 @@ QList<int> MainWindow::generateShuffledIndices(int count)
 
     return indices;
 }
+

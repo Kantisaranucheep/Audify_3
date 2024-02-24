@@ -16,6 +16,8 @@ public:
     QList<Song> getSongs() const;
     int getSongCount() const;
 
+    qint64 getTotalDuration() const;
+
 private:
     QString name;
     QList<Song> songs;

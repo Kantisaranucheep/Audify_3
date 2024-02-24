@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QPlainTextEdit>
+#include <QMovie>
 
 #include "inventory.h"  // Include the header file for Inventory
 #include "playlist.h"   // Include the header file for Playlist
@@ -92,6 +93,11 @@ private slots:
     QList<int> generateShuffledIndices(int count);
 
     void playNextSong(const Song& nextSong);
+
+    void updateComboBox();
+    // void handleMovieResized(const QSize &size);
+    void on_comboPlaylist_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;
@@ -116,6 +122,9 @@ private:
 
     bool isShuffleEnabled = false;
     QList<int> shuffleIndices;
+    QMovie* gifMovie;
+
+    qint64 currentSongDuration;
 
 
 
