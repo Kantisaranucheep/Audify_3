@@ -8,6 +8,7 @@ class Song
 public:
     Song(const QString& filename);
     QString getfilename() const;
+    bool operator==(const Song& other) const;
 
 private:
     QString filename;
