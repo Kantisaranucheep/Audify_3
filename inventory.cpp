@@ -29,3 +29,12 @@ void Inventory::removePlaylist(int playlistIndex)
         playlists.removeAt(playlistIndex);
     }
 }
+
+bool Inventory::playlistExists(const QString& playlistName) const {
+    for (const Playlist& playlist : playlists) {
+        if (playlist.getName() == playlistName) {
+            return true; // Playlist with the same name already exists
+        }
+    }
+    return false; // Playlist with the given name does not exist
+}

@@ -130,7 +130,5 @@ private:
     qint64 currentSongDuration;
 
 
-
-
 };
 #endif // MAINWINDOW_H

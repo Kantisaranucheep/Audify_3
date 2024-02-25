@@ -116,7 +116,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->comboPlaylist->addItem(defaultPlaylist.getName());
 
-
 }
 
 
@@ -343,6 +342,14 @@ void MainWindow::on_pushaddplaylist_clicked()
                                                  QString(), &ok);
 
     if (ok && !playlistName.isEmpty()) {
+        // Check if a playlist with the same name already exists
+        if (inventory->playlistExists(playlistName)) {
+            // Inform the user that the playlist name is duplicate
+            QMessageBox::warning(this, tr("Duplicate Playlist"),
+                                 tr("A playlist with the same name already exists."), QMessageBox::Ok);
+            return;
+        }
+
         // Create a new Playlist and add it to the Inventory
         Playlist newPlaylist(playlistName);
         inventory->addPlaylist(newPlaylist);
@@ -371,8 +378,8 @@ void MainWindow::on_pushaddplaylist_clicked()
 
         qDebug() << "New Playlist Name: " << playlistName;
     }
-
 }
+
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
@@ -815,6 +822,7 @@ void MainWindow::on_push_shuffle_clicked()
         currentindex = -1;
     }
 }
+
 void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
 {
     if (status == QMediaPlayer::EndOfMedia) {
@@ -894,5 +902,3 @@ QList<int> MainWindow::generateShuffledIndices(int count)
 
     return indices;
 }
-
-
