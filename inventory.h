@@ -9,7 +9,7 @@ class Inventory
 public:
     void addPlaylist(const Playlist& playlist);
 
-    void removePlaylist(const QString& playlistName);
+    void removePlaylist(int playlistindex);
 
     QList<Playlist> getPlaylists() const;
 

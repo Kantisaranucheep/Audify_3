@@ -17,7 +17,7 @@ void Playlist::importSong(const Song& song)
     {
         if (existingSong == song)
         {
-            QMessageBox::information(nullptr, "Song Already Exists", "The selected song is already in the playlist.");
+            QMessageBox::warning(nullptr, "Song Already Exists", "The selected song is already in the playlist.");
             return;
         }
     }
@@ -48,4 +48,9 @@ qint64 Playlist::getTotalDuration() const {
         totalDuration += song.getDuration();
     }
     return totalDuration;
+}
+
+bool Playlist::operator==(const Playlist& other) const {
+    // Implement the logic to compare two Playlist objects for equality
+    return name == other.getName(); // Example: Comparing based on playlist name
 }

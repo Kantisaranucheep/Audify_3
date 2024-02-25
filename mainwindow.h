@@ -98,6 +98,9 @@ private slots:
     // void handleMovieResized(const QSize &size);
     void on_comboPlaylist_currentIndexChanged(int index);
 
+
+    void on_comboSong_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;

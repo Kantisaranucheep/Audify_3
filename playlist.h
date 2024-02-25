@@ -17,6 +17,7 @@ public:
     int getSongCount() const;
 
     qint64 getTotalDuration() const;
+    bool operator==(const Playlist& other) const;
 
 private:
     QString name;

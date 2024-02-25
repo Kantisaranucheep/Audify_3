@@ -112,6 +112,9 @@ MainWindow::MainWindow(QWidget *parent)
     // ui->listWidget->setCurrentItem(defaultPlaylistItem);
     clickedItem = defaultPlaylistItem;
     ui->label_Playlist_Name->setText(defaultPlaylist.getName());
+    ui->label_duration2->setText("00:00");
+
+    ui->comboPlaylist->addItem(defaultPlaylist.getName());
 
 
 }
@@ -286,8 +289,49 @@ void MainWindow::on_comboPlaylist_currentIndexChanged(int index)
 
         // You can also update the song list or any other related UI elements
         updateSongList(selectedPlaylistName);
-    }
+        updatePlaylistLabels();
+        ui->label_Playlist_Name->setText(selectedPlaylistName);
 
+        // Find the corresponding item in the listWidget
+        for (int i = 0; i < ui->listWidget->count(); ++i) {
+            QListWidgetItem *item = ui->listWidget->item(i);
+            if (item && item->text() == selectedPlaylistName) {
+                clickedItem = item;  // Set clickedItem to the selected playlist item
+                break;
+            }
+        }
+    }
+}
+
+void MainWindow::on_comboSong_currentIndexChanged(int index)
+{
+    // Ensure the index is valid
+    if (index >= 0 && index < ui->comboPlaylist->count()) {
+        QString selectedPlaylistName = ui->comboPlaylist->itemText(index);
+
+        qDebug() << "Selected Playlist: " << selectedPlaylistName;
+
+        // Get the selected playlist
+        const Playlist* selectedPlaylist = nullptr;
+        const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+        for (const Playlist& playlist : allPlaylists) {
+            if (playlist.getName() == selectedPlaylistName) {
+                selectedPlaylist = &playlist;
+                break;
+            }
+        }
+
+        // Check if the selected playlist is found
+        if (selectedPlaylist) {
+            // Populate the song list based on the selected playlist
+            ui->comboSong->clear();
+            const QList<Song>& songs = selectedPlaylist->getSongs();
+            for (const Song& song : songs) {
+                ui->comboSong->addItem(song.getfilename());
+            }
+        }
+    }
 }
 
 
@@ -303,6 +347,11 @@ void MainWindow::on_pushaddplaylist_clicked()
         Playlist newPlaylist(playlistName);
         inventory->addPlaylist(newPlaylist);
 
+        qDebug() << "Playlists after adding new playlist:";
+        for (const Playlist& p : inventory->getPlaylists()) {
+            qDebug() << p.getName();
+        }
+
         // QLabel *playlistlabel = new QLabel(playlistName, this);
         // playlistlabel->setStyleSheet("QLabel { color : white; font-weight: bold; margin-left: 5px;"
         //                              "border-radius: 10px; }");  // Set the text color to blue for indication
@@ -315,7 +364,7 @@ void MainWindow::on_pushaddplaylist_clicked()
         item->setText(playlistName);
         ui->listWidget->addItem(item);
 
-        // ui->comboPlaylist->addItem(playlistName);
+        ui->comboPlaylist->addItem(playlistName);
         // ui->listWidget->setItemWidget(item, playlistlabel);
 
         // updatePlaylistLabels();
@@ -400,6 +449,7 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
     ui->label_Playlist_Name->setText(playlistName);
 
     updateSongList(playlistName);
+
     updatePlaylistLabels();
 
 }
@@ -457,9 +507,10 @@ void MainWindow::on_pushdelplaylist_2_clicked()
     if (clickedItem) {
         // Get the selected item from the QListWidget
         QString playlistName = clickedItem->text();
+        int selectedPlaylistIndex = ui->listWidget->row(clickedItem);
 
         // Remove the playlist from the Inventory based on the label text
-        inventory->removePlaylist(playlistName);
+        inventory->removePlaylist(selectedPlaylistIndex);
 
         // Remove the item from the QListWidget
         delete clickedItem;// Set it to null after deletion to avoid accessing it again
@@ -467,6 +518,13 @@ void MainWindow::on_pushdelplaylist_2_clicked()
         qDebug() << "Playlist label deleted: " << playlistName;
 
         clickedItem = nullptr;
+
+        int index = ui->comboPlaylist->findText(playlistName);
+
+        // If the item is found, remove it
+        if (index != -1) {
+            ui->comboPlaylist->removeItem(index);
+        }
 
         // Optionally update other UI or perform additional actions
         updatePlaylistLabels();
@@ -782,7 +840,8 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
         if (selectedPlaylist && selectedPlaylist->getSongCount() > 0) {
 
             if(selectedPlaylist->getSongCount() == 1){
-                currentindex = 0;
+                MPlayer->setPosition(0);  // Restart the same song from the beginning
+                MPlayer->play();
             }else {
                 if (isShuffleEnabled) {
                     // Shuffle is enabled, randomize the next song
@@ -835,4 +894,5 @@ QList<int> MainWindow::generateShuffledIndices(int count)
 
     return indices;
 }
+
 
