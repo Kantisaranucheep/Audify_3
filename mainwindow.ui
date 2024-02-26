@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
-    background-color: rgb(22, 22, 22);
+    background-color: rgb(7, 7, 7);
 }</string>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -30,7 +30,7 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background-color:rgb(39, 39, 39);
+	background-color:rgb(25, 25, 25);
   border-radius: 10px;
 }</string>
     </property>
@@ -181,7 +181,7 @@ background-color:rgb(140,140,140);
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background-color:rgb(39, 39, 39);
+	background-color:rgb(25, 25, 25);
   border-radius: 10px;
 }</string>
     </property>
@@ -421,7 +421,7 @@ background-color:rgb(140,140,140);
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background-color:rgb(39, 39, 39);
+	background-color:rgb(25, 25, 25);
   border-radius: 10px;
 }</string>
     </property>
@@ -581,7 +581,7 @@ font-weight: bold;
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background-color:rgb(39, 39, 39);
+	background-color:rgb(25, 25, 25);
   border-radius: 10px;
 }</string>
     </property>
