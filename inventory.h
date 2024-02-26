@@ -13,6 +13,8 @@ public:
 
     QList<Playlist> getPlaylists() const;
 
+    bool playlistExists(const QString& playlistName) const;
+
 private:
     QList<Playlist> playlists;
 };

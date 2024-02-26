@@ -102,7 +102,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->total_duration->setText("Duration: 0:00");
     ui->total_song->setText("0 songs");
 
-    Playlist defaultPlaylist("All Songs");
+    Playlist defaultPlaylist("Liked Songs");
     inventory->addPlaylist(defaultPlaylist);
 
     QListWidgetItem *defaultPlaylistItem = new QListWidgetItem(ui->listWidget);
@@ -343,6 +343,13 @@ void MainWindow::on_pushaddplaylist_clicked()
                                                  QString(), &ok);
 
     if (ok && !playlistName.isEmpty()) {
+        // Check if a playlist with the same name already exists
+        if (inventory->playlistExists(playlistName)) {
+            // Inform the user that the playlist name is duplicate
+            QMessageBox::warning(this, tr("Duplicate Playlist"),
+                                 tr("A playlist with the same name already exists."), QMessageBox::Ok);
+            return;
+        }
         // Create a new Playlist and add it to the Inventory
         Playlist newPlaylist(playlistName);
         inventory->addPlaylist(newPlaylist);
@@ -448,9 +455,11 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
 
     ui->label_Playlist_Name->setText(playlistName);
 
-    updateSongList(playlistName);
-
     updatePlaylistLabels();
+
+    // updateNextSongList();
+
+    updateSongList(playlistName);
 
 }
 
@@ -509,28 +518,33 @@ void MainWindow::on_pushdelplaylist_2_clicked()
         QString playlistName = clickedItem->text();
         int selectedPlaylistIndex = ui->listWidget->row(clickedItem);
 
-        // Remove the playlist from the Inventory based on the label text
-        inventory->removePlaylist(selectedPlaylistIndex);
+        // Check if the index is 0 (default playlist)
+        if (selectedPlaylistIndex == 0) {
+            // Show a message box indicating that the default playlist cannot be deleted
+            QMessageBox::warning(this, "Cannot Delete Default Playlist",
+                                 "The default playlist cannot be deleted.");
+        } else {
+            // Remove the playlist from the Inventory based on the label text
+            inventory->removePlaylist(selectedPlaylistIndex);
 
-        // Remove the item from the QListWidget
-        delete clickedItem;// Set it to null after deletion to avoid accessing it again
+            // Optionally update other UI or perform additional actions
+            updatePlaylistLabels();
 
-        qDebug() << "Playlist label deleted: " << playlistName;
+            // Remove the item from the QListWidget after finishing the removal process
+            delete clickedItem;
+            clickedItem = nullptr;
 
-        clickedItem = nullptr;
+            qDebug() << "Playlist label deleted: " << playlistName;
 
-        int index = ui->comboPlaylist->findText(playlistName);
+            int index = ui->comboPlaylist->findText(playlistName);
 
-        // If the item is found, remove it
-        if (index != -1) {
-            ui->comboPlaylist->removeItem(index);
+            // If the item is found, remove it
+            if (index != -1) {
+                ui->comboPlaylist->removeItem(index);
+            }
         }
-
-        // Optionally update other UI or perform additional actions
-        updatePlaylistLabels();
     }
 }
-
 
 void MainWindow::on_pushaddsong_clicked()
 {
@@ -569,6 +583,7 @@ void MainWindow::on_pushaddsong_clicked()
                 }
 
                 qDebug() << "Playlist size after adding a song: " << selectedPlaylist->getSongCount();
+                updateNextSongList();
             }
         } else {
             // Display a message box indicating that no playlist is selected
@@ -639,6 +654,8 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
 
         // Ensure the selected song index is within the playlist size
         if (selectedSongIndex >= 0 && selectedSongIndex < selectedPlaylist->getSongs().size()) {
+
+            currentindex = selectedSongIndex;
             const Song& selectedSong = selectedPlaylist->getSongs().at(selectedSongIndex);
 
             QString fullFilePath = selectedSong.getfilename();
@@ -656,10 +673,21 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
 
             // Start the timer for scrolling
             scrollTimer->start();
+
+            // Update the next song list
+            ui->nextsong->clear();
+
+            // Increment the index for the next song based on shuffle status
+            int nextIndex = isShuffleEnabled ? (selectedSongIndex + 1) % shuffleIndices.size() : (selectedSongIndex + 1) % selectedPlaylist->getSongCount();
+
+            // Update currentindex for future use
+            // currentindex = nextIndex;
+
+            const Song& nextSong = selectedPlaylist->getSongs().at(nextIndex);
+            ui->nextsong->addItem(QFileInfo(nextSong.getfilename()).fileName());
         }
     }
 }
-
 
 void MainWindow::on_push_skip_clicked()
 {
@@ -694,12 +722,14 @@ void MainWindow::on_push_skip_clicked()
             int shuffledIndex = shuffleIndices[ currentindex];
             const Song& nextSong = selectedPlaylist->getSongs().at(shuffledIndex);
             qDebug() << "Current Song (Shuffled): " << nextSong.getfilename();
+            updateNextSongList();
             playNextSong(nextSong);
         } else {
             // If shuffle is not enabled, increment the index and loop back to the first song if needed
             currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
             const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
             qDebug() << "Current Song: " << nextSong.getfilename();
+            updateNextSongList();
             playNextSong(nextSong);
         }
     }
@@ -736,12 +766,14 @@ void MainWindow::on_push_back_clicked()
             int shuffledIndex = shuffleIndices[ currentindex];
             const Song& nextSong = selectedPlaylist->getSongs().at(shuffledIndex);
             qDebug() << "Current Song (Shuffled): " << nextSong.getfilename();
+            updateNextSongList();
             playNextSong(nextSong);
         } else {
             // If shuffle is not enabled, decrement the index and loop back to the last song if needed
             currentindex = (currentindex - 1 + selectedPlaylist->getSongCount()) % selectedPlaylist->getSongCount();
             const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
             qDebug() << "Current Song: " << nextSong.getfilename();
+            updateNextSongList();
             playNextSong(nextSong);
         }
     }
@@ -870,6 +902,8 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
             int selectedSongIndex = currentindex;
             qDebug() << "Selected Song Index: " << selectedSongIndex;
 
+            updateNextSongList();
+
             // Optional: Update UI or perform additional actions
         }
     }
@@ -895,4 +929,32 @@ QList<int> MainWindow::generateShuffledIndices(int count)
     return indices;
 }
 
+void MainWindow::updateNextSongList()
+{
+    // Clear the current listWidget_nextSong
+    ui->nextsong->clear();
+
+    QString playlistName = ui->label_Playlist_Name->text();
+
+    // Get the playlist from the Inventory based on the label text
+    const Playlist* selectedPlaylist = nullptr;
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+    for (const Playlist& playlist : allPlaylists) {
+        if (playlist.getName() == playlistName) {
+            selectedPlaylist = &playlist;
+            break;
+        }
+    }
+
+    // Check if the selected playlist is found
+    if (selectedPlaylist) {
+        // Get the next songs based on the current index
+        int nextIndex = isShuffleEnabled ? (currentindex + 1) % shuffleIndices.size() : (currentindex + 1) % selectedPlaylist->getSongCount();
+        const Song& nextSong = selectedPlaylist->getSongs().at(nextIndex);
+
+        // Add the next song to listWidget_nextSong
+        ui->nextsong->addItem(QFileInfo(nextSong.getfilename()).fileName());
+    }
+}
 

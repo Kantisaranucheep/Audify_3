@@ -101,6 +101,8 @@ private slots:
 
     void on_comboSong_currentIndexChanged(int index);
 
+    void updateNextSongList();
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;

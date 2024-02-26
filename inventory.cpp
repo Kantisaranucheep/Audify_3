@@ -25,7 +25,23 @@ void Inventory::removePlaylist(int playlistIndex)
 {
     // Check if the index is within the valid range
     if (playlistIndex >= 0 && playlistIndex < playlists.size()) {
-        // Erase the playlist at the specified index
-        playlists.removeAt(playlistIndex);
+        // Check if trying to remove the default playlist
+        if (playlistIndex == 0) {
+            // QMessageBox::information(nullptr, "Cannot Delete Default Playlist",
+            //                          "The default playlist 'All Songs' cannot be deleted.");
+            return;
+        } else {
+            // Erase the playlist at the specified index
+            playlists.removeAt(playlistIndex);
+        }
     }
+}
+
+bool Inventory::playlistExists(const QString& playlistName) const {
+    for (const Playlist& playlist : playlists) {
+        if (playlist.getName() == playlistName) {
+            return true; // Playlist with the same name already exists
+        }
+    }
+    return false; // Playlist with the given name does not exist
 }
