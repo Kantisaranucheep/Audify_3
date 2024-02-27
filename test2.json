@@ -1,0 +1,29 @@
+{
+    "playlists": [
+        {
+            "name": "Liked Songs",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3"
+                }
+            ]
+        },
+        {
+            "name": "asdvvvv",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/君の名は夢灯籠  RADWIMPS (cover).mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/ＧＯＯＤキター.mp3"
+                }
+            ]
+        }
+    ]
+}

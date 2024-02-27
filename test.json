@@ -1,0 +1,38 @@
+{
+    "playlists": [
+        {
+            "name": "Liked Songs",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/チェンソーマン第話ノンクレジットエンディング  CHAINSAW MAN #12  EndingEveファイトソング.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/House of Pain - Jump Around (Official Music Video) [HD].mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/miki matsubara-stay With Me.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/静止画MADブルーロック我武者羅.mp3"
+                }
+            ]
+        },
+        {
+            "name": "asdasdzxc",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/Hitori Jouzu.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/君の名は夢灯籠  RADWIMPS (cover).mp3"
+                }
+            ]
+        }
+    ]
+}

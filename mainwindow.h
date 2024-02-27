@@ -105,6 +105,15 @@ private slots:
 
     void updatePlaylistItem(QListWidgetItem *item, const QString& playlistName, const QString& thumbnailPath);
 
+    void saveDataToJson(const QString& filename);
+
+    // void createEmptyJsonFile(const QString& filename);
+
+    void closeEvent(QCloseEvent *event);
+
+    void on_pushsavedata_clicked();
+
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;

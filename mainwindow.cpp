@@ -13,6 +13,12 @@
 #include <QTime>
 #include <QMovie>
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFile>
+#include <QDir>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -1030,3 +1036,76 @@ void MainWindow::updatePlaylistItem(QListWidgetItem *item, const QString& playli
     // Set the thumbnail path for the Playlist object
     // selectedPlaylist->setThumbnailPath(thumbnailPath);
 }
+
+void MainWindow::saveDataToJson(const QString& filename)
+{
+    // Create a JSON object to represent the data
+    QJsonObject rootObject;
+
+    // Save playlists
+    QJsonArray playlistsArray;
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+    for (const Playlist& playlist : allPlaylists) {
+        QJsonObject playlistObject;
+        playlistObject["name"] = playlist.getName();
+
+        QJsonArray songsArray;
+        const QList<Song>& songs = playlist.getSongs();
+
+        for (const Song& song : songs) {
+            QJsonObject songObject;
+            songObject["filename"] = song.getfilename();
+            // Add more song properties as needed
+
+            songsArray.append(songObject);
+        }
+
+        playlistObject["songs"] = songsArray;
+        playlistsArray.append(playlistObject);
+    }
+
+    rootObject["playlists"] = playlistsArray;
+
+    // Convert JSON object to a QByteArray
+    QJsonDocument jsonDocument(rootObject);
+    QByteArray jsonData = jsonDocument.toJson();
+
+    // Save JSON data to a file
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        file.write(jsonData);
+        file.close();
+        qDebug() << "Data saved to" << filename;
+    } else {
+        qDebug() << "Failed to save data to" << filename;
+    }
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    // Save data to JSON before closing the application
+    saveDataToJson("test2.json");
+
+    // Call the base class implementation
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::on_pushsavedata_clicked()
+{
+    // saveDataToJson("test.json");
+
+    // Specify the full path to the directory where you want to save the JSON file
+    QString directoryPath = "D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3";
+
+    // Specify the filename
+    QString filename = "test2.json";
+
+    // Combine the directory path and filename to get the full file path
+    QString fullPath = QDir(directoryPath).filePath(filename);
+
+    // Save data to JSON using the specified directory and filename
+    saveDataToJson(fullPath);
+
+}
+
