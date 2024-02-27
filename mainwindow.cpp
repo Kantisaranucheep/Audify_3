@@ -305,33 +305,33 @@ void MainWindow::on_comboPlaylist_currentIndexChanged(int index)
 
 void MainWindow::on_comboSong_currentIndexChanged(int index)
 {
-    // Ensure the index is valid
-    if (index >= 0 && index < ui->comboPlaylist->count()) {
-        QString selectedPlaylistName = ui->comboPlaylist->itemText(index);
+    // // Ensure the index is valid
+    // if (index >= 0 && index < ui->comboPlaylist->count()) {
+    //     QString selectedPlaylistName = ui->comboPlaylist->itemText(index);
 
-        qDebug() << "Selected Playlist: " << selectedPlaylistName;
+    //     qDebug() << "Selected Playlist: " << selectedPlaylistName;
 
-        // Get the selected playlist
-        const Playlist* selectedPlaylist = nullptr;
-        const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+    //     // Get the selected playlist
+    //     const Playlist* selectedPlaylist = nullptr;
+    //     const QList<Playlist>& allPlaylists = inventory->getPlaylists();
 
-        for (const Playlist& playlist : allPlaylists) {
-            if (playlist.getName() == selectedPlaylistName) {
-                selectedPlaylist = &playlist;
-                break;
-            }
-        }
+    //     for (const Playlist& playlist : allPlaylists) {
+    //         if (playlist.getName() == selectedPlaylistName) {
+    //             selectedPlaylist = &playlist;
+    //             break;
+    //         }
+    //     }
 
-        // Check if the selected playlist is found
-        if (selectedPlaylist) {
-            // Populate the song list based on the selected playlist
-            ui->comboSong->clear();
-            const QList<Song>& songs = selectedPlaylist->getSongs();
-            for (const Song& song : songs) {
-                ui->comboSong->addItem(song.getfilename());
-            }
-        }
-    }
+    //     // Check if the selected playlist is found
+    //     if (selectedPlaylist) {
+    //         // Populate the song list based on the selected playlist
+    //         ui->comboSong->clear();
+    //         const QList<Song>& songs = selectedPlaylist->getSongs();
+    //         for (const Song& song : songs) {
+    //             ui->comboSong->addItem(song.getfilename());
+    //         }
+    //     }
+    // }
 }
 
 
@@ -504,9 +504,36 @@ void MainWindow::updateSongList(const QString &playlistName)
 
 void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 {
+    // Get the playlist name
     QString playlistName = item->text();
-    qDebug() << "Playlist label double clicked: " << playlistName;
 
+    // Get the playlist from the Inventory based on the label text
+    const Playlist* selectedPlaylist = nullptr;
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+    for (const Playlist& playlist : allPlaylists) {
+        if (playlist.getName() == playlistName) {
+            selectedPlaylist = &playlist;
+            break;
+        }
+    }
+
+    if (!selectedPlaylist) {
+        qDebug() << "Error: Playlist not found!";
+        return;
+    }
+
+    // Ask the user to choose an image file for the playlist thumbnail
+    QString imagePath = QFileDialog::getOpenFileName(this, tr("Choose Thumbnail Image"), "", tr("Image Files (*.png *.jpg *.bmp)"));
+
+    if (!imagePath.isEmpty()) {
+        // Set the playlist thumbnail
+        const_cast<Playlist*>(selectedPlaylist)->setThumbnailPath(imagePath);
+
+        // Update the list widget item with the new information
+        updatePlaylistItem(item, playlistName, imagePath);
+    }
+    qDebug() << "Playlist label double clicked: " << playlistName;
 }
 
 
@@ -958,3 +985,48 @@ void MainWindow::updateNextSongList()
     }
 }
 
+void setThumbnail(QListWidgetItem* item, const QString& thumbnailPath, int width, int height, int borderRadius)
+{
+    // Load the original thumbnail image
+    QPixmap originalThumbnail(thumbnailPath);
+
+    // Create a new pixmap with rounded corners
+    QPixmap roundedThumbnail(originalThumbnail.size());
+    roundedThumbnail.fill(Qt::transparent);
+
+    // Use QPainter to draw the rounded image
+    QPainter painter(&roundedThumbnail);
+    painter.setRenderHint(QPainter::Antialiasing, true);
+    QPainterPath path;
+    path.addRoundedRect(0, 0, originalThumbnail.width(), originalThumbnail.height(), borderRadius, borderRadius);
+    painter.setClipPath(path);
+    painter.drawPixmap(0, 0, originalThumbnail);
+
+    // Set the rounded thumbnail image as the icon on the right side
+    QIcon icon(roundedThumbnail);
+    item->setIcon(icon);
+
+    // Optionally, you can also set the size of the icon
+    QListWidget* listWidget = qobject_cast<QListWidget*>(item->listWidget());
+    if (listWidget) {
+        listWidget->setIconSize(QSize(width, height));
+    }
+}
+void MainWindow::updatePlaylistItem(QListWidgetItem *item, const QString& playlistName, const QString& thumbnailPath)
+{
+    // // Concatenate playlist name and song count with HTML formatting
+    // QString labelContent = "<html><font size='+2'>" + playlistName + "</font> - " + QString::number(selectedPlaylist->getSongCount()) + " songs</html>";
+
+    // Update the label displaying playlist name and song count
+    // item->setText(labelContent);
+
+    // Set the thumbnail image on the right side
+    QPixmap thumbnail(thumbnailPath);
+    QIcon icon(thumbnail);
+    item->setIcon(icon);
+
+    setThumbnail(item, thumbnailPath, 50, 50, 20);
+
+    // Set the thumbnail path for the Playlist object
+    // selectedPlaylist->setThumbnailPath(thumbnailPath);
+}

@@ -19,9 +19,14 @@ public:
     qint64 getTotalDuration() const;
     bool operator==(const Playlist& other) const;
 
+    void setThumbnailPath(const QString& path);
+    QString getThumbnailPath() const;
+
 private:
     QString name;
     QList<Song> songs;
+    QString thumbnailPath;
+
 };
 
 #endif // PLAYLIST_H

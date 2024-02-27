@@ -116,7 +116,7 @@ background-color: rgb(121, 121, 121);
  QListWidget::item {
         margin:5px;
 border-radius: 10px;
-height: 75px;
+height: 80px;
 background-color:rgb(29, 29, 29);
 color:rgb(255, 255, 255);
 font-weight: bold;
@@ -191,32 +191,6 @@ background-color:rgb(140,140,140);
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>111</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Arial</family>
-       <pointsize>20</pointsize>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel{
-
-	color:rgb(255, 255, 255);
-}</string>
-     </property>
-     <property name="text">
-      <string>Search</string>
-     </property>
-    </widget>
     <widget class="QListWidget" name="listWidget_song">
      <property name="geometry">
       <rect>
@@ -319,14 +293,14 @@ background-color:rgb(140,140,140);
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
-       <width>191</width>
-       <height>31</height>
+       <y>10</y>
+       <width>491</width>
+       <height>71</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>15</pointsize>
+       <pointsize>30</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -346,9 +320,9 @@ background-color:rgb(140,140,140);
     <widget class="QLabel" name="total_duration">
      <property name="geometry">
       <rect>
-       <x>330</x>
-       <y>50</y>
-       <width>171</width>
+       <x>350</x>
+       <y>90</y>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
@@ -374,9 +348,9 @@ background-color:rgb(140,140,140);
     <widget class="QLabel" name="total_song">
      <property name="geometry">
       <rect>
-       <x>170</x>
-       <y>50</y>
-       <width>121</width>
+       <x>260</x>
+       <y>90</y>
+       <width>91</width>
        <height>31</height>
       </rect>
      </property>
@@ -390,6 +364,7 @@ background-color:rgb(140,140,140);
       <string notr="true">QLabel{
 
 	color:rgb(255, 255, 255);
+margin-left: 5px; 
 }</string>
      </property>
      <property name="text">
@@ -398,15 +373,8 @@ background-color:rgb(140,140,140);
      <property name="alignment">
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
-    </widget>
-    <widget class="QComboBox" name="comboSong">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>10</y>
-       <width>371</width>
-       <height>28</height>
-      </rect>
+     <property name="margin">
+      <number>5</number>
      </property>
     </widget>
    </widget>

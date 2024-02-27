@@ -54,3 +54,13 @@ bool Playlist::operator==(const Playlist& other) const {
     // Implement the logic to compare two Playlist objects for equality
     return name == other.getName(); // Example: Comparing based on playlist name
 }
+
+void Playlist::setThumbnailPath(const QString& path)
+{
+    thumbnailPath = path;
+}
+
+QString Playlist::getThumbnailPath() const
+{
+    return thumbnailPath;
+}

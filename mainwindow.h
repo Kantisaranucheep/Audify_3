@@ -103,6 +103,8 @@ private slots:
 
     void updateNextSongList();
 
+    void updatePlaylistItem(QListWidgetItem *item, const QString& playlistName, const QString& thumbnailPath);
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;
