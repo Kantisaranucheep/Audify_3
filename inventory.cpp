@@ -45,3 +45,7 @@ bool Inventory::playlistExists(const QString& playlistName) const {
     }
     return false; // Playlist with the given name does not exist
 }
+
+void Inventory::clearPlaylists() {
+    playlists.clear();
+}

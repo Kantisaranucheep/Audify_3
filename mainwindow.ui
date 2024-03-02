@@ -168,6 +168,17 @@ background-color:rgb(140,140,140);
        <height>28</height>
       </rect>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox::editable{ 
+background-color: white; 
+}
+
+QComboBox QAbstractItemView {
+background-color: white;
+    border: 2px white;
+    selection-background-color: white;
+}</string>
+     </property>
     </widget>
    </widget>
    <widget class="QFrame" name="frame_3">

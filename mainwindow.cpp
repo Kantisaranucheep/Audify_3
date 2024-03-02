@@ -105,8 +105,10 @@ MainWindow::MainWindow(QWidget *parent)
     gifMovie->jumpToFrame(0);
     gifMovie->stop();
 
+    loadDataFromJson("test3.json");
+
     ui->total_duration->setText("Duration: 0:00");
-    ui->total_song->setText("0 songs");
+    ui->total_song->setText("0 song");
 
     Playlist defaultPlaylist("Liked Songs");
     inventory->addPlaylist(defaultPlaylist);
@@ -121,6 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->label_duration2->setText("00:00");
 
     ui->comboPlaylist->addItem(defaultPlaylist.getName());
+
 
 
 }
@@ -419,10 +422,18 @@ void MainWindow::updatePlaylistLabels()
         }
 
         if (selectedPlaylist) {
+
+
             int numberOfSongs = selectedPlaylist->getSongCount();
+
+            if(numberOfSongs == 0 || numberOfSongs == 1){
+                ui->total_song->setText(QString::number(numberOfSongs) + " song");
+
+            }else {
 
             // Update the label displaying the number of songs
             ui->total_song->setText(QString::number(numberOfSongs) + " songs");
+            }
 
             // // Update the label displaying the total duration
             // qint64 totalDuration = selectedPlaylist->getTotalDuration();  // Use the function from Playlist class
@@ -567,6 +578,10 @@ void MainWindow::on_pushdelplaylist_2_clicked()
             delete clickedItem;
             clickedItem = nullptr;
 
+            ui->listWidget_song->clear();
+            ui->label_Playlist_Name->setText("Playlist :");
+            ui->total_song->setText(QString::number(0) + " song");
+
             qDebug() << "Playlist label deleted: " << playlistName;
 
             int index = ui->comboPlaylist->findText(playlistName);
@@ -575,6 +590,9 @@ void MainWindow::on_pushdelplaylist_2_clicked()
             if (index != -1) {
                 ui->comboPlaylist->removeItem(index);
             }
+
+            // Set clickedItem to the default playlist item
+            clickedItem = ui->listWidget->item(0);
         }
     }
 }
@@ -739,10 +757,11 @@ void MainWindow::on_push_skip_clicked()
 
     for (const Playlist& playlist : allPlaylists) {
         if (playlist.getName() == playlistName) {
-            selectedPlaylist = &playlist;
+            selectedPlaylist = new Playlist(playlist); // Allocate a new Playlist object
             break;
         }
     }
+
 
 
     qDebug() << "Playlist size: " << selectedPlaylist->getSongCount();
@@ -817,7 +836,10 @@ void MainWindow::playNextSong(const Song& nextSong)
     // Set the source and start playing the next song
     MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
     audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
+    QIcon pauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
+    ui->push_play->setIcon(pauseIcon);
     MPlayer->play();
+    gifMovie->start();
 
     // Update the label with the file name
     ui->label_File_Name->setText(QFileInfo(nextSong.getfilename()).fileName());
@@ -1085,7 +1107,7 @@ void MainWindow::saveDataToJson(const QString& filename)
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     // Save data to JSON before closing the application
-    saveDataToJson("test2.json");
+    saveDataToJson("test3.json");
 
     // Call the base class implementation
     QMainWindow::closeEvent(event);
@@ -1099,7 +1121,7 @@ void MainWindow::on_pushsavedata_clicked()
     QString directoryPath = "D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3";
 
     // Specify the filename
-    QString filename = "test2.json";
+    QString filename = "test3.json";
 
     // Combine the directory path and filename to get the full file path
     QString fullPath = QDir(directoryPath).filePath(filename);
@@ -1108,4 +1130,110 @@ void MainWindow::on_pushsavedata_clicked()
     saveDataToJson(fullPath);
 
 }
+
+void MainWindow::loadDataFromJson(const QString& filename)
+{
+    // Read JSON data from the file
+    QFile file(filename);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QByteArray jsonData = file.readAll();
+        file.close();
+
+        // Parse JSON data
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonData);
+
+        // Check if the JSON document is valid
+        if (!jsonDocument.isNull()) {
+            // Get the root object
+            QJsonObject rootObject = jsonDocument.object();
+
+            // Get playlists array
+            QJsonArray playlistsArray = rootObject["playlists"].toArray();
+
+            // Iterate through playlists
+            for (const QJsonValue& playlistValue : playlistsArray) {
+                QJsonObject playlistObject = playlistValue.toObject();
+
+                // Get playlist name
+                QString playlistName = playlistObject["name"].toString();
+
+                // Check if the playlist already exists
+                const Playlist* existingPlaylist = nullptr;
+                const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+                for (const Playlist& playlist : allPlaylists) {
+                    if (playlist.getName() == playlistName) {
+                        existingPlaylist = &playlist;
+                        break;
+                    }
+                }
+
+                if (existingPlaylist) {
+                    // Playlist already exists, update it
+                    const_cast<Playlist*>(existingPlaylist)->clearSongs();  // Clear existing songs
+
+                    // Get songs array
+                    QJsonArray songsArray = playlistObject["songs"].toArray();
+
+                    // Iterate through songs
+                    for (const QJsonValue& songValue : songsArray) {
+                        QJsonObject songObject = songValue.toObject();
+
+                        // Get song properties
+                        QString filename = songObject["filename"].toString();
+                        // Add more song properties as needed
+
+                        // Create a new song and add it to the playlist
+                        Song song(filename);
+                        // Set more song properties as needed
+
+                        const_cast<Playlist*>(existingPlaylist)->importSong(song);
+                    }
+
+                    // inventory->addPlaylist(*existingPlaylist);
+                } else {
+                    // Playlist doesn't exist, create a new one
+                    Playlist playlist(playlistName);
+
+                    // Get songs array
+                    QJsonArray songsArray = playlistObject["songs"].toArray();
+
+                    // Iterate through songs
+                    for (const QJsonValue& songValue : songsArray) {
+                        QJsonObject songObject = songValue.toObject();
+
+                        // Get song properties
+                        QString filename = songObject["filename"].toString();
+                        // Add more song properties as needed
+
+                        // Create a new song and add it to the playlist
+                        Song song(filename);
+                        // Set more song properties as needed
+
+                        playlist.importSong(song);
+                    }
+
+                    // Add the playlist to the inventory
+                    inventory->addPlaylist(playlist);
+
+                    // Add the playlist label to the QListWidget
+                    QListWidgetItem *item = new QListWidgetItem(ui->listWidget);
+                    item->setText(playlistName);
+                    ui->listWidget->addItem(item);
+
+                    // ui->comboPlaylist->addItem(playlistName);
+                    qDebug() << "Added new playlist:" << playlistName;
+                }
+            }
+
+            qDebug() << "Data loaded from" << filename;
+        } else {
+            qDebug() << "Failed to parse JSON data from" << filename;
+        }
+    } else {
+        qDebug() << "Failed to open file for reading" << filename;
+    }
+}
+
+
 

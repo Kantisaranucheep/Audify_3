@@ -15,6 +15,8 @@ public:
 
     bool playlistExists(const QString& playlistName) const;
 
+    void clearPlaylists();
+
 private:
     QList<Playlist> playlists;
 };
