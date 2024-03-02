@@ -24,6 +24,7 @@ void Playlist::importSong(const Song& song)
     songs.append(song);
 }
 
+
 void Playlist::removeSong(int index)
 {
     if (index >= 0 && index < songs.size())
@@ -63,4 +64,10 @@ void Playlist::setThumbnailPath(const QString& path)
 QString Playlist::getThumbnailPath() const
 {
     return thumbnailPath;
+}
+
+
+void Playlist::clearSongs()
+{
+    songs.clear();
 }

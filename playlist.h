@@ -22,6 +22,8 @@ public:
     void setThumbnailPath(const QString& path);
     QString getThumbnailPath() const;
 
+    void clearSongs();
+
 private:
     QString name;
     QList<Song> songs;

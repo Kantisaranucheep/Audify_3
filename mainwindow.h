@@ -113,6 +113,8 @@ private slots:
 
     void on_pushsavedata_clicked();
 
+    void loadDataFromJson(const QString& filename);
+
 
 private:
     Ui::MainWindow *ui;
