@@ -62,7 +62,7 @@ private slots:
 
     void updatePlaylistLabels();
 
-    void onPlaylistLabelClicked(QLabel *clickedLabel);
+    // void onPlaylistLabelClicked(QLabel *clickedLabel);
 
     // void playlistlabelcliked();
 
@@ -134,7 +134,7 @@ private:
     QVBoxLayout *playlistLayout;
     QScrollArea* scrollArea;
     int currentindex=0;
-    bool eventFilter(QObject *obj, QEvent *event);
+    // bool eventFilter(QObject *obj, QEvent *event);
     QListWidgetItem* clickedItem;
 
     QTimer *scrollTimer;

@@ -56,10 +56,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(MPlayer, &QMediaPlayer::durationChanged, this, &MainWindow::durationChanged);
     connect(MPlayer, &QMediaPlayer::positionChanged, this, &MainWindow::positionChanged);
 
-
-
-    connect(ui->pushdelplaylist_2, &QPushButton::clicked, this, &MainWindow::on_pushdelplaylist_2_clicked);
-    connect(ui->listWidget, &QListWidget::itemClicked, this, &MainWindow::on_listWidget_itemClicked);
+    // connect(ui->pushdelplaylist_2, &QPushButton::clicked, this, &MainWindow::on_pushdelplaylist_2_clicked);
+    // connect(ui->listWidget, &QListWidget::itemClicked, this, &MainWindow::on_listWidget_itemClicked);
     // connect(ui->pushaddsong, &QPushButton::clicked, this, &MainWindow::on_pushaddsong_clicked);
 
     connect(MPlayer, &QMediaPlayer::mediaStatusChanged, this, &MainWindow::handleMediaStatusChanged);
@@ -70,16 +68,6 @@ MainWindow::MainWindow(QWidget *parent)
         currentSongDuration = dur;
         updatePlaylistLabels();
     });
-
-    connect(ui->comboPlaylist, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &MainWindow::on_comboPlaylist_currentIndexChanged);
-
-    // updateComboBox();
-
-    // disconnect(ui->listWidget, &QListWidget::itemClicked, 0, 0);
-
-    // // Connect the listWidget itemClicked signal to the on_listWidget_itemClicked slot
-    // connect(ui->listWidget, &QListWidget::itemClicked, this, &MainWindow::on_listWidget_itemClicked);
 
     ui->horizontalSlider->setRange(0, MPlayer->duration()/1000);
     audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
@@ -106,6 +94,14 @@ MainWindow::MainWindow(QWidget *parent)
     gifMovie->stop();
 
     loadDataFromJson("test3.json");
+
+    connect(ui->comboPlaylist, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &MainWindow::on_comboPlaylist_currentIndexChanged);
+
+    for (const Playlist& playlist : inventory->getPlaylists()) {
+        qDebug() << "Adding Playlist to Combo Box:" << playlist.getName();
+        // ui->comboPlaylist->addItem(playlist.getName());
+    }
 
 
     ui->total_duration->setText("Duration: 0:00");
@@ -394,20 +390,20 @@ void MainWindow::on_pushaddplaylist_clicked()
 
 }
 
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
-{
-    // if (obj->isWidgetType() && event->type() == QEvent::MouseButtonPress) {
-    //     // Check if the pressed widget is a QLabel
-    //     QLabel *pressedLabel = qobject_cast<QLabel*>(obj);
-    //     if (pressedLabel) {
-    //         // Handle the click event for the QLabel (playlist label)
-    //         onPlaylistLabelClicked(pressedLabel);
-    //         return true;  // Event handled
-    //     }
-    // }
+// bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+// {
+//     // if (obj->isWidgetType() && event->type() == QEvent::MouseButtonPress) {
+//     //     // Check if the pressed widget is a QLabel
+//     //     QLabel *pressedLabel = qobject_cast<QLabel*>(obj);
+//     //     if (pressedLabel) {
+//     //         // Handle the click event for the QLabel (playlist label)
+//     //         onPlaylistLabelClicked(pressedLabel);
+//     //         return true;  // Event handled
+//     //     }
+//     // }
 
-    return QObject::eventFilter(obj, event);
-}
+//     return QObject::eventFilter(obj, event);
+// }
 
 
 void MainWindow::updatePlaylistLabels()
@@ -450,16 +446,16 @@ void MainWindow::updatePlaylistLabels()
     }
 }
 
-void MainWindow::onPlaylistLabelClicked(QLabel *clickedLabel)
-{
+// void MainWindow::onPlaylistLabelClicked(QLabel *clickedLabel)
+// {
 
-    // QString playlistName = clickedLabel->text();
+//     // QString playlistName = clickedLabel->text();
 
-    // ui->label_Playlist_Name->setText(playlistName);
-    // // You can now insert a song into the clicked playlist or perform any other actions
-    // qDebug() << "Playlist label clicked: " << playlistName;
+//     // ui->label_Playlist_Name->setText(playlistName);
+//     // // You can now insert a song into the clicked playlist or perform any other actions
+//     // qDebug() << "Playlist label clicked: " << playlistName;
 
-}
+// }
 
 
 void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
@@ -560,6 +556,8 @@ void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
 
 void MainWindow::on_pushdelplaylist_2_clicked()
 {
+
+    qDebug() << "on_pushdelplaylist_2_clicked function called.";
     // Check if the clickedItem is not null
     if (clickedItem) {
         // Get the selected item from the QListWidget
@@ -571,6 +569,7 @@ void MainWindow::on_pushdelplaylist_2_clicked()
             // Show a message box indicating that the default playlist cannot be deleted
             QMessageBox::warning(this, "Cannot Delete Default Playlist",
                                  "The default playlist cannot be deleted.");
+            return;
         } else {
             // Remove the playlist from the Inventory based on the label text
             inventory->removePlaylist(selectedPlaylistIndex);
