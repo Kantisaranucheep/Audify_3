@@ -107,24 +107,28 @@ MainWindow::MainWindow(QWidget *parent)
 
     loadDataFromJson("test3.json");
 
+
     ui->total_duration->setText("Duration: 0:00");
     ui->total_song->setText("0 song");
 
-    Playlist defaultPlaylist("Liked Songs");
-    inventory->addPlaylist(defaultPlaylist);
+    if (MainWindow::isFileLoaded("test3.json") == true) {
+        return;
+    }
+    else {
+        Playlist defaultPlaylist("Liked Songs");
+        inventory->addPlaylist(defaultPlaylist);
 
-    QListWidgetItem *defaultPlaylistItem = new QListWidgetItem(ui->listWidget);
-    defaultPlaylistItem->setText(defaultPlaylist.getName());
-    ui->listWidget->addItem(defaultPlaylistItem);
+        QListWidgetItem *defaultPlaylistItem = new QListWidgetItem(ui->listWidget);
+        defaultPlaylistItem->setText(defaultPlaylist.getName());
+        ui->listWidget->addItem(defaultPlaylistItem);
 
-    // ui->listWidget->setCurrentItem(defaultPlaylistItem);
-    clickedItem = defaultPlaylistItem;
-    ui->label_Playlist_Name->setText(defaultPlaylist.getName());
-    ui->label_duration2->setText("00:00");
+        // ui->listWidget->setCurrentItem(defaultPlaylistItem);
+        clickedItem = defaultPlaylistItem;
+        ui->label_Playlist_Name->setText(defaultPlaylist.getName());
+        ui->label_duration2->setText("00:00");
 
-    ui->comboPlaylist->addItem(defaultPlaylist.getName());
-
-
+        ui->comboPlaylist->addItem(defaultPlaylist.getName());
+    }
 
 }
 
@@ -1131,6 +1135,7 @@ void MainWindow::on_pushsavedata_clicked()
 
 }
 
+
 void MainWindow::loadDataFromJson(const QString& filename)
 {
     // Read JSON data from the file
@@ -1235,5 +1240,28 @@ void MainWindow::loadDataFromJson(const QString& filename)
     }
 }
 
+bool MainWindow::isFileLoaded(const QString& filename)
+{
+    QFile file(filename);
+
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QByteArray jsonData = file.readAll();
+        file.close();
+
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonData);
+
+        // Check if the JSON document is valid
+        if (!jsonDocument.isNull()) {
+            qDebug() << "File loaded successfully:" << filename;
+            return true;
+        } else {
+            qDebug() << "Failed to parse JSON data from" << filename;
+        }
+    } else {
+        qDebug() << "Failed to open file for reading" << filename;
+    }
+
+    return false;
+}
 
 

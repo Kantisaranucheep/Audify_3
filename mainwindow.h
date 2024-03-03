@@ -115,6 +115,8 @@ private slots:
 
     void loadDataFromJson(const QString& filename);
 
+    bool isFileLoaded(const QString& filename);
+
 
 private:
     Ui::MainWindow *ui;
