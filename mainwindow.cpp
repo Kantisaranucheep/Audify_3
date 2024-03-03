@@ -103,7 +103,6 @@ MainWindow::MainWindow(QWidget *parent)
         // ui->comboPlaylist->addItem(playlist.getName());
     }
 
-
     ui->total_duration->setText("Duration: 0:00");
     ui->total_song->setText("0 song");
 
@@ -124,7 +123,9 @@ MainWindow::MainWindow(QWidget *parent)
         ui->label_duration2->setText("00:00");
 
         ui->comboPlaylist->addItem(defaultPlaylist.getName());
+
     }
+
 
 }
 
@@ -278,13 +279,13 @@ void MainWindow::on_push_repeat_clicked()
 
 void MainWindow::updateComboBox()
 {
-    // ui->comboPlaylist->clear();  // Clear existing items
+    ui->comboPlaylist->clear();  // Clear existing items
 
-    // // Get playlist names from the inventory and add them to the combobox
-    // const QList<Playlist>& allPlaylists = inventory->getPlaylists();
-    // for (const Playlist& playlist : allPlaylists) {
-    //     ui->comboPlaylist->addItem(playlist.getName());
-    // }
+    // Get playlist names from the inventory and add them to the combobox
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+    for (const Playlist& playlist : allPlaylists) {
+        ui->comboPlaylist->addItem(playlist.getName());
+    }
 }
 
 void MainWindow::on_comboPlaylist_currentIndexChanged(int index)
@@ -352,6 +353,13 @@ void MainWindow::on_pushaddplaylist_clicked()
                                                  QString(), &ok);
 
     if (ok && !playlistName.isEmpty()) {
+
+        // Check if the playlist name is longer than 23 characters
+        if (playlistName.length() > 23) {
+            QMessageBox::warning(this, tr("Invalid Playlist Name"),
+                                 tr("Playlist name cannot be longer than 23 characters."), QMessageBox::Ok);
+            return;
+        }
         // Check if a playlist with the same name already exists
         if (inventory->playlistExists(playlistName)) {
             // Inform the user that the playlist name is duplicate
@@ -422,29 +430,33 @@ void MainWindow::updatePlaylistLabels()
         }
 
         if (selectedPlaylist) {
-
-
             int numberOfSongs = selectedPlaylist->getSongCount();
 
-            if(numberOfSongs == 0 || numberOfSongs == 1){
+            if (numberOfSongs == 0 || numberOfSongs == 1) {
                 ui->total_song->setText(QString::number(numberOfSongs) + " song");
-
-            }else {
-
-            // Update the label displaying the number of songs
-            ui->total_song->setText(QString::number(numberOfSongs) + " songs");
+            } else {
+                ui->total_song->setText(QString::number(numberOfSongs) + " songs");
             }
 
-            // // Update the label displaying the total duration
-            // qint64 totalDuration = selectedPlaylist->getTotalDuration();  // Use the function from Playlist class
+            qint64 totalDuration = 0;
 
-            // QTime totalDurationTime((totalDuration / 3600) % 60, (totalDuration / 60) % 60, totalDuration % 60, (totalDuration * 1000) % 1000);
-            // ui->total_duration->setText("Duration: " + totalDurationTime.toString("mm:ss"));
+            // Loop through the songs in the playlist and accumulate their durations
+            for (const Song& song : selectedPlaylist->getSongs()) {
+                totalDuration += song.getDuration();  // Assuming there's a function in the Song class to get the duration
+            }
+            qDebug() << "total duration: " << totalDuration;
 
-            // qDebug() << "Total duration: " << totalDurationTime.toString("mm:ss");
+            // Update the label displaying the total duration
+            QTime totalDurationTime(0, 0);
+            totalDurationTime = totalDurationTime.addMSecs(totalDuration);
+
+            ui->total_duration->setText("Duration: " + totalDurationTime.toString("mm:ss"));
+
+            qDebug() << "Total duration: " << totalDurationTime.toString("mm:ss");
         }
     }
 }
+
 
 // void MainWindow::onPlaylistLabelClicked(QLabel *clickedLabel)
 // {
@@ -1075,6 +1087,11 @@ void MainWindow::saveDataToJson(const QString& filename)
         QJsonObject playlistObject;
         playlistObject["name"] = playlist.getName();
 
+        // Save playlist thumbnail path if available
+        if (!playlist.getThumbnailPath().isEmpty()) {
+            playlistObject["thumbnail"] = playlist.getThumbnailPath();
+        }
+
         QJsonArray songsArray;
         const QList<Song>& songs = playlist.getSongs();
 
@@ -1172,6 +1189,13 @@ void MainWindow::loadDataFromJson(const QString& filename)
                     }
                 }
 
+                // Declare thumbnailPath outside the block
+                QString thumbnailPath;
+
+                if (playlistObject.contains("thumbnail")) {
+                    thumbnailPath = playlistObject["thumbnail"].toString();
+                }
+
                 if (existingPlaylist) {
                     // Playlist already exists, update it
                     const_cast<Playlist*>(existingPlaylist)->clearSongs();  // Clear existing songs
@@ -1194,7 +1218,10 @@ void MainWindow::loadDataFromJson(const QString& filename)
                         const_cast<Playlist*>(existingPlaylist)->importSong(song);
                     }
 
-                    // inventory->addPlaylist(*existingPlaylist);
+                    // Set playlist thumbnail if available
+                    if (!thumbnailPath.isEmpty()) {
+                        const_cast<Playlist*>(existingPlaylist)->setThumbnailPath(thumbnailPath);
+                    }
                 } else {
                     // Playlist doesn't exist, create a new one
                     Playlist playlist(playlistName);
@@ -1217,6 +1244,11 @@ void MainWindow::loadDataFromJson(const QString& filename)
                         playlist.importSong(song);
                     }
 
+                    // Set playlist thumbnail if available
+                    if (!thumbnailPath.isEmpty()) {
+                        playlist.setThumbnailPath(thumbnailPath);
+                    }
+
                     // Add the playlist to the inventory
                     inventory->addPlaylist(playlist);
 
@@ -1224,6 +1256,9 @@ void MainWindow::loadDataFromJson(const QString& filename)
                     QListWidgetItem *item = new QListWidgetItem(ui->listWidget);
                     item->setText(playlistName);
                     ui->listWidget->addItem(item);
+
+                    // Set the thumbnail for the newly added playlist
+                    setThumbnail(item, thumbnailPath, 50, 50, 20);
 
                     // ui->comboPlaylist->addItem(playlistName);
                     qDebug() << "Added new playlist:" << playlistName;

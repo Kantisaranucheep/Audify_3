@@ -1,8 +1,5 @@
 #include "song.h"
 
-
-
-
 Song::Song(const QString& filename)
     : filename(filename)
 {
