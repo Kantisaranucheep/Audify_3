@@ -632,13 +632,15 @@ void MainWindow::on_pushaddsong_clicked()
 
         // Ensure the selected playlist is valid
         if (selectedPlaylist) {
-            // Open a file dialog to get the selected audio file
-            QString fileName = QFileDialog::getOpenFileName(this, tr("Select Audio File"), "", tr("MP3 Files (*.mp3)"));
+            // Open a file dialog to get the selected audio files
+            QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Select Audio Files"), "", tr("MP3 Files (*.mp3)"));
 
-            if (!fileName.isEmpty()) {
-                // Add the selected file to the playlist
-                Song newSong(fileName);
-                const_cast<Playlist*>(selectedPlaylist)->importSong(newSong);
+            if (!fileNames.isEmpty()) {
+                // Add the selected files to the playlist
+                for (const QString& fileName : fileNames) {
+                    Song newSong(fileName);
+                    const_cast<Playlist*>(selectedPlaylist)->importSong(newSong);
+                }
 
                 // Update the QListWidget with the file names
                 ui->listWidget_song->clear();
@@ -648,20 +650,21 @@ void MainWindow::on_pushaddsong_clicked()
                     ui->listWidget_song->addItem(filename2);
                 }
 
-                qDebug() << "Playlist size after adding a song: " << selectedPlaylist->getSongCount();
+                qDebug() << "Playlist size after adding songs: " << selectedPlaylist->getSongCount();
                 updateNextSongList();
             }
         } else {
             // Display a message box indicating that no playlist is selected
-            QMessageBox::information(this, tr("No Playlist Selected"), tr("Please select a playlist before adding a song."));
+            QMessageBox::information(this, tr("No Playlist Selected"), tr("Please select a playlist before adding songs."));
         }
     } else {
         // Display a message box indicating that no item is clicked
-        QMessageBox::information(this, tr("No Item Clicked"), tr("Please select a playlist before adding a song."));
+        QMessageBox::information(this, tr("No Item Clicked"), tr("Please select a playlist before adding songs."));
     }
 
     updatePlaylistLabels();
 }
+
 
 void MainWindow::on_pushdelsong_clicked()
 {
