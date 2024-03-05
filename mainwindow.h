@@ -146,6 +146,8 @@ private:
 
     qint64 currentSongDuration;
 
+    QElapsedTimer elapsedTimer;
+    qint64 totallistening;
 
 
 

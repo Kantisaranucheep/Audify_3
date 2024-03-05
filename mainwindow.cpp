@@ -18,6 +18,7 @@
 #include <QJsonArray>
 #include <QFile>
 #include <QDir>
+#include <QElapsedTimer>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -102,6 +103,10 @@ MainWindow::MainWindow(QWidget *parent)
         qDebug() << "Adding Playlist to Combo Box:" << playlist.getName();
         // ui->comboPlaylist->addItem(playlist.getName());
     }
+
+    totallistening =0;
+    elapsedTimer.start();
+
 
     ui->total_duration->setText("Duration: 0:00");
     ui->total_song->setText("0 song");
@@ -200,6 +205,9 @@ void MainWindow::on_push_play_clicked()
         MPlayer->pause();
         gifMovie->stop();
 
+        totallistening += elapsedTimer.elapsed();
+        qDebug() << "Total duration listening: " << totallistening;
+
         isPause = true;
     }
     else
@@ -210,6 +218,7 @@ void MainWindow::on_push_play_clicked()
 
         MPlayer->play();
         gifMovie->start();
+        elapsedTimer.restart();
 
         isPause = false;
     }
