@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
+#include "timestat.h"
+
 #include "song.h"
 #include "playlist.h"
 #include "inventory.h"
@@ -108,8 +110,8 @@ MainWindow::MainWindow(QWidget *parent)
     elapsedTimer.start();
 
 
-    ui->total_duration->setText("Duration: 0:00");
-    ui->total_song->setText("0 song");
+    // ui->total_duration->setText("Duration: 0:00");
+    // ui->total_song->setText("0 song");
 
     if (MainWindow::isFileLoaded("test3.json") == true) {
         return;
@@ -128,6 +130,8 @@ MainWindow::MainWindow(QWidget *parent)
         ui->label_duration2->setText("00:00");
 
         ui->comboPlaylist->addItem(defaultPlaylist.getName());
+
+        // updatePlaylistLabels();
 
     }
 
@@ -400,7 +404,7 @@ void MainWindow::on_pushaddplaylist_clicked()
         ui->comboPlaylist->addItem(playlistName);
         // ui->listWidget->setItemWidget(item, playlistlabel);
 
-        // updatePlaylistLabels();
+        updatePlaylistLabels();
 
         qDebug() << "New Playlist Name: " << playlistName;
     }
@@ -605,6 +609,7 @@ void MainWindow::on_pushdelplaylist_2_clicked()
             ui->listWidget_song->clear();
             ui->label_Playlist_Name->setText("Playlist :");
             ui->total_song->setText(QString::number(0) + " song");
+            ui->total_duration->setText("Duration: 0:00");
 
             qDebug() << "Playlist label deleted: " << playlistName;
 
@@ -617,6 +622,8 @@ void MainWindow::on_pushdelplaylist_2_clicked()
 
             // Set clickedItem to the default playlist item
             clickedItem = ui->listWidget->item(0);
+            updateSongList(clickedItem->text());
+            ui->label_Playlist_Name->setText(clickedItem->text());
         }
     }
 }
@@ -1194,9 +1201,13 @@ void MainWindow::loadDataFromJson(const QString& filename)
                 const Playlist* existingPlaylist = nullptr;
                 const QList<Playlist>& allPlaylists = inventory->getPlaylists();
 
+                QListWidgetItem* item = nullptr;
+
                 for (const Playlist& playlist : allPlaylists) {
                     if (playlist.getName() == playlistName) {
                         existingPlaylist = &playlist;
+                        // Find the corresponding item in the QListWidget
+                        item = findPlaylistItem(playlistName);
                         break;
                     }
                 }
@@ -1234,6 +1245,17 @@ void MainWindow::loadDataFromJson(const QString& filename)
                     if (!thumbnailPath.isEmpty()) {
                         const_cast<Playlist*>(existingPlaylist)->setThumbnailPath(thumbnailPath);
                     }
+
+                    // Check if the current playlist is the "Liked Songs" playlist
+                    if (playlistName == "Liked Songs") {
+                        // Set the clicked item to the "Liked Songs" playlist item
+                        clickedItem = item;
+                        updateSongList(playlistName);
+                        updatePlaylistLabels();
+                        ui->label_Playlist_Name->setText(playlistName);
+                    }
+
+                    // updateSongList(playlistName);
                 } else {
                     // Playlist doesn't exist, create a new one
                     Playlist playlist(playlistName);
@@ -1265,17 +1287,33 @@ void MainWindow::loadDataFromJson(const QString& filename)
                     inventory->addPlaylist(playlist);
 
                     // Add the playlist label to the QListWidget
-                    QListWidgetItem *item = new QListWidgetItem(ui->listWidget);
+                    item = new QListWidgetItem(ui->listWidget);
                     item->setText(playlistName);
                     ui->listWidget->addItem(item);
+
+                    // ui->label_Playlist_Name->setText(playlistName);
+
+                    // updateSongList(playlistName);
 
                     // Set the thumbnail for the newly added playlist
                     setThumbnail(item, thumbnailPath, 50, 50, 20);
 
                     // ui->comboPlaylist->addItem(playlistName);
                     qDebug() << "Added new playlist:" << playlistName;
+
+                    // Check if the current playlist is the "Liked Songs" playlist
+                    if (playlistName == "Liked Songs") {
+                        // Set the clicked item to the "Liked Songs" playlist item
+                        clickedItem = item;
+                        updateSongList(playlistName);
+                        updatePlaylistLabels();
+                        ui->label_Playlist_Name->setText(playlistName);
+                    }
                 }
             }
+
+            // Update playlist labels after loading data
+            updatePlaylistLabels();
 
             qDebug() << "Data loaded from" << filename;
         } else {
@@ -1285,7 +1323,6 @@ void MainWindow::loadDataFromJson(const QString& filename)
         qDebug() << "Failed to open file for reading" << filename;
     }
 }
-
 bool MainWindow::isFileLoaded(const QString& filename)
 {
     QFile file(filename);
@@ -1310,4 +1347,24 @@ bool MainWindow::isFileLoaded(const QString& filename)
     return false;
 }
 
+QListWidgetItem* MainWindow::findPlaylistItem(const QString& playlistName)
+{
+    // Find the corresponding item in the QListWidget
+    for (int i = 0; i < ui->listWidget->count(); ++i) {
+        QListWidgetItem* item = ui->listWidget->item(i);
+        if (item && item->text() == playlistName) {
+            return item;  // Return the found item
+        }
+    }
+    return nullptr;  // Return nullptr if not found
+}
+
+
+void MainWindow::on_pushstat_clicked()
+{
+    TimeStat timestat;
+    timestat.setModal(true);
+    timestat.exec();
+
+}
 

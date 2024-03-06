@@ -816,9 +816,9 @@ background-color:rgb(140,140,140);
     <widget class="QSlider" name="horizontalSlider">
      <property name="geometry">
       <rect>
-       <x>290</x>
+       <x>270</x>
        <y>30</y>
-       <width>500</width>
+       <width>521</width>
        <height>21</height>
       </rect>
      </property>
@@ -851,7 +851,7 @@ QSlider::handle:horizontal {
     <widget class="QLabel" name="label_duration1">
      <property name="geometry">
       <rect>
-       <x>240</x>
+       <x>230</x>
        <y>30</y>
        <width>40</width>
        <height>20</height>
@@ -925,6 +925,37 @@ background-color:rgb(140,140,140);
      </property>
      <property name="text">
       <string>Save Data</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushstat">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>120</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+
+border: none;
+border-radius:8px;
+background-color:rgb(186, 186, 186);
+color:rgb(25, 25, 25);
+font-weight: bold;
+
+padding:0px;
+
+
+}
+
+QPushButton:Hover{
+background-color:rgb(140,140,140);
+}</string>
+     </property>
+     <property name="text">
+      <string>Statistics</string>
      </property>
     </widget>
    </widget>

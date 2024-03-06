@@ -118,6 +118,11 @@ private slots:
     bool isFileLoaded(const QString& filename);
 
 
+    void on_pushstat_clicked();
+
+    QListWidgetItem* findPlaylistItem(const QString& playlistName);
+
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;
