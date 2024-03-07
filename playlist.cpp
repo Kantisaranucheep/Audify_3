@@ -71,3 +71,17 @@ void Playlist::clearSongs()
 {
     songs.clear();
 }
+
+QList<Song> Playlist::searchSongs(const QString& searchText) const
+{
+    QList<Song> results;
+
+    // Iterate through songs and add those matching the search text
+    for (const Song& song : songs) {
+        if (song.getfilename().contains(searchText, Qt::CaseInsensitive)) {
+            results.append(song);
+        }
+    }
+
+    return results;
+}

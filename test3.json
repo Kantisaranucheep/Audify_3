@@ -116,6 +116,61 @@
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/63TQ3BMQS5GHZPK6D36USVJ2NQ.jpg"
+        },
+        {
+            "name": "playlist3",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/แอด คาราบาว - พระนเรศวรมหาราช [Official Audio].mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/静止画MADブルーロック我武者羅.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/チェンソーマン第話ノンクレジットエンディング  CHAINSAW MAN #12  EndingEveファイトソング.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/最終列車は25時.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3"
+                }
+            ],
+            "thumbnail": "C:/Users/hp/Downloads/f4dab870ec6e7934a9460bd8119b3b95.png"
+        },
+        {
+            "name": "plasdasd",
+            "songs": [
+            ],
+            "thumbnail": "C:/Users/hp/Downloads/q6b9erxenbc81.jpg"
+        },
+        {
+            "name": "asdasdsdfgdfb",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/カントリーロートCover.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/Dream Lantern  Violin Orchestra [Your Name  Kimi no Na wa OST] 君の名は 夢灯籠 オーケストラ Radwimps.mp3"
+                }
+            ]
+        },
+        {
+            "name": "fsdfsdfsdf",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/ＧＯＯＤキター.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3"
+                }
+            ]
         }
     ]
 }

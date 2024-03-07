@@ -123,6 +123,8 @@ private slots:
     QListWidgetItem* findPlaylistItem(const QString& playlistName);
 
 
+    void on_lineEdit_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;

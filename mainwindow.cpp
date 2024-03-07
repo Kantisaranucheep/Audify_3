@@ -503,6 +503,29 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
 
     updateSongList(playlistName);
 
+    // ui->lineEdit->clear();
+    // const Playlist* selectedPlaylist = nullptr;
+    // const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+    // for (const Playlist& playlist : allPlaylists) {
+    //     if (playlist.getName() == playlistName) {
+    //         selectedPlaylist = &playlist;
+    //         break;
+    //     }
+    // }
+
+    // // Check if the selected playlist is found
+    // if (selectedPlaylist) {
+    //     // Iterate through the songs and append their names to the QLineEdit
+    //     const QList<Song>& songs = selectedPlaylist->getSongs();
+    //     for (const Song& song : songs) {
+    //         QString filename = QFileInfo(song.getfilename()).fileName();
+    //         ui->lineEdit->setText(ui->lineEdit->text() + filename + "\n");
+    //     }
+    // }
+
+
+
 }
 
 void MainWindow::updateSongList(const QString &playlistName)
@@ -1365,6 +1388,42 @@ void MainWindow::on_pushstat_clicked()
     TimeStat timestat;
     timestat.setModal(true);
     timestat.exec();
+
+}
+
+
+void MainWindow::on_lineEdit_textChanged(const QString& searchText)
+{
+    // Get the clicked playlist name
+    QString playlistName = ui->label_Playlist_Name->text();
+
+    // Get the playlist from the Inventory based on the label text
+    const Playlist* selectedPlaylist = nullptr;
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+    for (const Playlist& playlist : allPlaylists) {
+        if (playlist.getName() == playlistName) {
+            selectedPlaylist = &playlist;
+            break;
+        }
+    }
+
+    // Check if the selected playlist is found
+    if (selectedPlaylist) {
+        // Clear the current listWidget_song
+        ui->listWidget_song->clear();
+
+        // Get the search results based on the entered text
+        QList<Song> searchResults = selectedPlaylist->searchSongs(searchText);
+
+        // Add songs from the search results to listWidget_song
+        for (const Song& song : searchResults) {
+            QString filename = QFileInfo(song.getfilename()).fileName();
+            ui->listWidget_song->addItem(filename);
+        }
+
+        qDebug() << "Updated listWidget_song for playlist (search): " << playlistName;
+    }
 
 }
 
