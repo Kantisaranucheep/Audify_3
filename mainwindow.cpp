@@ -21,6 +21,7 @@
 #include <QFile>
 #include <QDir>
 #include <QElapsedTimer>
+#include <QMainWindow>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     MPlayer = new QMediaPlayer();
     audioOutput = new QAudioOutput();
+
+    this->setFixedSize(1080,720);
 
     // playlistTextEdit = ui->playlistTextEdit;
     inventory = new Inventory();
@@ -785,13 +788,17 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
             // Update the next song list
             ui->nextsong->clear();
 
-            // Increment the index for the next song based on shuffle status
-            int nextIndex = isShuffleEnabled ? (selectedSongIndex + 1) % shuffleIndices.size() : (selectedSongIndex + 1) % selectedPlaylist->getSongCount();
+            int nextIndex;
+            if (isShuffleEnabled) {
+                nextIndex = (currentindex + 1) % shuffleIndices.size();
+            } else {
+                nextIndex = (currentindex + 1) % selectedPlaylist->getSongCount();
+            }
 
-            // Update currentindex for future use
-            // currentindex = nextIndex;
+            // Get the next song from the playlist using the calculated index
+            const Song& nextSong = selectedPlaylist->getSongs().at(shuffleIndices.value(nextIndex, nextIndex));
 
-            const Song& nextSong = selectedPlaylist->getSongs().at(nextIndex);
+            // Add the next song to listWidget_nextSong
             ui->nextsong->addItem(QFileInfo(nextSong.getfilename()).fileName());
         }
     }
@@ -959,6 +966,7 @@ void MainWindow::on_push_shuffle_clicked()
         currentindex = -1;
     }
 }
+
 void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
 {
     if (status == QMediaPlayer::EndOfMedia) {
@@ -982,23 +990,21 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
 
         // Check if the playlist is not empty
         if (selectedPlaylist && selectedPlaylist->getSongCount() > 0) {
+            int nextIndex;
 
             if(selectedPlaylist->getSongCount() == 1){
                 MPlayer->setPosition(0);  // Restart the same song from the beginning
                 MPlayer->play();
-            }else {
+            } else {
                 if (isShuffleEnabled) {
-                    // Shuffle is enabled, randomize the next song
-                    shuffleIndices= generateShuffledIndices(selectedPlaylist->getSongCount());
-                    currentindex = shuffleIndices.at((currentindex + 1) % selectedPlaylist->getSongCount());
+                    nextIndex = (currentindex + 1) % shuffleIndices.size();
                 } else {
-                    // Shuffle is disabled, play the next song in order
-                    currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
+                    nextIndex = (currentindex + 1) % selectedPlaylist->getSongCount();
                 }
             }
 
             // Get the next song in the playlist
-            const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
+            const Song& nextSong = selectedPlaylist->getSongs().at(shuffleIndices.at(nextIndex));
 
             qDebug() << "Next Song: " << nextSong.getfilename();
 
@@ -1010,9 +1016,8 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
             // Update the label with the file name
             ui->label_File_Name->setText(QFileInfo(nextSong.getfilename()).fileName());
 
-            // Update selectedSongIndex to currentindex
-            int selectedSongIndex = currentindex;
-            qDebug() << "Selected Song Index: " << selectedSongIndex;
+            // Update currentindex for future use
+            currentindex = shuffleIndices.at(nextIndex);
 
             updateNextSongList();
 
@@ -1061,14 +1066,22 @@ void MainWindow::updateNextSongList()
 
     // Check if the selected playlist is found
     if (selectedPlaylist) {
-        // Get the next songs based on the current index
-        int nextIndex = isShuffleEnabled ? (currentindex + 1) % shuffleIndices.size() : (currentindex + 1) % selectedPlaylist->getSongCount();
-        const Song& nextSong = selectedPlaylist->getSongs().at(nextIndex);
+        // Get the next song index based on shuffle status
+        int nextIndex;
+        if (isShuffleEnabled) {
+            nextIndex = (currentindex + 1) % shuffleIndices.size();
+        } else {
+            nextIndex = (currentindex + 1) % selectedPlaylist->getSongCount();
+        }
+
+        // Get the next song from the playlist using the calculated index
+        const Song& nextSong = selectedPlaylist->getSongs().at(shuffleIndices.value(nextIndex, nextIndex));
 
         // Add the next song to listWidget_nextSong
         ui->nextsong->addItem(QFileInfo(nextSong.getfilename()).fileName());
     }
 }
+
 
 void setThumbnail(QListWidgetItem* item, const QString& thumbnailPath, int width, int height, int borderRadius)
 {

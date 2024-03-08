@@ -25,6 +25,7 @@ public:
     void clearSongs();
 
     QList<Song> searchSongs(const QString& searchText) const;
+    const Song* findSongByName(const QString& songName) const;
 
 private:
     QString name;

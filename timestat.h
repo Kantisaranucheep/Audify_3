@@ -2,7 +2,9 @@
 #define TIMESTAT_H
 
 #include <QDialog>
-// #include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSeries>
+#include <QtCore>
+#include <QtGui>
 
 namespace Ui {
 class TimeStat;
@@ -18,6 +20,7 @@ public:
 
 private:
     Ui::TimeStat *ui;
+
 };
 
 #endif // TIMESTAT_H

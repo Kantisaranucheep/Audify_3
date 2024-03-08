@@ -1,5 +1,6 @@
 #include "playlist.h"
 #include <QMessageBox>
+#include <QFileInfo>
 
 Playlist::Playlist(const QString& name)
     : name(name)
@@ -84,4 +85,15 @@ QList<Song> Playlist::searchSongs(const QString& searchText) const
     }
 
     return results;
+}
+
+const Song* Playlist::findSongByName(const QString& songName) const
+{
+    for (const Song& song : songs) {
+        if (QFileInfo(song.getfilename()).fileName() == songName) {
+            return &song;
+        }
+    }
+
+    return nullptr; // Song not found
 }
