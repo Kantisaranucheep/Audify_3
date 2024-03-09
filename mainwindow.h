@@ -30,6 +30,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    qint64 totallistening;
+
 private slots:
 
     void durationChanged(qint64 duration);
@@ -124,6 +126,7 @@ private slots:
 
 
     void on_lineEdit_textChanged(const QString &arg1);
+    // void saveTotallisteningToJson(const QString& filename);
 
 private:
     Ui::MainWindow *ui;
@@ -154,7 +157,7 @@ private:
     qint64 currentSongDuration;
 
     QElapsedTimer elapsedTimer;
-    qint64 totallistening;
+    // qint64 totallistening;
 
 
 

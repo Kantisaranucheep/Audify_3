@@ -6,51 +6,92 @@
 #include <QtCharts/QBarCategoryAxis>
 #include <QChart>
 #include <QValueAxis>
+#include <QDateTime>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QJsonValue>
+#include <QDebug>
 
 TimeStat::TimeStat(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::TimeStat)
 {
     ui->setupUi(this);
-    this->setFixedSize(720,480);
+    this->setFixedSize(720, 480);
 
-    QBarSeries *series = new QBarSeries();
-    QBarSet *set_1 = new QBarSet("duration stats");
+    // Read JSON data from a file
+    QFile file("test7.json");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QByteArray jsonData = file.readAll();
+        file.close();
 
-    set_1->append(55);
-    series->append(set_1);
+        // Parse JSON data
+        QJsonDocument jsonDocument = QJsonDocument::fromJson(jsonData);
+        // Check if the JSON document is valid
+        if (!jsonDocument.isNull()) {
+            // Get the root object
+            QJsonObject rootObject = jsonDocument.object();
 
-    QChart *chart = new QChart();
-    chart->addSeries(series);
-    chart->setTitle("duration stat");
-    chart->setAnimationOptions(QChart::SeriesAnimations);
+            // Get totalListeningDuration array
+            QJsonArray totalListeningArray = rootObject["totalListeningDuration"].toArray();
+            qDebug() << "total listening array size:" << totalListeningArray.size();
 
-    QStringList date;
-    date.append("7/3/2024");
-    date.append("8/3/2024");
-    date.append("9/3/2024");
-    date.append("10/3/2024");
-    date.append("11/3/2024");
+            QList<int> totallistening;
+            QStringList dateLabels;
 
-    QBarCategoryAxis *axisX = new QBarCategoryAxis();
-    axisX->append(date);
-    chart->addAxis(axisX, Qt::AlignBottom);
-    series->attachAxis(axisX);
+            // Iterate through the array and retrieve total listening duration for all available days
+            for (const QJsonValue& dateObjectValue : totalListeningArray) {
+                QJsonObject dayObject = dateObjectValue.toObject();
+                QString dateString = dayObject.keys().first();
+                int durationInMillis = dayObject.value(dateString).toInt();
+                // Convert duration from milliseconds to decimal hours
+                double durationInHours = static_cast<double>(durationInMillis) / (1000.0 * 60.0); // 1 hour = 1000 milliseconds * 60 seconds * 60 minutes
+                totallistening.append(durationInHours);
+                dateLabels.append(QDateTime::fromString(dateString, "yyyy-MM-dd").toString("d/M/yyyy"));
+            }
 
-    QValueAxis *axisY = new QValueAxis();
-    axisY->setRange(0, 24);
-    chart->addAxis(axisY, Qt::AlignLeft);
-    series->attachAxis(axisY);
+            // Create a bar series and set
+            QBarSeries *series = new QBarSeries();
+            QBarSet *set_1 = new QBarSet("duration stats");
 
-    chart->legend()->setVisible(true);
-    chart->legend()->setAlignment(Qt::AlignBottom);
+            // Append data to the bar set
+            for (int i = 0; i < totallistening.size(); ++i) {
+                set_1->append(totallistening[i]);
+                qDebug() << "json duration : " << totallistening[i];
+            }
 
-    ui->graphicsView->setChart(chart);
-    ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+            series->append(set_1);
+
+            QChart *chart = new QChart();
+            chart->addSeries(series);
+            chart->setTitle("Total Listening Duration for Available Days");
+            chart->setAnimationOptions(QChart::SeriesAnimations);
+
+            QBarCategoryAxis *axisX = new QBarCategoryAxis();
+            axisX->append(dateLabels);
+            chart->addAxis(axisX, Qt::AlignBottom);
+            series->attachAxis(axisX);
+
+            QValueAxis *axisY = new QValueAxis();
+            axisY->setRange(0, 1440);
+            chart->addAxis(axisY, Qt::AlignLeft);
+            series->attachAxis(axisY);
+
+            chart->legend()->setVisible(true);
+            chart->legend()->setAlignment(Qt::AlignBottom);
+
+            ui->graphicsView->setChart(chart);
+            ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+        } else {
+            qDebug() << "Failed to parse JSON data.";
+        }
+    } else {
+        qDebug() << "Failed to open JSON file.";
+    }
 }
 
 TimeStat::~TimeStat()
 {
     delete ui;
 }
-

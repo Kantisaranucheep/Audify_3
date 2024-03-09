@@ -28,10 +28,10 @@
                     "filename": "C:/Users/hp/Downloads/BoyWithUke - IDGAF ft. blackbear.mp3"
                 }
             ],
-            "thumbnail": "C:/Users/hp/Downloads/f4dab870ec6e7934a9460bd8119b3b95.png"
+            "thumbnail": "C:/Users/hp/Downloads/logo02-300x270.png"
         },
         {
-            "name": "ggg",
+            "name": "playlist1",
             "songs": [
                 {
                     "filename": "C:/Users/hp/Downloads/แอด คาราบาว - พระนเรศวรมหาราช [Official Audio].mp3"
@@ -49,38 +49,40 @@
                     "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3"
                 }
             ],
-            "thumbnail": "C:/Users/hp/Downloads/logo02-300x270.png"
+            "thumbnail": "C:/Users/hp/Downloads/63TQ3BMQS5GHZPK6D36USVJ2NQ.jpg"
         },
         {
-            "name": "sdfxcvxcv",
+            "name": "playlist2",
             "songs": [
                 {
-                    "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3"
+                    "filename": "C:/Users/hp/Downloads/House of Pain - Jump Around (Official Music Video) [HD].mp3"
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/Dream Lantern  Violin Orchestra [Your Name  Kimi no Na wa OST] 君の名は 夢灯籠 オーケストラ Radwimps.mp3"
-                },
+                    "filename": "C:/Users/hp/Downloads/君の名は夢灯籠  RADWIMPS (cover).mp3"
+                }
+            ],
+            "thumbnail": "C:/Users/hp/Downloads/f4dab870ec6e7934a9460bd8119b3b95.png"
+        },
+        {
+            "name": "playlist3",
+            "songs": [
                 {
                     "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3"
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/ＧＯＯＤキター.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/最終列車は25時.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3"
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/X_cover.png"
-        },
-        {
-            "name": "bdbdbdb",
-            "songs": [
-                {
-                    "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3"
-                },
-                {
-                    "filename": "C:/Users/hp/Downloads/House of Pain - Jump Around (Official Music Video) [HD].mp3"
-                }
-            ],
-            "thumbnail": "C:/Users/hp/Downloads/Divide_cover.png"
         }
     ],
-    "totalListeningDuration": 0
+    "totalListeningDuration": {
+        "2024-03-09": 145518
+    }
 }

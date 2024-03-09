@@ -1,0 +1,55 @@
+{
+    "playlists": [
+        {
+            "name": "Liked Songs",
+            "songs": [
+            ]
+        },
+        {
+            "name": "fff",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/Hitori Jouzu.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/カントリーロートCover.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/Dream Lantern  Violin Orchestra [Your Name  Kimi no Na wa OST] 君の名は 夢灯籠 オーケストラ Radwimps.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/ＧＯＯＤキター.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/BoyWithUke - IDGAF ft. blackbear.mp3"
+                }
+            ]
+        }
+    ],
+    "totalListeningDuration": [
+        {
+            "2024-03-05": 1875815
+        },
+        {
+            "2024-03-06": 2274815
+        },
+        {
+            "2024-03-07": 83838
+        },
+        {
+            "2024-03-08": 1874815
+        },
+        {
+            "2024-03-09": 35789
+        }
+    ]
+}

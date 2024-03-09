@@ -21,6 +21,7 @@
 #include <QFile>
 #include <QDir>
 #include <QElapsedTimer>
+#include <QDate>
 #include <QMainWindow>
 
 
@@ -58,6 +59,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->horizontalSlider_2->setMinimum(0);
     ui->horizontalSlider_2->setMaximum(100);
     // ui->horizontalSlider_2->setValue(5);
+
+    // QString iconPath = "D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/shuffle1";
+    // QPixmap pixmap(iconPath);
+    // QIcon buttonIcon(pixmap);
+    // ui->push_shuffle->setIcon(buttonIcon);
+    // ui->push_shuffle->setIconSize(QSize(100,100));  // Set the desired icon size
 
     connect(MPlayer, &QMediaPlayer::durationChanged, this, &MainWindow::durationChanged);
     connect(MPlayer, &QMediaPlayer::positionChanged, this, &MainWindow::positionChanged);
@@ -99,7 +106,7 @@ MainWindow::MainWindow(QWidget *parent)
     gifMovie->jumpToFrame(0);
     gifMovie->stop();
 
-    loadDataFromJson("test3.json");
+    loadDataFromJson("test7.json");
 
     connect(ui->comboPlaylist, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &MainWindow::on_comboPlaylist_currentIndexChanged);
@@ -109,14 +116,12 @@ MainWindow::MainWindow(QWidget *parent)
         // ui->comboPlaylist->addItem(playlist.getName());
     }
 
-    totallistening =0;
     elapsedTimer.start();
-
 
     // ui->total_duration->setText("Duration: 0:00");
     // ui->total_song->setText("0 song");
 
-    if (MainWindow::isFileLoaded("test3.json") == true) {
+    if (MainWindow::isFileLoaded("test7.json") == true) {
         return;
     }
     else {
@@ -133,6 +138,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->label_duration2->setText("00:00");
 
         ui->comboPlaylist->addItem(defaultPlaylist.getName());
+        totallistening =0;
 
         // updatePlaylistLabels();
 
@@ -992,7 +998,7 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
         if (selectedPlaylist && selectedPlaylist->getSongCount() > 0) {
             int nextIndex;
 
-            if(selectedPlaylist->getSongCount() == 1){
+            if (selectedPlaylist->getSongCount() == 1) {
                 MPlayer->setPosition(0);  // Restart the same song from the beginning
                 MPlayer->play();
             } else {
@@ -1004,20 +1010,21 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
             }
 
             // Get the next song in the playlist
-            const Song& nextSong = selectedPlaylist->getSongs().at(shuffleIndices.at(nextIndex));
+            const Song& nextSong = isShuffleEnabled ? selectedPlaylist->getSongs().at(shuffleIndices.at(nextIndex))
+                                                    : selectedPlaylist->getSongs().at(nextIndex);
 
             qDebug() << "Next Song: " << nextSong.getfilename();
 
             // Set the source and start playing the next song
             MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
-            audioOutput->setVolume(ui->horizontalSlider_2->value()/100.0);
+            audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
             MPlayer->play();
 
             // Update the label with the file name
             ui->label_File_Name->setText(QFileInfo(nextSong.getfilename()).fileName());
 
             // Update currentindex for future use
-            currentindex = shuffleIndices.at(nextIndex);
+            currentindex = nextIndex;
 
             updateNextSongList();
 
@@ -1131,8 +1138,21 @@ void MainWindow::updatePlaylistItem(QListWidgetItem *item, const QString& playli
 
 void MainWindow::saveDataToJson(const QString& filename)
 {
-    // Create a JSON object to represent the data
+    // Read existing JSON data from the file
     QJsonObject rootObject;
+
+    QFile existingFile(filename);
+    if (existingFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QByteArray existingData = existingFile.readAll();
+        existingFile.close();
+
+        QJsonDocument existingJsonDocument = QJsonDocument::fromJson(existingData);
+
+        // Check if the existing JSON document is valid
+        if (!existingJsonDocument.isNull()) {
+            rootObject = existingJsonDocument.object();
+        }
+    }
 
     // Save playlists
     QJsonArray playlistsArray;
@@ -1162,6 +1182,41 @@ void MainWindow::saveDataToJson(const QString& filename)
         playlistsArray.append(playlistObject);
     }
 
+    // Get the current date as a string
+    QString currentDate = QDate::currentDate().toString("yyyy-MM-dd");
+
+    // Create a QJsonObject for totalListeningDuration
+    QJsonObject totalListeningObject;
+
+    // Load existing totalListeningDuration array if it exists
+    if (rootObject.contains("totalListeningDuration")) {
+        QJsonArray existingTotalListeningArray = rootObject["totalListeningDuration"].toArray();
+
+        // Iterate through existing array and remove the entry for the current date if it exists
+        QJsonArray updatedTotalListeningArray;
+        for (const QJsonValue& dateObjectValue : existingTotalListeningArray) {
+            QJsonObject dateObject = dateObjectValue.toObject();
+            if (!dateObject.contains(currentDate)) {
+                updatedTotalListeningArray.append(dateObject);
+            }
+        }
+
+        // Add current date's total listening duration to the array
+        QJsonObject currentDateObject;
+        currentDateObject[currentDate] = totallistening;
+        updatedTotalListeningArray.append(currentDateObject);
+
+        // Add updated totalListeningDuration to rootObject
+        rootObject["totalListeningDuration"] = updatedTotalListeningArray;
+    } else {
+        // Add current date's total listening duration to the array
+        totalListeningObject[currentDate] = totallistening;
+
+        // Add totalListeningDuration to rootObject
+        rootObject["totalListeningDuration"] = QJsonArray{ totalListeningObject };
+    }
+
+    // Save playlists array
     rootObject["playlists"] = playlistsArray;
 
     // Convert JSON object to a QByteArray
@@ -1182,7 +1237,7 @@ void MainWindow::saveDataToJson(const QString& filename)
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     // Save data to JSON before closing the application
-    saveDataToJson("test3.json");
+    saveDataToJson("test7.json");
 
     // Call the base class implementation
     QMainWindow::closeEvent(event);
@@ -1196,7 +1251,7 @@ void MainWindow::on_pushsavedata_clicked()
     QString directoryPath = "D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3";
 
     // Specify the filename
-    QString filename = "test3.json";
+    QString filename = "test7.json";
 
     // Combine the directory path and filename to get the full file path
     QString fullPath = QDir(directoryPath).filePath(filename);
@@ -1222,6 +1277,20 @@ void MainWindow::loadDataFromJson(const QString& filename)
         if (!jsonDocument.isNull()) {
             // Get the root object
             QJsonObject rootObject = jsonDocument.object();
+
+            // Load date-specific total listening duration
+            QJsonArray totalListeningArray = rootObject["totalListeningDuration"].toArray();
+            QString currentDate = QDate::currentDate().toString("yyyy-MM-dd");
+
+            // Iterate through totalListeningArray to find the current date
+            for (const QJsonValue& dateObjectValue : totalListeningArray) {
+                QJsonObject dateObject = dateObjectValue.toObject();
+                if (dateObject.contains(currentDate)) {
+                    totallistening = dateObject[currentDate].toInt();
+                    qDebug() << "Total Listening Duration for" << currentDate << "loaded:" << totallistening;
+                    break;
+                }
+            }
 
             // Get playlists array
             QJsonArray playlistsArray = rootObject["playlists"].toArray();
@@ -1319,6 +1388,7 @@ void MainWindow::loadDataFromJson(const QString& filename)
                         playlist.setThumbnailPath(thumbnailPath);
                     }
 
+
                     // Add the playlist to the inventory
                     inventory->addPlaylist(playlist);
 
@@ -1359,6 +1429,9 @@ void MainWindow::loadDataFromJson(const QString& filename)
         qDebug() << "Failed to open file for reading" << filename;
     }
 }
+
+
+
 bool MainWindow::isFileLoaded(const QString& filename)
 {
     QFile file(filename);

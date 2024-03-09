@@ -13,6 +13,11 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog {
+    background-color: rgb(7, 7, 7);
+}</string>
+  </property>
   <widget class="QChartView" name="graphicsView">
    <property name="geometry">
     <rect>
