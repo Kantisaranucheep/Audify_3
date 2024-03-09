@@ -71,6 +71,11 @@
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/Divide_cover.png"
+        },
+        {
+            "name": "adsa",
+            "songs": [
+            ]
         }
     ],
     "totalListeningDuration": [
@@ -87,7 +92,7 @@
             "2024-03-08": 1874815
         },
         {
-            "2024-03-09": 2501606
+            "2024-03-09": 3936682
         }
     ]
 }

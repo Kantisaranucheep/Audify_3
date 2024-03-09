@@ -96,12 +96,12 @@ MainWindow::MainWindow(QWidget *parent)
     srand(static_cast<uint>(QTime::currentTime().msec()));
 
     // Create a QMovie instance and set the GIF file path
-    gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc2.gif");
+    gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc7.gif");
 
     // Set the movie to the QLabel
     ui->label_4->setMovie(gifMovie);
     gifMovie->setScaledSize(ui->label_4->size());
-    gifMovie->setSpeed(20);
+    gifMovie->setSpeed(200);
 
     gifMovie->jumpToFrame(0);
     gifMovie->stop();
@@ -767,17 +767,25 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
     }
 
     if (selectedPlaylist) {
-        int selectedSongIndex = ui->listWidget_song->currentRow();
+        // Find the selected song in the search results based on the filename
+        QString selectedSongFilename = item->text();
+        const Song* selectedSong = nullptr;
 
-        // Ensure the selected song index is within the playlist size
-        if (selectedSongIndex >= 0 && selectedSongIndex < selectedPlaylist->getSongs().size()) {
+        // Find the selected song in the playlist based on the filename
+        for (int i = 0; i < selectedPlaylist->getSongs().size(); ++i) {
+            const Song& song = selectedPlaylist->getSongs().at(i);
+            if (QFileInfo(song.getfilename()).fileName() == selectedSongFilename) {
+                selectedSong = &song;
+                currentindex = i; // Set currentindex to the index of the selected song
+                break;
+            }
+        }
 
-            currentindex = selectedSongIndex;
-            const Song& selectedSong = selectedPlaylist->getSongs().at(selectedSongIndex);
-
-            QString fullFilePath = selectedSong.getfilename();
+        if (selectedSong) {
+            // Play the selected song
+            QString fullFilePath = selectedSong->getfilename();
             MPlayer->setSource(QUrl::fromLocalFile(fullFilePath));
-            audioOutput->setVolume(ui->horizontalSlider_2->value()/100.0);
+            audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
 
             QIcon pauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
             ui->push_play->setIcon(pauseIcon);
@@ -809,6 +817,7 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
         }
     }
 }
+
 
 void MainWindow::on_push_skip_clicked()
 {
