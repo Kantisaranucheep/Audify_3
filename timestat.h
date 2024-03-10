@@ -21,8 +21,12 @@ public:
 private slots:
     void on_comboduration_currentIndexChanged(int index);
 
+    void on_combomode_currentIndexChanged(int index);
+
 private:
     Ui::TimeStat *ui;
+    void generateTopPlayCountGraph(const QJsonArray& playlistsArray);
+    void generateTotalListeningGraph(const QJsonArray& totalListeningArray);
 
 };
 
