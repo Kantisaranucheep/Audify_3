@@ -28,6 +28,36 @@
     </rect>
    </property>
   </widget>
+  <widget class="QComboBox" name="comboduration">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>20</y>
+     <width>101</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <item>
+    <property name="text">
+     <string>24 Hours</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>12 Hours</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>6 Hours</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3 Hours</string>
+    </property>
+   </item>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

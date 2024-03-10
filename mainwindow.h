@@ -128,6 +128,8 @@ private slots:
     void on_lineEdit_textChanged(const QString &arg1);
     // void saveTotallisteningToJson(const QString& filename);
 
+    void on_lineEdit_2_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;

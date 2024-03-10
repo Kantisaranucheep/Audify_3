@@ -17,6 +17,9 @@ public:
 
     void clearPlaylists();
 
+    QList<QString> searchPlaylists(const QString& searchText) const;
+    const Playlist* findPlaylist(const QString& playlistName) const;
+
 private:
     QList<Playlist> playlists;
 };

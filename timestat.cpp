@@ -20,6 +20,9 @@ TimeStat::TimeStat(QWidget *parent)
     ui->setupUi(this);
     this->setFixedSize(720, 480);
 
+    connect(ui->comboduration, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &TimeStat::on_comboduration_currentIndexChanged);
+
     // Read JSON data from a file
     QFile file("test7.json");
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -71,10 +74,12 @@ TimeStat::TimeStat(QWidget *parent)
             QBarCategoryAxis *axisX = new QBarCategoryAxis();
             axisX->append(dateLabels);
             chart->addAxis(axisX, Qt::AlignBottom);
+            axisX->setTitleText("Dates");
             series->attachAxis(axisX);
 
             QValueAxis *axisY = new QValueAxis();
             axisY->setRange(0, 1440);
+            axisY->setTitleText("Minutes");
             chart->addAxis(axisY, Qt::AlignLeft);
             series->attachAxis(axisY);
 
@@ -95,3 +100,29 @@ TimeStat::~TimeStat()
 {
     delete ui;
 }
+
+void TimeStat::on_comboduration_currentIndexChanged(int index)
+{
+    QValueAxis *axisY = dynamic_cast<QValueAxis*>(ui->graphicsView->chart()->axisY());
+
+    if (axisY) {
+        // Adjust the Y-axis range based on the selected duration
+        switch (index) {
+        case 0:  // 24 hours
+            axisY->setRange(0, 1440);
+            break;
+        case 1:  // 12 hours
+            axisY->setRange(0, 720);
+            break;
+        case 2:  // 6 hours
+            axisY->setRange(0, 360);
+            break;
+        case 3:  // 3 hours
+            axisY->setRange(0, 180);
+            break;
+        default:
+            break;
+        }
+    }
+}
+

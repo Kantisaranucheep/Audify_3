@@ -18,6 +18,9 @@ public:
     explicit TimeStat(QWidget *parent = nullptr);
     ~TimeStat();
 
+private slots:
+    void on_comboduration_currentIndexChanged(int index);
+
 private:
     Ui::TimeStat *ui;
 

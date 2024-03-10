@@ -108,8 +108,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     loadDataFromJson("test7.json");
 
-    connect(ui->comboPlaylist, QOverload<int>::of(&QComboBox::currentIndexChanged),
-            this, &MainWindow::on_comboPlaylist_currentIndexChanged);
+    // connect(ui->comboPlaylist, QOverload<int>::of(&QComboBox::currentIndexChanged),
+    //         this, &MainWindow::on_comboPlaylist_currentIndexChanged);
 
     for (const Playlist& playlist : inventory->getPlaylists()) {
         qDebug() << "Adding Playlist to Combo Box:" << playlist.getName();
@@ -137,7 +137,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->label_Playlist_Name->setText(defaultPlaylist.getName());
         ui->label_duration2->setText("00:00");
 
-        ui->comboPlaylist->addItem(defaultPlaylist.getName());
+        // ui->comboPlaylist->addItem(defaultPlaylist.getName());
         totallistening =0;
 
         // updatePlaylistLabels();
@@ -301,38 +301,38 @@ void MainWindow::on_push_repeat_clicked()
 
 void MainWindow::updateComboBox()
 {
-    ui->comboPlaylist->clear();  // Clear existing items
+    // ui->comboPlaylist->clear();  // Clear existing items
 
-    // Get playlist names from the inventory and add them to the combobox
-    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
-    for (const Playlist& playlist : allPlaylists) {
-        ui->comboPlaylist->addItem(playlist.getName());
-    }
+    // // Get playlist names from the inventory and add them to the combobox
+    // const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+    // for (const Playlist& playlist : allPlaylists) {
+    //     ui->comboPlaylist->addItem(playlist.getName());
+    // }
 }
 
 void MainWindow::on_comboPlaylist_currentIndexChanged(int index)
 {
-    // Handle the combobox selection change
-    if (index >= 0 && index < ui->comboPlaylist->count()) {
-        QString selectedPlaylistName = ui->comboPlaylist->itemText(index);
+    // // Handle the combobox selection change
+    // if (index >= 0 && index < ui->comboPlaylist->count()) {
+    //     QString selectedPlaylistName = ui->comboPlaylist->itemText(index);
 
-        // Update UI or perform other actions based on the selected playlist name
-        qDebug() << "Selected Playlist: " << selectedPlaylistName;
+    //     // Update UI or perform other actions based on the selected playlist name
+    //     qDebug() << "Selected Playlist: " << selectedPlaylistName;
 
-        // You can also update the song list or any other related UI elements
-        updateSongList(selectedPlaylistName);
-        updatePlaylistLabels();
-        ui->label_Playlist_Name->setText(selectedPlaylistName);
+    //     // You can also update the song list or any other related UI elements
+    //     updateSongList(selectedPlaylistName);
+    //     updatePlaylistLabels();
+    //     ui->label_Playlist_Name->setText(selectedPlaylistName);
 
-        // Find the corresponding item in the listWidget
-        for (int i = 0; i < ui->listWidget->count(); ++i) {
-            QListWidgetItem *item = ui->listWidget->item(i);
-            if (item && item->text() == selectedPlaylistName) {
-                clickedItem = item;  // Set clickedItem to the selected playlist item
-                break;
-            }
-        }
-    }
+    //     // Find the corresponding item in the listWidget
+    //     for (int i = 0; i < ui->listWidget->count(); ++i) {
+    //         QListWidgetItem *item = ui->listWidget->item(i);
+    //         if (item && item->text() == selectedPlaylistName) {
+    //             clickedItem = item;  // Set clickedItem to the selected playlist item
+    //             break;
+    //         }
+    //     }
+    // }
 }
 
 void MainWindow::on_comboSong_currentIndexChanged(int index)
@@ -410,7 +410,7 @@ void MainWindow::on_pushaddplaylist_clicked()
         item->setText(playlistName);
         ui->listWidget->addItem(item);
 
-        ui->comboPlaylist->addItem(playlistName);
+        // ui->comboPlaylist->addItem(playlistName);
         // ui->listWidget->setItemWidget(item, playlistlabel);
 
         updatePlaylistLabels();
@@ -511,29 +511,6 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
     // updateNextSongList();
 
     updateSongList(playlistName);
-
-    // ui->lineEdit->clear();
-    // const Playlist* selectedPlaylist = nullptr;
-    // const QList<Playlist>& allPlaylists = inventory->getPlaylists();
-
-    // for (const Playlist& playlist : allPlaylists) {
-    //     if (playlist.getName() == playlistName) {
-    //         selectedPlaylist = &playlist;
-    //         break;
-    //     }
-    // }
-
-    // // Check if the selected playlist is found
-    // if (selectedPlaylist) {
-    //     // Iterate through the songs and append their names to the QLineEdit
-    //     const QList<Song>& songs = selectedPlaylist->getSongs();
-    //     for (const Song& song : songs) {
-    //         QString filename = QFileInfo(song.getfilename()).fileName();
-    //         ui->lineEdit->setText(ui->lineEdit->text() + filename + "\n");
-    //     }
-    // }
-
-
 
 }
 
@@ -645,12 +622,12 @@ void MainWindow::on_pushdelplaylist_2_clicked()
 
             qDebug() << "Playlist label deleted: " << playlistName;
 
-            int index = ui->comboPlaylist->findText(playlistName);
+            // int index = ui->comboPlaylist->findText(playlistName);
 
-            // If the item is found, remove it
-            if (index != -1) {
-                ui->comboPlaylist->removeItem(index);
-            }
+            // // If the item is found, remove it
+            // if (index != -1) {
+            //     ui->comboPlaylist->removeItem(index);
+            // }
 
             // Set clickedItem to the default playlist item
             clickedItem = ui->listWidget->item(0);
@@ -1520,5 +1497,32 @@ void MainWindow::on_lineEdit_textChanged(const QString& searchText)
         qDebug() << "Updated listWidget_song for playlist (search): " << playlistName;
     }
 
+}
+
+void MainWindow::on_lineEdit_2_textChanged(const QString& searchText) {
+    // Clear the current items in listWidget along with their thumbnails
+    ui->listWidget->clear();
+
+    // Get the search results based on the entered text for playlists
+    QList<QString> searchResults = inventory->searchPlaylists(searchText);
+
+    // Add the search results to listWidget
+    for (const QString& playlistName : searchResults) {
+        ui->listWidget->addItem(playlistName);
+
+        // Find the corresponding playlist in the Inventory
+        const Playlist* playlist = inventory->findPlaylist(playlistName);
+
+        if (playlist) {
+            // Get the thumbnail path for the playlist
+            QString thumbnailPath = playlist->getThumbnailPath();
+
+            // Verify that the item is valid before setting the thumbnail
+            QListWidgetItem* item = ui->listWidget->item(ui->listWidget->count() - 1);
+            if (item) {
+                setThumbnail(item, thumbnailPath, 50, 50, 20);
+            }
+        }
+    }
 }
 

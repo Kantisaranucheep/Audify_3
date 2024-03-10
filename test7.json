@@ -16,13 +16,13 @@
                     "filename": "C:/Users/hp/Downloads/Dream Lantern  Violin Orchestra [Your Name  Kimi no Na wa OST] 君の名は 夢灯籠 オーケストラ Radwimps.mp3"
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3"
-                },
-                {
-                    "filename": "C:/Users/hp/Downloads/ＧＯＯＤキター.mp3"
-                },
-                {
                     "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/Passenger - Let Her Go (Feat. Ed Sheeran - Anniversary Edition) [Official Video].mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3"
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/logo02-300x270.png"
@@ -44,6 +44,15 @@
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/saturn lullaby.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3"
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/X_cover.png"
@@ -75,7 +84,32 @@
         {
             "name": "adsa",
             "songs": [
-            ]
+                {
+                    "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/ＧＯＯＤキター.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3"
+                }
+            ],
+            "thumbnail": "C:/Users/hp/Downloads/Free-Music-Album-Cover-Art-Banner-Photoshop-Template.jpg"
+        },
+        {
+            "name": "cccc",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/saturn lullaby.mp3"
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/Passenger - Let Her Go (Feat. Ed Sheeran - Anniversary Edition) [Official Video].mp3"
+                }
+            ],
+            "thumbnail": "C:/Users/hp/Downloads/download (1).jpg"
         }
     ],
     "totalListeningDuration": [
@@ -92,7 +126,10 @@
             "2024-03-08": 1874815
         },
         {
-            "2024-03-09": 3936682
+            "2024-03-09": 4292470
+        },
+        {
+            "2024-03-10": 6080236
         }
     ]
 }

@@ -49,3 +49,25 @@ bool Inventory::playlistExists(const QString& playlistName) const {
 void Inventory::clearPlaylists() {
     playlists.clear();
 }
+
+QList<QString> Inventory::searchPlaylists(const QString& searchText) const
+{
+    QList<QString> searchResults;
+
+    for (const Playlist& playlist : playlists) {
+        if (playlist.getName().contains(searchText, Qt::CaseInsensitive)) {
+            searchResults.append(playlist.getName());
+        }
+    }
+
+    return searchResults;
+}
+
+const Playlist* Inventory::findPlaylist(const QString& playlistName) const {
+    for (const Playlist& playlist : playlists) {
+        if (playlist.getName() == playlistName) {
+            return &playlist;
+        }
+    }
+    return nullptr;
+}
