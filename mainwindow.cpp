@@ -759,6 +759,9 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
         }
 
         if (selectedSong) {
+
+            ++selectedSong->playCount;
+            qDebug() << "play count: " << selectedSong->getPlayCount();
             // Play the selected song
             QString fullFilePath = selectedSong->getfilename();
             MPlayer->setSource(QUrl::fromLocalFile(fullFilePath));
@@ -829,6 +832,7 @@ void MainWindow::on_push_skip_clicked()
             currentindex = ( currentindex + 1) % shuffleIndices.size();
             int shuffledIndex = shuffleIndices[ currentindex];
             const Song& nextSong = selectedPlaylist->getSongs().at(shuffledIndex);
+            ++nextSong.playCount;
             qDebug() << "Current Song (Shuffled): " << nextSong.getfilename();
             updateNextSongList();
             playNextSong(nextSong);
@@ -836,6 +840,7 @@ void MainWindow::on_push_skip_clicked()
             // If shuffle is not enabled, increment the index and loop back to the first song if needed
             currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
             const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
+            ++nextSong.playCount;
             qDebug() << "Current Song: " << nextSong.getfilename();
             updateNextSongList();
             playNextSong(nextSong);
@@ -873,6 +878,7 @@ void MainWindow::on_push_back_clicked()
              currentindex = ( currentindex - 1 + shuffleIndices.size()) % shuffleIndices.size();
             int shuffledIndex = shuffleIndices[ currentindex];
             const Song& nextSong = selectedPlaylist->getSongs().at(shuffledIndex);
+            ++nextSong.playCount;
             qDebug() << "Current Song (Shuffled): " << nextSong.getfilename();
             updateNextSongList();
             playNextSong(nextSong);
@@ -880,6 +886,7 @@ void MainWindow::on_push_back_clicked()
             // If shuffle is not enabled, decrement the index and loop back to the last song if needed
             currentindex = (currentindex - 1 + selectedPlaylist->getSongCount()) % selectedPlaylist->getSongCount();
             const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
+            ++nextSong.playCount;
             qDebug() << "Current Song: " << nextSong.getfilename();
             updateNextSongList();
             playNextSong(nextSong);
@@ -1000,6 +1007,7 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
                                                     : selectedPlaylist->getSongs().at(nextIndex);
 
             qDebug() << "Next Song: " << nextSong.getfilename();
+            ++nextSong.playCount;
 
             // Set the source and start playing the next song
             MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
@@ -1159,6 +1167,7 @@ void MainWindow::saveDataToJson(const QString& filename)
         for (const Song& song : songs) {
             QJsonObject songObject;
             songObject["filename"] = song.getfilename();
+            songObject["playcount"] = song.getPlayCount();
             // Add more song properties as needed
 
             songsArray.append(songObject);
@@ -1323,11 +1332,16 @@ void MainWindow::loadDataFromJson(const QString& filename)
 
                         // Get song properties
                         QString filename = songObject["filename"].toString();
+                        int playCount = songObject["playcount"].toInt();
+
+                        qDebug() << "Loaded Play Count for" << filename << ":" << playCount;
                         // Add more song properties as needed
 
                         // Create a new song and add it to the playlist
                         Song song(filename);
                         // Set more song properties as needed
+
+                        song.setPlayCount(playCount);
 
                         const_cast<Playlist*>(existingPlaylist)->importSong(song);
                     }
@@ -1360,11 +1374,15 @@ void MainWindow::loadDataFromJson(const QString& filename)
 
                         // Get song properties
                         QString filename = songObject["filename"].toString();
+                        int playCount = songObject["playcount"].toInt();
                         // Add more song properties as needed
+
+                        qDebug() << "Loaded Play Count for" << filename << ":" << playCount;
 
                         // Create a new song and add it to the playlist
                         Song song(filename);
                         // Set more song properties as needed
+                        song.setPlayCount(playCount);
 
                         playlist.importSong(song);
                     }

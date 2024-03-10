@@ -4,25 +4,32 @@
             "name": "Liked Songs",
             "songs": [
                 {
-                    "filename": "C:/Users/hp/Downloads/Hitori Jouzu.mp3"
+                    "filename": "C:/Users/hp/Downloads/Hitori Jouzu.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/カントリーロートCover.mp3"
+                    "filename": "C:/Users/hp/Downloads/カントリーロートCover.mp3",
+                    "playcount": 0
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3"
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/Dream Lantern  Violin Orchestra [Your Name  Kimi no Na wa OST] 君の名は 夢灯籠 オーケストラ Radwimps.mp3"
+                    "filename": "C:/Users/hp/Downloads/Dream Lantern  Violin Orchestra [Your Name  Kimi no Na wa OST] 君の名は 夢灯籠 オーケストラ Radwimps.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3"
+                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3",
+                    "playcount": 4
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/Passenger - Let Her Go (Feat. Ed Sheeran - Anniversary Edition) [Official Video].mp3"
+                    "filename": "C:/Users/hp/Downloads/Passenger - Let Her Go (Feat. Ed Sheeran - Anniversary Edition) [Official Video].mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3"
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3",
+                    "playcount": 0
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/logo02-300x270.png"
@@ -31,67 +38,54 @@
             "name": "dd",
             "songs": [
                 {
-                    "filename": "C:/Users/hp/Downloads/แอด คาราบาว - พระนเรศวรมหาราช [Official Audio].mp3"
+                    "filename": "C:/Users/hp/Downloads/แอด คาราบาว - พระนเรศวรมหาราช [Official Audio].mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/静止画MADブルーロック我武者羅.mp3"
+                    "filename": "C:/Users/hp/Downloads/静止画MADブルーロック我武者羅.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/チェンソーマン第話ノンクレジットエンディング  CHAINSAW MAN #12  EndingEveファイトソング.mp3"
+                    "filename": "C:/Users/hp/Downloads/チェンソーマン第話ノンクレジットエンディング  CHAINSAW MAN #12  EndingEveファイトソング.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/最終列車は25時.mp3"
+                    "filename": "C:/Users/hp/Downloads/最終列車は25時.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3"
+                    "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3"
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/saturn lullaby.mp3"
+                    "filename": "C:/Users/hp/Downloads/saturn lullaby.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3"
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3",
+                    "playcount": 1
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/X_cover.png"
         },
         {
-            "name": "กฟกฟแ",
-            "songs": [
-                {
-                    "filename": "C:/Users/hp/Downloads/แอด คาราบาว - พระนเรศวรมหาราช [Official Audio].mp3"
-                },
-                {
-                    "filename": "C:/Users/hp/Downloads/静止画MADブルーロック我武者羅.mp3"
-                },
-                {
-                    "filename": "C:/Users/hp/Downloads/チェンソーマン第話ノンクレジットエンディング  CHAINSAW MAN #12  EndingEveファイトソング.mp3"
-                },
-                {
-                    "filename": "C:/Users/hp/Downloads/最終列車は25時.mp3"
-                },
-                {
-                    "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3"
-                },
-                {
-                    "filename": "C:/Users/hp/Downloads/miki matsubara-stay With Me.mp3"
-                }
-            ],
-            "thumbnail": "C:/Users/hp/Downloads/Divide_cover.png"
-        },
-        {
             "name": "adsa",
             "songs": [
                 {
-                    "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3"
+                    "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/ＧＯＯＤキター.mp3"
+                    "filename": "C:/Users/hp/Downloads/ＧＯＯＤキター.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3"
+                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3",
+                    "playcount": 1
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/Free-Music-Album-Cover-Art-Banner-Photoshop-Template.jpg"
@@ -100,16 +94,45 @@
             "name": "cccc",
             "songs": [
                 {
-                    "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3"
+                    "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/saturn lullaby.mp3"
+                    "filename": "C:/Users/hp/Downloads/saturn lullaby.mp3",
+                    "playcount": 1
                 },
                 {
-                    "filename": "C:/Users/hp/Downloads/Passenger - Let Her Go (Feat. Ed Sheeran - Anniversary Edition) [Official Video].mp3"
+                    "filename": "C:/Users/hp/Downloads/Passenger - Let Her Go (Feat. Ed Sheeran - Anniversary Edition) [Official Video].mp3",
+                    "playcount": 1
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/download (1).jpg"
+        },
+        {
+            "name": "ะำหะ",
+            "songs": [
+            ]
+        },
+        {
+            "name": "test2",
+            "songs": [
+                {
+                    "filename": "C:/Users/hp/Downloads/แอด คาราบาว - พระนเรศวรมหาราช [Official Audio].mp3",
+                    "playcount": 1
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/静止画MADブルーロック我武者羅.mp3",
+                    "playcount": 1
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/チェンソーマン第話ノンクレジットエンディング  CHAINSAW MAN #12  EndingEveファイトソング.mp3",
+                    "playcount": 1
+                },
+                {
+                    "filename": "C:/Users/hp/Downloads/最終列車は25時.mp3",
+                    "playcount": 1
+                }
+            ]
         }
     ],
     "totalListeningDuration": [
@@ -129,7 +152,7 @@
             "2024-03-09": 4292470
         },
         {
-            "2024-03-10": 6080236
+            "2024-03-10": 10238065
         }
     ]
 }
