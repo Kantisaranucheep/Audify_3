@@ -472,7 +472,7 @@ void MainWindow::updatePlaylistLabels()
             QTime totalDurationTime(0, 0);
             totalDurationTime = totalDurationTime.addMSecs(totalDuration);
 
-            ui->total_duration->setText("Duration: " + totalDurationTime.toString("mm:ss"));
+            // ui->total_duration->setText("Duration: " + totalDurationTime.toString("mm:ss"));
 
             qDebug() << "Total duration: " << totalDurationTime.toString("mm:ss");
         }
@@ -618,7 +618,7 @@ void MainWindow::on_pushdelplaylist_2_clicked()
             ui->listWidget_song->clear();
             ui->label_Playlist_Name->setText("Playlist :");
             ui->total_song->setText(QString::number(0) + " song");
-            ui->total_duration->setText("Duration: 0:00");
+            // ui->total_duration->setText("Duration: 0:00");
 
             qDebug() << "Playlist label deleted: " << playlistName;
 
@@ -633,6 +633,56 @@ void MainWindow::on_pushdelplaylist_2_clicked()
             clickedItem = ui->listWidget->item(0);
             updateSongList(clickedItem->text());
             ui->label_Playlist_Name->setText(clickedItem->text());
+        }
+    }
+}
+
+void MainWindow::on_pushrename_clicked()
+{
+    // Check if the clickedItem is not null
+    if (clickedItem) {
+        // Get the selected item from the QListWidget
+        QString playlistName = clickedItem->text();
+
+        // Check if the clickedItem is the default playlist
+        if (ui->listWidget->row(clickedItem) == 0) {
+            // Show a message box indicating that the default playlist cannot be renamed
+            QMessageBox::warning(this, "Cannot Rename Default Playlist",
+                                 "The default playlist cannot be renamed.");
+            return;
+        }
+
+        bool ok;
+        QString newPlaylistName = QInputDialog::getText(this, tr("Rename Playlist"),
+                                                        tr("Enter new playlist name:"), QLineEdit::Normal,
+                                                        playlistName, &ok);
+
+        if (ok && !newPlaylistName.isEmpty()) {
+            // Check if the new playlist name is longer than 23 characters
+            if (newPlaylistName.length() > 23) {
+                QMessageBox::warning(this, tr("Invalid Playlist Name"),
+                                     tr("Playlist name cannot be longer than 23 characters."), QMessageBox::Ok);
+                return;
+            }
+
+            // Check if a playlist with the same name already exists
+            if (inventory->playlistExists(newPlaylistName)) {
+                // Inform the user that the playlist name is duplicate
+                QMessageBox::warning(this, tr("Duplicate Playlist"),
+                                     tr("A playlist with the same name already exists."), QMessageBox::Ok);
+                return;
+            }
+
+            // Rename the playlist in the Inventory
+            inventory->renamePlaylist(playlistName, newPlaylistName);
+
+            // Update the list widget item with the new information
+            updatePlaylistItem(clickedItem, newPlaylistName, "");
+
+            // Optionally update other UI or perform additional actions
+            updatePlaylistLabels();
+            ui->label_Playlist_Name->setText(newPlaylistName);
+            qDebug() << "Playlist label renamed: " << newPlaylistName;
         }
     }
 }
@@ -1111,24 +1161,48 @@ void setThumbnail(QListWidgetItem* item, const QString& thumbnailPath, int width
         listWidget->setIconSize(QSize(width, height));
     }
 }
-void MainWindow::updatePlaylistItem(QListWidgetItem *item, const QString& playlistName, const QString& thumbnailPath)
+
+void MainWindow::updatePlaylistItem(QListWidgetItem* item, const QString& newPlaylistName, const QString& thumbnailPath)
 {
-    // // Concatenate playlist name and song count with HTML formatting
-    // QString labelContent = "<html><font size='+2'>" + playlistName + "</font> - " + QString::number(selectedPlaylist->getSongCount()) + " songs</html>";
+    // Update the item text with the new playlist name
+    item->setText(newPlaylistName);
 
-    // Update the label displaying playlist name and song count
-    // item->setText(labelContent);
+    // Get the playlist associated with the item
+    const Playlist* playlist = nullptr;
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
 
-    // Set the thumbnail image on the right side
-    QPixmap thumbnail(thumbnailPath);
-    QIcon icon(thumbnail);
-    item->setIcon(icon);
+    for (const Playlist& p : allPlaylists) {
+        if (p.getName() == newPlaylistName) {
+            playlist = &p;
+            break;
+        }
+    }
 
-    setThumbnail(item, thumbnailPath, 50, 50, 20);
+    // If the playlist is found and a thumbnail path is provided, update the thumbnail
+    if (playlist && !thumbnailPath.isEmpty()) {
+        // Assuming you have a QLabel for displaying the thumbnail in the QListWidget
+        QLabel* thumbnailLabel = qobject_cast<QLabel*>(ui->listWidget->itemWidget(item));
+        QPixmap thumbnail(thumbnailPath);
+        QIcon icon(thumbnail);
+        item->setIcon(icon);
 
-    // Set the thumbnail path for the Playlist object
-    // selectedPlaylist->setThumbnailPath(thumbnailPath);
+        setThumbnail(item, thumbnailPath, 50, 50, 20);
+
+        if (thumbnailLabel) {
+            QPixmap thumbnail(thumbnailPath);
+            QIcon icon(thumbnail);
+            item->setIcon(icon);
+
+            setThumbnail(item, thumbnailPath, 50, 50, 20);
+        }
+    }
+
+    // Optionally update other properties of the item
+
+    // Refresh the QListWidget to reflect the changes
+    ui->listWidget->update();
 }
+
 
 void MainWindow::saveDataToJson(const QString& filename)
 {
@@ -1517,30 +1591,32 @@ void MainWindow::on_lineEdit_textChanged(const QString& searchText)
 
 }
 
-void MainWindow::on_lineEdit_2_textChanged(const QString& searchText) {
-    // Clear the current items in listWidget along with their thumbnails
-    ui->listWidget->clear();
+// void MainWindow::on_lineEdit_2_textChanged(const QString& searchText) {
+//     // Clear the current items in listWidget along with their thumbnails
+//     ui->listWidget->clear();
 
-    // Get the search results based on the entered text for playlists
-    QList<QString> searchResults = inventory->searchPlaylists(searchText);
+//     // Get the search results based on the entered text for playlists
+//     QList<QString> searchResults = inventory->searchPlaylists(searchText);
 
-    // Add the search results to listWidget
-    for (const QString& playlistName : searchResults) {
-        ui->listWidget->addItem(playlistName);
+//     // Add the search results to listWidget
+//     for (const QString& playlistName : searchResults) {
+//         ui->listWidget->addItem(playlistName);
 
-        // Find the corresponding playlist in the Inventory
-        const Playlist* playlist = inventory->findPlaylist(playlistName);
+//         // Find the corresponding playlist in the Inventory
+//         const Playlist* playlist = inventory->findPlaylist(playlistName);
 
-        if (playlist) {
-            // Get the thumbnail path for the playlist
-            QString thumbnailPath = playlist->getThumbnailPath();
+//         if (playlist) {
+//             // Get the thumbnail path for the playlist
+//             QString thumbnailPath = playlist->getThumbnailPath();
 
-            // Verify that the item is valid before setting the thumbnail
-            QListWidgetItem* item = ui->listWidget->item(ui->listWidget->count() - 1);
-            if (item) {
-                setThumbnail(item, thumbnailPath, 50, 50, 20);
-            }
-        }
-    }
-}
+//             // Verify that the item is valid before setting the thumbnail
+//             QListWidgetItem* item = ui->listWidget->item(ui->listWidget->count() - 1);
+//             if (item) {
+//                 setThumbnail(item, thumbnailPath, 50, 50, 20);
+//             }
+//         }
+//     }
+// }
+
+
 

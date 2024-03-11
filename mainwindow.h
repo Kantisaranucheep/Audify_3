@@ -128,7 +128,9 @@ private slots:
     void on_lineEdit_textChanged(const QString &arg1);
     // void saveTotallisteningToJson(const QString& filename);
 
-    void on_lineEdit_2_textChanged(const QString &arg1);
+    // void on_lineEdit_2_textChanged(const QString &arg1);
+
+    void on_pushrename_clicked();
 
 private:
     Ui::MainWindow *ui;

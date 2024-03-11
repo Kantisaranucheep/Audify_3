@@ -131,7 +131,7 @@ font-weight: bold;
     <widget class="QPushButton" name="pushdelplaylist_2">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>130</x>
        <y>90</y>
        <width>111</width>
        <height>31</height>
@@ -159,41 +159,35 @@ background-color:rgb(140,140,140);
       <string> - Delete </string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QPushButton" name="pushrename">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>50</y>
-       <width>241</width>
-       <height>28</height>
+       <width>111</width>
+       <height>31</height>
       </rect>
      </property>
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
      <property name="styleSheet">
-      <string notr="true">QLineEdit {
-    border: 1px solid rgb(255, 255, 255);
-    border-radius: 20px;
-    color: white; /* Change font color to white */
-    background-color: rgb(27, 27, 27);
-    padding-left: 5px;
-    padding-right: 20px;
+      <string notr="true">QPushButton{
+
+border: none;
+border-radius:8px;
+background-color:rgb(186, 186, 186);
+color:rgb(25, 25, 25);
+font-weight: bold;
+
+padding:0px;
+
+
 }
 
-QLineEdit::hover {
-    border: 2px solid rgb(255, 255, 255);
-}
-
-QLineEdit::focus {
-    border: 2px solid rgb(255, 255, 255);
+QPushButton:Hover{
+background-color:rgb(140,140,140);
 }</string>
      </property>
      <property name="text">
-      <string/>
-     </property>
-     <property name="placeholderText">
-      <string>Search Playlist</string>
+      <string>Rename</string>
      </property>
     </widget>
    </widget>
@@ -347,8 +341,8 @@ background-color:rgb(140,140,140);
     <widget class="QLabel" name="total_duration">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>90</y>
+       <x>380</x>
+       <y>10</y>
        <width>121</width>
        <height>31</height>
       </rect>
@@ -375,7 +369,7 @@ background-color:rgb(140,140,140);
     <widget class="QLabel" name="total_song">
      <property name="geometry">
       <rect>
-       <x>260</x>
+       <x>420</x>
        <y>90</y>
        <width>91</width>
        <height>31</height>

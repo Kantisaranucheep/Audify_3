@@ -79,6 +79,8 @@ void TimeStat::on_comboduration_currentIndexChanged(int index)
                 break;
             }
         } else if (ui->combomode->currentIndex() == 1) {
+
+
             // Adjust the Y-axis range based on the selected play count for top play count mode
             switch (index) {
             case 0:  // 50 times

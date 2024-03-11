@@ -10,6 +10,7 @@ class Playlist
 public:
     Playlist(const QString& name);
     QString getName() const;
+    void setName(const QString& newName);
 
     void importSong(const Song& song);
     void removeSong(int index);
