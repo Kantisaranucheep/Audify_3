@@ -79,26 +79,18 @@ void TimeStat::on_comboduration_currentIndexChanged(int index)
                 break;
             }
         } else if (ui->combomode->currentIndex() == 1) {
-
-
             // Adjust the Y-axis range based on the selected play count for top play count mode
             switch (index) {
             case 0:  // 50 times
-                axisY->setRange(0, 1000);
+                axisY->setRange(0, 52);
                 break;
             case 1:  // 40 times
-                axisY->setRange(0, 400);
-                break;
-            case 2:  // 50 times
-                axisY->setRange(0, 100);
-                break;
-            case 3:  // 40 times
                 axisY->setRange(0, 40);
                 break;
-            case 4:  // 30 times
+            case 2:  // 30 times
                 axisY->setRange(0, 28);
                 break;
-            case 5:  // 20 times
+            case 3:  // 20 times
                 axisY->setRange(0, 20);
                 break;
             default:
@@ -165,6 +157,15 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
     ui->comboduration->addItem("12 hours");
     ui->comboduration->addItem("6 hours");
     ui->comboduration->addItem("3 hours");
+
+    set_1->setLabelColor(QColor("#EEEEEE"));
+
+    chart->setBackgroundBrush(QBrush(QColor("#222831")));
+    axisX->setTitleBrush(QBrush(QColor("#EEEEEE")));
+    axisY->setTitleBrush(QBrush(QColor("#EEEEEE")));
+
+    chart->legend()->setLabelColor(QColor("EEEEEE"));
+    chart->setTitleBrush(QBrush(QColor("#EEEEEE")));
 }
 
 void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
@@ -212,6 +213,7 @@ void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
         set->append(pair.second);
         series->append(set);
 
+        set->setLabelColor(QColor("#EEEEEE"));
 
         ++count;
     }
@@ -239,13 +241,17 @@ void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
     ui->comboduration->clear();
-    ui->comboduration->addItem("1000 times");
-    ui->comboduration->addItem("400 times");
-    ui->comboduration->addItem("100 times");
+    ui->comboduration->addItem("52 times");
     ui->comboduration->addItem("40 times");
     ui->comboduration->addItem("28 times");
     ui->comboduration->addItem("20 times");
 
+    chart->setBackgroundBrush(QBrush(QColor("#222831")));
+    axisX->setTitleBrush(QBrush(QColor("#EEEEEE")));
+    axisY->setTitleBrush(QBrush(QColor("#EEEEEE")));
+
+    chart->legend()->setLabelColor(QColor("EEEEEE"));
+    chart->setTitleBrush(QBrush(QColor("#EEEEEE")));
 }
 
 void TimeStat::on_combomode_currentIndexChanged(int index)

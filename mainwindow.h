@@ -128,16 +128,12 @@ private slots:
     void on_lineEdit_textChanged(const QString &arg1);
     // void saveTotallisteningToJson(const QString& filename);
 
-    // void on_lineEdit_2_textChanged(const QString &arg1);
-
-    void on_pushrename_clicked();
-
-    void on_combodisc_currentIndexChanged(int index);
+    void on_lineEdit_2_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;
-    bool isPause = true;
+    bool isPause = false;
     QMediaPlayer *MPlayer;
     QAudioOutput *audioOutput;
     Inventory* inventory;
