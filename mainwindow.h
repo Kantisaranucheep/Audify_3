@@ -132,10 +132,12 @@ private slots:
 
     void on_pushrename_clicked();
 
+    void on_combodisc_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;
-    bool isPause = false;
+    bool isPause = true;
     QMediaPlayer *MPlayer;
     QAudioOutput *audioOutput;
     Inventory* inventory;

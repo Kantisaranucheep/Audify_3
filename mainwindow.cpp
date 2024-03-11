@@ -780,6 +780,7 @@ void MainWindow::on_pushdelsong_clicked()
 
 void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
 {
+    isPause = false;
     QString playlistName = ui->label_Playlist_Name->text();
 
     // Get the playlist from the Inventory based on the label text
@@ -844,6 +845,7 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
 
             // Add the next song to listWidget_nextSong
             ui->nextsong->addItem(QFileInfo(nextSong.getfilename()).fileName());
+
         }
     }
 }
@@ -1619,4 +1621,71 @@ void MainWindow::on_lineEdit_textChanged(const QString& searchText)
 // }
 
 
+void MainWindow::on_combodisc_currentIndexChanged(int index)
+{
+    switch (index) {
+    case 0:
+        // Set up the GIF animation for disc when index is 0
+        gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc7.gif");
+        ui->label_4->setMovie(gifMovie);
+        gifMovie->setScaledSize(ui->label_4->size());
+        gifMovie->setScaledSize(QSize(240, 240));
+        gifMovie->setSpeed(200);
+        ui->label_4->setGeometry(10, 30, 240, 240);
 
+        gifMovie->jumpToFrame(0);
+        if(!isPause){
+            gifMovie->start();
+
+        }
+        break;
+    case 1:
+        gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc8.gif");
+        ui->label_4->setMovie(gifMovie);
+        gifMovie->setScaledSize(ui->label_4->size());
+        gifMovie->setScaledSize(QSize(240, 240));
+        gifMovie->setSpeed(100);
+        ui->label_4->setGeometry(10, 30, 240, 240);
+
+        gifMovie->jumpToFrame(0);
+        if(!isPause){
+            gifMovie->start();
+
+        }
+        break;
+    case 2:
+        gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc9.gif");
+        ui->label_4->setMovie(gifMovie);
+        gifMovie->setScaledSize(ui->label_4->size());
+        gifMovie->setScaledSize(QSize(240, 240));
+        gifMovie->setSpeed(100);
+        ui->label_4->setGeometry(10, 30, 240, 240);
+
+        gifMovie->jumpToFrame(0);
+        if(!isPause){
+            gifMovie->start();
+
+        }
+        break;
+
+    case 3:
+        gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc10.gif");
+        ui->label_4->setMovie(gifMovie);
+        gifMovie->setScaledSize(ui->label_4->size());
+        gifMovie->setScaledSize(QSize(180, 180));
+        gifMovie->setSpeed(100);
+        ui->label_4->setGeometry(40, 60, 180, 180);
+
+        gifMovie->jumpToFrame(0);
+        if(!isPause){
+            gifMovie->start();
+
+        }
+
+
+        break;
+    default:
+
+        break;
+    }
+}

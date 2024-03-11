@@ -84,15 +84,21 @@ void TimeStat::on_comboduration_currentIndexChanged(int index)
             // Adjust the Y-axis range based on the selected play count for top play count mode
             switch (index) {
             case 0:  // 50 times
-                axisY->setRange(0, 52);
+                axisY->setRange(0, 1000);
                 break;
             case 1:  // 40 times
+                axisY->setRange(0, 400);
+                break;
+            case 2:  // 50 times
+                axisY->setRange(0, 100);
+                break;
+            case 3:  // 40 times
                 axisY->setRange(0, 40);
                 break;
-            case 2:  // 30 times
+            case 4:  // 30 times
                 axisY->setRange(0, 28);
                 break;
-            case 3:  // 20 times
+            case 5:  // 20 times
                 axisY->setRange(0, 20);
                 break;
             default:
@@ -233,10 +239,13 @@ void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
     ui->comboduration->clear();
-    ui->comboduration->addItem("52 times");
+    ui->comboduration->addItem("1000 times");
+    ui->comboduration->addItem("400 times");
+    ui->comboduration->addItem("100 times");
     ui->comboduration->addItem("40 times");
     ui->comboduration->addItem("28 times");
     ui->comboduration->addItem("20 times");
+
 }
 
 void TimeStat::on_combomode_currentIndexChanged(int index)

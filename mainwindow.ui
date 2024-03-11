@@ -587,11 +587,73 @@ font-weight: bold;
       <string>Next Song</string>
      </property>
     </widget>
+    <widget class="QComboBox" name="combodisc">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>10</y>
+       <width>81</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 8px;
+    min-width: 3em;
+background-color: rgb(186, 186, 186);
+}
+
+QComboBox:on {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+QComboBox QAbstractItemView {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color: rgb(186, 186, 186);
+    border: 1px solid gray;
+    box-shadow: transparent;
+    padding: 1px 1px 1px 1px
+}
+
+QComboBox::drop-down {
+    border-color: transparent;
+}</string>
+     </property>
+     <item>
+      <property name="text">
+       <string>Disc-1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Disc-2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Disc-3</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Disc-4</string>
+      </property>
+     </item>
+    </widget>
     <zorder>label_4</zorder>
     <zorder>label_File_Name</zorder>
     <zorder>label_2</zorder>
     <zorder>nextsong</zorder>
     <zorder>label_5</zorder>
+    <zorder>combodisc</zorder>
    </widget>
    <widget class="QFrame" name="frame">
     <property name="geometry">
