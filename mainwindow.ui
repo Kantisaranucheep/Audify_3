@@ -30,8 +30,9 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background-color:rgb(25, 25, 25);
-  border-radius: 10px;
+
+  background-color:rgb(34, 40, 49);
+  border-radius: 15px;
 }</string>
     </property>
     <property name="frameShape">
@@ -77,21 +78,18 @@
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
-
-border: none;
+border: 3px solid #8f8f91;
 border-radius:8px;
-background-color:rgb(186, 186, 186);
-color:rgb(25, 25, 25);
+background-color:rgb(57, 62, 70);
+color:rgb(238, 238, 238);
 font-weight: bold;
-
 padding:0px;
-
-
 }
 
 QPushButton:Hover{
 background-color:rgb(140,140,140);
-}</string>
+}
+</string>
      </property>
      <property name="text">
       <string> + Add Playlist</string>
@@ -108,17 +106,18 @@ background-color:rgb(140,140,140);
      </property>
      <property name="styleSheet">
       <string notr="true">QListWidget{
-background-color: rgb(121, 121, 121);
+border: 3px solid #8f8f91;
+background-color:rgb(57, 62, 70);
                           border-radius: 10px;
-
-
 }
+
  QListWidget::item {
+border: 2px solid #8f8f91;
         margin:5px;
 border-radius: 10px;
 height: 80px;
-background-color:rgb(29, 29, 29);
-color:rgb(255, 255, 255);
+background-color:rgb(34, 40, 49);
+color:rgb(238, 238, 238);
 font-weight: bold;
 
 
@@ -131,7 +130,7 @@ font-weight: bold;
     <widget class="QPushButton" name="pushdelplaylist_2">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>140</x>
        <y>90</y>
        <width>111</width>
        <height>31</height>
@@ -140,10 +139,10 @@ font-weight: bold;
      <property name="styleSheet">
       <string notr="true">QPushButton{
 
-border: none;
+border: 3px solid #8f8f91;
 border-radius:8px;
-background-color:rgb(186, 186, 186);
-color:rgb(25, 25, 25);
+background-color:rgb(57, 62, 70);
+color:rgb(238, 238, 238);
 font-weight: bold;
 
 padding:0px;
@@ -159,35 +158,41 @@ background-color:rgb(140,140,140);
       <string> - Delete </string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushrename">
+    <widget class="QLineEdit" name="lineEdit_2">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>50</y>
-       <width>111</width>
-       <height>31</height>
+       <width>241</width>
+       <height>28</height>
       </rect>
      </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{
-
-border: none;
-border-radius:8px;
-background-color:rgb(186, 186, 186);
-color:rgb(25, 25, 25);
-font-weight: bold;
-
-padding:0px;
-
-
+      <string notr="true">QLineEdit {
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 20px;
+    color: white; /* Change font color to white */
+	background-color:rgb(57, 62, 70);
+    padding-left: 5px;
+    padding-right: 20px;
 }
 
-QPushButton:Hover{
-background-color:rgb(140,140,140);
+QLineEdit::hover {
+    border: 2px solid rgb(255, 255, 255);
+}
+
+QLineEdit::focus {
+    border: 2px solid rgb(255, 255, 255);
 }</string>
      </property>
      <property name="text">
-      <string>Rename</string>
+      <string/>
+     </property>
+     <property name="placeholderText">
+      <string>Search Playlist</string>
      </property>
     </widget>
    </widget>
@@ -202,8 +207,8 @@ background-color:rgb(140,140,140);
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background-color:rgb(25, 25, 25);
-  border-radius: 10px;
+  background-color:rgb(34, 40, 49);
+  border-radius: 15px;
 }</string>
     </property>
     <property name="frameShape">
@@ -223,17 +228,19 @@ background-color:rgb(140,140,140);
      </property>
      <property name="styleSheet">
       <string notr="true">QListWidget{
-background-color: rgb(121, 121, 121);
-                          border-radius: 15px;
-
-
+border: 3px solid #8f8f91;
+background-color:rgb(57, 62, 70);
+                          border-radius: 10px;
 }
+
  QListWidget::item {
+border: 2px solid #8f8f91;
+
         margin:5px;
 border-radius: 10px;
 height: 50px;
-background-color:rgb(29, 29, 29);
-color:rgb(255, 255, 255);
+background-color:rgb(34, 40, 49);
+color:rgb(238, 238, 238);
 font-weight: bold;
 
 
@@ -260,10 +267,10 @@ QListWidget::vertical::handle {
      <property name="styleSheet">
       <string notr="true">QPushButton{
 
-border: none;
+border: 3px solid #8f8f91;
 border-radius:8px;
-background-color:rgb(186, 186, 186);
-color:rgb(25, 25, 25);
+background-color:rgb(57, 62, 70);
+color:rgb(238, 238, 238);
 font-weight: bold;
 
 padding:0px;
@@ -291,10 +298,10 @@ background-color:rgb(140,140,140);
      <property name="styleSheet">
       <string notr="true">QPushButton{
 
-border: none;
+border: 3px solid #8f8f91;
 border-radius:8px;
-background-color:rgb(186, 186, 186);
-color:rgb(25, 25, 25);
+background-color:rgb(57, 62, 70);
+color:rgb(238, 238, 238);
 font-weight: bold;
 
 padding:0px;
@@ -341,8 +348,8 @@ background-color:rgb(140,140,140);
     <widget class="QLabel" name="total_duration">
      <property name="geometry">
       <rect>
-       <x>380</x>
-       <y>10</y>
+       <x>350</x>
+       <y>90</y>
        <width>121</width>
        <height>31</height>
       </rect>
@@ -369,7 +376,7 @@ background-color:rgb(140,140,140);
     <widget class="QLabel" name="total_song">
      <property name="geometry">
       <rect>
-       <x>420</x>
+       <x>260</x>
        <y>90</y>
        <width>91</width>
        <height>31</height>
@@ -415,7 +422,7 @@ margin-left: 5px;
     border: 1px solid rgb(255, 255, 255);
     border-radius: 20px;
     color: white; /* Change font color to white */
-    background-color: rgb(27, 27, 27);
+	background-color:rgb(57, 62, 70);
     padding-left: 5px;
     padding-right: 20px;
 }
@@ -444,8 +451,8 @@ QLineEdit::focus {
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background-color:rgb(25, 25, 25);
-  border-radius: 10px;
+  background-color:rgb(34, 40, 49);
+  border-radius: 15px;
 }</string>
     </property>
     <property name="frameShape">
@@ -535,17 +542,17 @@ QLineEdit::focus {
      </property>
      <property name="styleSheet">
       <string notr="true">QListWidget{
-background-color: rgb(121, 121, 121);
+border: 3px solid #8f8f91;
+background-color:rgb(57, 62, 70);
                           border-radius: 10px;
-
-
 }
+
  QListWidget::item {
         margin:8px;
 border-radius: 10px;
 height: 75px;
-background-color:rgb(29, 29, 29);
-color:rgb(255, 255, 255);
+background-color:rgb(34, 40, 49);
+color:rgb(238, 238, 238);
 font-weight: bold;
 
 
@@ -587,73 +594,11 @@ font-weight: bold;
       <string>Next Song</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="combodisc">
-     <property name="geometry">
-      <rect>
-       <x>170</x>
-       <y>10</y>
-       <width>81</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QComboBox {
-    border: 1px solid gray;
-    border-radius: 8px;
-    min-width: 3em;
-background-color: rgb(186, 186, 186);
-}
-
-QComboBox:on {
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-}
-
-QComboBox QAbstractItemView {
-    border-bottom-right-radius: 8px;
-    border-bottom-left-radius: 8px;
-    background-color: rgb(186, 186, 186);
-    border: 1px solid gray;
-    box-shadow: transparent;
-    padding: 1px 1px 1px 1px
-}
-
-QComboBox::drop-down {
-    border-color: transparent;
-}</string>
-     </property>
-     <item>
-      <property name="text">
-       <string>Disc-1</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Disc-2</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Disc-3</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Disc-4</string>
-      </property>
-     </item>
-    </widget>
     <zorder>label_4</zorder>
     <zorder>label_File_Name</zorder>
     <zorder>label_2</zorder>
     <zorder>nextsong</zorder>
     <zorder>label_5</zorder>
-    <zorder>combodisc</zorder>
    </widget>
    <widget class="QFrame" name="frame">
     <property name="geometry">
@@ -666,8 +611,9 @@ QComboBox::drop-down {
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame{
-	background-color:rgb(25, 25, 25);
-  border-radius: 10px;
+
+  background-color:rgb(34, 40, 49);
+  border-radius: 15px;
 }</string>
     </property>
     <property name="frameShape">
@@ -681,23 +627,22 @@ QComboBox::drop-down {
       <rect>
        <x>520</x>
        <y>70</y>
-       <width>60</width>
-       <height>60</height>
+       <width>66</width>
+       <height>66</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
 
-border: none;
+border: 3px solid #8f8f91;
 border-radius:30px;
-background-color:rgb(186, 186, 186);
+background-color:rgb(66, 63, 62);
 color:rgb(53, 255, 42);
 min-width: 60px;
 max-width: 60px;
 min-height: 60px;
 max-height: 60px;
 padding:0px;
-
 
 }
 
@@ -714,17 +659,17 @@ background-color:rgb(140,140,140);
       <rect>
        <x>440</x>
        <y>70</y>
-       <width>60</width>
-       <height>60</height>
+       <width>66</width>
+       <height>66</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
 
-border: none;
+border: 3px solid #8f8f91;
 border-radius:30px;
-background-color:rgb(186, 186, 186);
-color:rgb(53, 255, 42);
+background-color:rgb(66, 63, 62);
+color:rgb(255, 255, 255);
 min-width: 60px;
 max-width: 60px;
 min-height: 60px;
@@ -748,16 +693,16 @@ background-color:rgb(140,140,140);
       <rect>
        <x>600</x>
        <y>70</y>
-       <width>60</width>
-       <height>60</height>
+       <width>66</width>
+       <height>66</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
 
-border: none;
+border: 3px solid #8f8f91;
 border-radius:30px;
-background-color:rgb(186, 186, 186);
+background-color:rgb(66, 63, 62);
 color:rgb(53, 255, 42);
 min-width: 60px;
 max-width: 60px;
@@ -791,12 +736,12 @@ background-color:rgb(140,140,140);
      <property name="styleSheet">
       <string notr="true">QSlider::groove:horizontal {
                 border: none;
-                background-color:rgb(186, 186, 186);
+                background-color:rgb(57, 62, 70);
                 height: 10px;
                 border-radius: 5px;
    }
 QSlider::handle:horizontal {
-                background-color: rgb(83, 83, 83);
+                background-color: rgb(238, 238, 238);
                 width: 20px;
                 border-radius: 10px;
   }</string>
@@ -822,16 +767,16 @@ QSlider::handle:horizontal {
       <rect>
        <x>850</x>
        <y>70</y>
-       <width>60</width>
-       <height>60</height>
+       <width>66</width>
+       <height>66</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
 
-border: none;
+border: 3px solid #8f8f91;
 border-radius:30px;
-background-color:rgb(186, 186, 186);
+background-color:rgb(66, 63, 62);
 color:rgb(53, 255, 42);
 min-width: 60px;
 max-width: 60px;
@@ -855,16 +800,16 @@ background-color:rgb(140,140,140);
       <rect>
        <x>680</x>
        <y>70</y>
-       <width>60</width>
-       <height>60</height>
+       <width>66</width>
+       <height>66</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
 
-border: none;
+border: 3px solid #8f8f91;
 border-radius:30px;
-background-color:rgb(186, 186, 186);
+background-color:rgb(66, 63, 62);
 color:rgb(27, 27, 27);
 min-width: 60px;
 max-width: 60px;
@@ -890,16 +835,15 @@ color:rgb(27, 27, 27);
       <rect>
        <x>360</x>
        <y>70</y>
-       <width>60</width>
-       <height>60</height>
+       <width>66</width>
+       <height>66</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
-
-border: none;
+border: 3px solid #8f8f91;
 border-radius:30px;
-background-color:rgb(186, 186, 186);
+background-color:rgb(66, 63, 62);
 color:rgb(27, 27, 27);
 font-weight: bold;
 min-width: 60px;
@@ -908,12 +852,12 @@ min-height: 60px;
 max-height: 60px;
 padding:0px;
 
-
 }
 
 QPushButton:Hover{
 background-color:rgb(140,140,140);
-}</string>
+}
+</string>
      </property>
      <property name="text">
       <string>Shuffle</string>
@@ -934,15 +878,16 @@ background-color:rgb(140,140,140);
      <property name="styleSheet">
       <string notr="true">QSlider::groove:horizontal {
                 border: none;
-                background-color: rgb(186, 186, 186);
+                background-color:rgb(57, 62, 70);
                 height: 10px;
-                border-radius: 5px;
+                border-radius: 15px;
    }
 QSlider::handle:horizontal {
-                background-color: rgb(83, 83, 83);
+                background-color: rgb(238, 238, 238);
                 width: 20px;
-                border-radius: 10px;
-  }</string>
+                border-radius: 15px;
+  }
+</string>
      </property>
      <property name="minimum">
       <number>0</number>
@@ -1013,17 +958,13 @@ QSlider::handle:horizontal {
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
-
-border: none;
+border: 3px solid #8f8f91;
 border-radius:8px;
-background-color:rgb(186, 186, 186);
-color:rgb(25, 25, 25);
+background-color:rgb(57, 62, 70);
+color:rgb(238, 238, 238);
 font-weight: bold;
+padding:0px;}
 
-padding:0px;
-
-
-}
 
 QPushButton:Hover{
 background-color:rgb(140,140,140);
@@ -1044,17 +985,12 @@ background-color:rgb(140,140,140);
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
-
-border: none;
+border: 3px solid #8f8f91;
 border-radius:8px;
-background-color:rgb(186, 186, 186);
-color:rgb(25, 25, 25);
+background-color:rgb(57, 62, 70);
+color:rgb(238, 238, 238);
 font-weight: bold;
-
-padding:0px;
-
-
-}
+padding:0px;}
 
 QPushButton:Hover{
 background-color:rgb(140,140,140);
@@ -1072,7 +1008,7 @@ background-color:rgb(140,140,140);
      <x>0</x>
      <y>0</y>
      <width>1080</width>
-     <height>25</height>
+     <height>38</height>
     </rect>
    </property>
   </widget>

@@ -12,11 +12,6 @@ QString Playlist::getName() const
     return name;
 }
 
-void Playlist::setName(const QString& newName)
-{
-    name = newName;
-}
-
 void Playlist::importSong(const Song& song)
 {
     for (const Song& existingSong : songs)

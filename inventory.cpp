@@ -71,17 +71,3 @@ const Playlist* Inventory::findPlaylist(const QString& playlistName) const {
     }
     return nullptr;
 }
-
-void Inventory::renamePlaylist(const QString& oldName, const QString& newName)
-{
-    // Find the playlist with the old name
-    auto it = std::find_if(playlists.begin(), playlists.end(), [&oldName](const Playlist& playlist) {
-        return playlist.getName() == oldName;
-    });
-
-    // If found, rename the playlist
-    if (it != playlists.end()) {
-        it->setName(newName);
-    }
-    // You might want to handle the case where the playlist with the old name is not found.
-}
