@@ -5,35 +5,35 @@
             "songs": [
                 {
                     "filename": "C:/Users/hp/Downloads/Hitori Jouzu.mp3",
-                    "playcount": 167
+                    "playcount": 174
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/カントリーロートCover.mp3",
-                    "playcount": 18
+                    "playcount": 25
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3",
-                    "playcount": 22
+                    "playcount": 30
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/Dream Lantern  Violin Orchestra [Your Name  Kimi no Na wa OST] 君の名は 夢灯籠 オーケストラ Radwimps.mp3",
-                    "playcount": 27
-                },
-                {
-                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3",
                     "playcount": 33
                 },
                 {
+                    "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3",
+                    "playcount": 41
+                },
+                {
                     "filename": "C:/Users/hp/Downloads/Passenger - Let Her Go (Feat. Ed Sheeran - Anniversary Edition) [Official Video].mp3",
-                    "playcount": 21
+                    "playcount": 23
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/ODESZA - Love Letter (feat. The Knocks) - Official Audio.mp3",
-                    "playcount": 27
+                    "playcount": 31
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/รมรวชงโค - KMITL Song.mp3",
-                    "playcount": 8
+                    "playcount": 9
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/logo02-300x270.png"
@@ -51,15 +51,15 @@
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/チェンソーマン第話ノンクレジットエンディング  CHAINSAW MAN #12  EndingEveファイトソング.mp3",
-                    "playcount": 13
+                    "playcount": 14
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/最終列車は25時.mp3",
-                    "playcount": 7
+                    "playcount": 8
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/YOASOBI群青Cover.mp3",
-                    "playcount": 4
+                    "playcount": 5
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3",
@@ -85,7 +85,7 @@
             "songs": [
                 {
                     "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3",
-                    "playcount": 7
+                    "playcount": 8
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/ＧＯＯＤキター.mp3",
@@ -107,7 +107,7 @@
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/saturn lullaby.mp3",
-                    "playcount": 1
+                    "playcount": 2
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/Passenger - Let Her Go (Feat. Ed Sheeran - Anniversary Edition) [Official Video].mp3",
@@ -121,7 +121,7 @@
             "songs": [
                 {
                     "filename": "C:/Users/hp/Downloads/แอด คาราบาว - พระนเรศวรมหาราช [Official Audio].mp3",
-                    "playcount": 1
+                    "playcount": 2
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/静止画MADブルーロック我武者羅.mp3",
@@ -172,12 +172,8 @@
             "name": "plpl",
             "songs": [
                 {
-                    "filename": "C:/Users/hp/Downloads/Josh Hutcherson  Whistle.mp3",
-                    "playcount": 3
-                },
-                {
                     "filename": "C:/Users/hp/Downloads/Dehao Zhang - Ching Chang Hon Chi.mp3",
-                    "playcount": 2
+                    "playcount": 5
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/大張偉 Wowkie Zhang陽光彩虹小白馬HD 高清官方完整版 MV.mp3",
@@ -199,7 +195,7 @@
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/เพลงพระคณทสาม แดคณครทกๆทาน.mp3",
-                    "playcount": 2
+                    "playcount": 3
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/download.png"
@@ -215,7 +211,7 @@
             "songs": [
                 {
                     "filename": "C:/Users/hp/Downloads/Eagle-Eye Cherry - Save Tonight (BUNT. Remix).mp3",
-                    "playcount": 4
+                    "playcount": 9
                 }
             ],
             "thumbnail": "C:/Users/hp/Downloads/vlcsnap_2023_12_01_10h37m31s394.jpg"
@@ -244,7 +240,7 @@
             "2024-03-11": 7521765
         },
         {
-            "2024-03-12": 397474
+            "2024-03-12": 1775756
         }
     ]
 }

@@ -44,27 +44,35 @@ MainWindow::MainWindow(QWidget *parent)
 
     int iconSize = 40;
 
-    ui->push_play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
-    ui->push_play->setIconSize(QSize(iconSize, iconSize));
+    // ui->push_play->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+    // ui->push_play->setIconSize(QSize(iconSize, iconSize));
 
-    ui->push_skip->setIcon(style()->standardIcon(QStyle::SP_MediaSkipForward));
-    ui->push_skip->setIconSize(QSize(iconSize, iconSize));
+    ui->push_play->setIconSize(QSize(30, 30));
+    ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/play1.png"));
 
-    ui->push_back->setIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward));
-    ui->push_back->setIconSize(QSize(iconSize, iconSize));
+    // ui->push_skip->setIcon(style()->standardIcon(QStyle::SP_MediaSkipForward));
+    // ui->push_skip->setIconSize(QSize(iconSize, iconSize));
 
-    ui->volume->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
-    ui->volume->setIconSize(QSize(iconSize, iconSize));
+    ui->push_skip->setIconSize(QSize(30, 30));
+    ui->push_skip->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/skip1.png"));
+
+
+    ui->push_back->setIconSize(QSize(30, 30));
+    ui->push_back->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/back1.png"));
+
+
+    // ui->push_back->setIcon(style()->standardIcon(QStyle::SP_MediaSkipBackward));
+    // ui->push_back->setIconSize(QSize(iconSize, iconSize));
+
+    // ui->volume->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
+    // ui->volume->setIconSize(QSize(iconSize, iconSize));
+
+    ui->volume->setIconSize(QSize(30, 30));
+    ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/volume1.png"));
 
     ui->horizontalSlider_2->setMinimum(0);
     ui->horizontalSlider_2->setMaximum(100);
     // ui->horizontalSlider_2->setValue(5);
-
-    // QString iconPath = "D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/shuffle1";
-    // QPixmap pixmap(iconPath);
-    // QIcon buttonIcon(pixmap);
-    // ui->push_shuffle->setIcon(buttonIcon);
-    // ui->push_shuffle->setIconSize(QSize(100,100));  // Set the desired icon size
 
     connect(MPlayer, &QMediaPlayer::durationChanged, this, &MainWindow::durationChanged);
     connect(MPlayer, &QMediaPlayer::positionChanged, this, &MainWindow::positionChanged);
@@ -82,6 +90,12 @@ MainWindow::MainWindow(QWidget *parent)
         updatePlaylistLabels();
     });
 
+    ui->push_shuffle->setIconSize(QSize(30, 30));
+    ui->push_shuffle->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/shuffle4.png"));
+
+    ui->push_repeat->setIconSize(QSize(30, 30));
+    ui->push_repeat->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/repeat1.png"));
+
     ui->horizontalSlider->setRange(0, MPlayer->duration()/1000);
     audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
 
@@ -97,6 +111,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Create a QMovie instance and set the GIF file path
     gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc7.gif");
+
+
 
     // Set the movie to the QLabel
     ui->label_4->setMovie(gifMovie);
@@ -212,8 +228,11 @@ void MainWindow::on_push_play_clicked()
     if (isPause == false)
     {
         // Resume functionality
-        QIcon playIcon = style()->standardIcon(QStyle::SP_MediaPlay);
-        ui->push_play->setIcon(playIcon);
+        // QIcon playIcon = style()->standardIcon(QStyle::SP_MediaPlay);
+        // ui->push_play->setIcon(playIcon);
+
+        ui->push_play->setIconSize(QSize(30, 30));
+        ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/play1.png"));
 
         MPlayer->pause();
         gifMovie->stop();
@@ -226,8 +245,11 @@ void MainWindow::on_push_play_clicked()
     else
     {
         // Pause functionality
-        QIcon pauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
-        ui->push_play->setIcon(pauseIcon);
+        // QIcon pauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
+        // ui->push_play->setIcon(pauseIcon);
+
+        ui->push_play->setIconSize(QSize(30, 30));
+        ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/pause1.png"));
 
         MPlayer->play();
         gifMovie->start();
@@ -240,13 +262,18 @@ void MainWindow::on_push_play_clicked()
 void MainWindow::on_volume_clicked()
 {
     if (IS_MUTE == false) {
-        QIcon volumeIcon = style()->standardIcon(QStyle::SP_MediaVolume);
-        ui->volume->setIcon(volumeIcon);
+        // QIcon volumeIcon = style()->standardIcon(QStyle::SP_MediaVolume);
+        // ui->volume->setIcon(volumeIcon);
+        ui->volume->setIconSize(QSize(30, 30));
+        ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/volume1.png"));
         audioOutput->setMuted(false); // Set to false to unmute
         IS_MUTE = true;
     } else {
-        QIcon volumeMutedIcon = style()->standardIcon(QStyle::SP_MediaVolumeMuted);
-        ui->volume->setIcon(volumeMutedIcon);
+        // QIcon volumeMutedIcon = style()->standardIcon(QStyle::SP_MediaVolumeMuted);
+        // ui->volume->setIcon(volumeMutedIcon);
+
+        ui->volume->setIconSize(QSize(25, 25));
+        ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/mute1.png"));
         audioOutput->setMuted(true); // Set to true to mute
         IS_MUTE = false;
     }
@@ -257,9 +284,11 @@ void MainWindow::on_horizontalSlider_2_valueChanged(int value)
     audioOutput->setVolume(value / 100.0);
 
     if (value == 0) {
-        ui->volume->setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
+        ui->volume->setIconSize(QSize(25, 25));
+        ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/mute1.png"));
     } else {
-        ui->volume->setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
+        ui->volume->setIconSize(QSize(30, 30));
+        ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/volume1.png"));
     }    // Set volume between 0.0 and 1.0
 }
 
@@ -289,8 +318,8 @@ void MainWindow::on_push_repeat_clicked()
 
     // Ensure that the MediaPlayer is playing if it was paused
     if (isPause) {
-        QIcon pauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
-        ui->push_play->setIcon(pauseIcon);
+        ui->push_play->setIconSize(QSize(30, 30));
+        ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/pause1.png"));
         MPlayer->play();
         gifMovie->start();
         isPause = false;
@@ -819,8 +848,8 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
             MPlayer->setSource(QUrl::fromLocalFile(fullFilePath));
             audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
 
-            QIcon pauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
-            ui->push_play->setIcon(pauseIcon);
+            ui->push_play->setIconSize(QSize(30, 30));
+            ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/pause1.png"));
 
             QFileInfo fileInfo(fullFilePath);
             currentFileName = fileInfo.fileName();  // Extract only the file name
@@ -954,8 +983,8 @@ void MainWindow::playNextSong(const Song& nextSong)
     // Set the source and start playing the next song
     MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
     audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
-    QIcon pauseIcon = style()->standardIcon(QStyle::SP_MediaPause);
-    ui->push_play->setIcon(pauseIcon);
+    ui->push_play->setIconSize(QSize(30, 30));
+    ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/pause1.png"));
     MPlayer->play();
     gifMovie->start();
 
@@ -986,10 +1015,13 @@ void MainWindow::on_push_shuffle_clicked()
 
     // Change the shuffle icon text color to blue if shuffle is enabled
     if (isShuffleEnabled) {
-        ui->push_shuffle->setStyleSheet("QPushButton { color: blue;"
-                                        "border: none;"
+        int iconSize = 30;  // Adjust the size as needed
+        ui->push_shuffle->setIconSize(QSize(iconSize, iconSize));
+        ui->push_shuffle->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/shuffle7.png"));
+        ui->push_shuffle->setStyleSheet("QPushButton { color: rgb(255, 255, 255);"
+                                        "border: 3px solid #8f8f91;"
                                         "border-radius:30px;"
-                                        "background-color:rgb(186, 186, 186);"
+                                        "background-color: rgb(66, 63, 62);"
                                         "font-weight: bold; "
                                         "min-width: 60px;"
                                         "max-width: 60px;"
@@ -998,22 +1030,25 @@ void MainWindow::on_push_shuffle_clicked()
                                         "max-height: 60px;}"
                                         "QPushButton::Hover{background-color:rgb(140,140,140);}");
 
+
         // If shuffle is enabled, generate shuffled indices for the playlist
          shuffleIndices = generateShuffledIndices(ui->listWidget_song->count());
         currentindex = 0;
     } else {
-        ui->push_shuffle->setStyleSheet("QPushButton { color: black;"
-                                        "border: none;"
+        int iconSize = 30;  // Adjust the size as needed
+        ui->push_shuffle->setIconSize(QSize(iconSize, iconSize));
+        ui->push_shuffle->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/shuffle4.png"));
+        ui->push_shuffle->setStyleSheet("QPushButton { color: rgb(255, 255, 255);"
+                                        "border: 3px solid #8f8f91;"
                                         "border-radius:30px;"
-                                        "background-color:rgb(186, 186, 186);"
+                                        "background-color: rgb(66, 63, 62);"
                                         "font-weight: bold; "
                                         "min-width: 60px;"
                                         "max-width: 60px;"
                                         "min-height: 60px;"
                                         "padding:0px;"
                                         "max-height: 60px;}"
-                                        "QPushButton::Hover{background-color:rgb(140,140,140);}"
-                                        );
+                                        "QPushButton::Hover{background-color:rgb(140,140,140);}");
 
         // If shuffle is disabled, reset shuffled indices
          shuffleIndices.clear();

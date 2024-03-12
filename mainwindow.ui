@@ -104,23 +104,36 @@ background-color:rgb(140,140,140);
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">QListWidget{
-border: 3px solid #8f8f91;
-background-color:rgb(57, 62, 70);
-                          border-radius: 10px;
+      <string notr="true">QListWidget {
+    border: 3px solid #8f8f91;
+    background-color: rgb(57, 62, 70);
+    border-radius: 10px;
 }
 
- QListWidget::item {
-border: 2px solid #8f8f91;
-        margin:5px;
-border-radius: 10px;
-height: 80px;
-background-color:rgb(34, 40, 49);
-color:rgb(238, 238, 238);
-font-weight: bold;
+QListWidget::item {
+    border: 2px solid #8f8f91;
+    margin: 5px;
+    border-radius: 10px;
+    height: 75px;
+    background-color: rgb(34, 40, 49);
+    color: rgb(238, 238, 238);
+    font-weight: bold;
+}
 
+QScrollBar:vertical {
+    background: transparent;  /* Set the scrollbar background to be transparent */
+    width: 8px;  /* Set the width of the scrollbar */
+}
 
-    }</string>
+QScrollBar::handle:vertical {
+    background: #8f8f91;  /* Set the color of the scrollbar handle */
+    border-radius: 5px;   /* Set the desired border-radius for the scrollbar handle */
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;  /* Set background to none for the scroll bar buttons and page control */
+}</string>
      </property>
      <property name="sortingEnabled">
       <bool>false</bool>
@@ -212,27 +225,36 @@ background-color:rgb(140,140,140);
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">QListWidget{
-border: 3px solid #8f8f91;
-background-color:rgb(57, 62, 70);
-                          border-radius: 10px;
+      <string notr="true">QListWidget {
+    border: 3px solid #8f8f91;
+    background-color: rgb(57, 62, 70);
+    border-radius: 10px;
 }
 
- QListWidget::item {
-border: 2px solid #8f8f91;
+QListWidget::item {
+    border: 2px solid #8f8f91;
+    margin: 5px;
+    border-radius: 10px;
+    height: 50px;
+    background-color: rgb(34, 40, 49);
+    color: rgb(238, 238, 238);
+    font-weight: bold;
+}
 
-        margin:5px;
-border-radius: 10px;
-height: 50px;
-background-color:rgb(34, 40, 49);
-color:rgb(238, 238, 238);
-font-weight: bold;
+QScrollBar:vertical {
+    background: transparent;  /* Set the scrollbar background to be transparent */
+    width: 8px;  /* Set the width of the scrollbar */
+}
 
+QScrollBar::handle:vertical {
+    background: #8f8f91;  /* Set the color of the scrollbar handle */
+    border-radius: 5px;   /* Set the desired border-radius for the scrollbar handle */
+    height: 20px;  /* Set the height of the scrollbar handle */
+}
 
-    }
-
-QListWidget::vertical::handle {
-    border-radius: 5px;  /* Set the desired border-radius for the scroll bar handle */
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical,
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;  /* Set background to none for the scroll bar buttons and page control */
 }</string>
      </property>
      <property name="horizontalScrollBarPolicy">
@@ -563,7 +585,9 @@ background-color:rgb(57, 62, 70);
 }
 
  QListWidget::item {
-        margin:8px;
+border: 2px solid #8f8f91;
+
+        margin:5px;
 border-radius: 10px;
 height: 75px;
 background-color:rgb(34, 40, 49);
@@ -805,7 +829,7 @@ background-color:rgb(140,140,140);
      <property name="geometry">
       <rect>
        <x>920</x>
-       <y>80</y>
+       <y>85</y>
        <width>131</width>
        <height>31</height>
       </rect>
@@ -906,7 +930,7 @@ background-color:rgb(140,140,140);
 }</string>
      </property>
      <property name="text">
-      <string>Repeat</string>
+      <string/>
      </property>
     </widget>
     <widget class="QPushButton" name="push_shuffle">
@@ -919,8 +943,7 @@ background-color:rgb(140,140,140);
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{
-
+      <string notr="true">QPushButton {
 border: 3px solid #8f8f91;
 border-radius:30px;
 background-color:rgb(66, 63, 62);
@@ -930,17 +953,14 @@ max-width: 60px;
 min-height: 60px;
 max-height: 60px;
 padding:0px;
-
-
 }
 
-
-QPushButton:Hover{
-background-color:rgb(140,140,140);
+QPushButton:hover {
+    background-color: rgb(140, 140, 140);
 }</string>
      </property>
      <property name="text">
-      <string>Shuffle</string>
+      <string/>
      </property>
     </widget>
     <widget class="QSlider" name="horizontalSlider">

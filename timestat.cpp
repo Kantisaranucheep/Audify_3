@@ -127,6 +127,7 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
     // Create a bar series and set
     QBarSeries *series = new QBarSeries();
     QBarSet *set_1 = new QBarSet("duration stats");
+    set_1->setLabelBrush(QBrush("#EEEEEE"));
 
     // Append data to the bar set
     for (int i = 0; i < totallistening.size(); ++i) {
@@ -143,18 +144,23 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
 
     QBarCategoryAxis *axisX = new QBarCategoryAxis();
     axisX->append(dateLabels);
-    chart->addAxis(axisX, Qt::AlignBottom);
     axisX->setTitleText("Dates");
+    axisX->setLabelsColor(QColor("#EEEEEE")); // Set X-axis label color
+    axisX->setTitleBrush(QBrush(QColor("#EEEEEE"))); // Set X-axis title color
+    chart->addAxis(axisX, Qt::AlignBottom);
     series->attachAxis(axisX);
 
     QValueAxis *axisY = new QValueAxis();
     axisY->setRange(0, 24); // Adjust the range based on your data
     axisY->setTitleText("Minutes");
+    axisY->setLabelsColor(QColor("#EEEEEE")); // Set Y-axis label color
+    axisY->setTitleBrush(QBrush(QColor("#EEEEEE"))); // Set Y-axis title color
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
 
     chart->legend()->setVisible(true);
     chart->legend()->setAlignment(Qt::AlignBottom);
+    chart->legend()->setLabelColor(QColor("#EEEEEE")); // Set legend label color
 
     ui->graphicsView->setChart(chart);
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
@@ -166,17 +172,8 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
     ui->comboduration->addItem("6 hours");
     ui->comboduration->addItem("3 hours");
 
-    set_1->setLabelColor(QColor("#EEEEEE"));
-
     chart->setBackgroundBrush(QBrush(QColor("#222831")));
-    axisX->setTitleBrush(QBrush(QColor("#EEEEEE")));
-    axisY->setTitleBrush(QBrush(QColor("#EEEEEE")));
-
-    chart->legend()->setLabelColor(QColor("EEEEEE"));
-    chart->setTitleBrush(QBrush(QColor("#EEEEEE")));
-
-    axisX->setLabelsColor(Qt::white);
-    axisY->setLabelsColor(Qt::white);
+    chart->setTitleBrush(QBrush(QColor("#EEEEEE"))); // Set chart title color
 }
 
 void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
@@ -223,7 +220,7 @@ void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
         QBarSet *set = new QBarSet(pair.first);
         set->append(pair.second);
         series->append(set);
-        set->setLabelColor(QColor("#EEEEEE"));
+        set->setLabelColor(QColor("#EEEEEE"));  // Change label color to #EEEEEE
 
         ++count;
     }
@@ -235,12 +232,14 @@ void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
 
     QBarCategoryAxis *axisX = new QBarCategoryAxis();
     axisX->setTitleText("Songs");
+    axisX->setTitleBrush(QBrush(QColor("#EEEEEE"))); // Change X-axis title color
     chart->addAxis(axisX, Qt::AlignBottom);
     series->attachAxis(axisX);
 
     QValueAxis *axisY = new QValueAxis();
     axisY->setRange(0, 20); // Adjust the range based on your data
     axisY->setTitleText("Play Count");
+    axisY->setTitleBrush(QBrush(QColor("#EEEEEE"))); // Change Y-axis title color
     chart->addAxis(axisY, Qt::AlignLeft);
     series->attachAxis(axisY);
 
@@ -262,12 +261,16 @@ void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
     axisX->setTitleBrush(QBrush(QColor("#EEEEEE")));
     axisY->setTitleBrush(QBrush(QColor("#EEEEEE")));
 
-    chart->legend()->setLabelColor(QColor("EEEEEE"));
+    chart->legend()->setLabelColor(QColor("#EEEEEE"));  // Change legend text color
     chart->setTitleBrush(QBrush(QColor("#EEEEEE")));
 
-    axisX->setLabelsColor(Qt::white);
-    axisY->setLabelsColor(Qt::white);
+    axisX->setLabelsColor(QColor("#EEEEEE"));  // Change axis label color
+    axisY->setLabelsColor(QColor("#EEEEEE"));
 
+    // Iterate over each bar set and set label color
+    for (QBarSet *barSet : series->barSets()) {
+        barSet->setLabelColor(QColor("#EEEEEE"));
+    }
 }
 
 void TimeStat::on_combomode_currentIndexChanged(int index)
