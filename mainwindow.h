@@ -134,6 +134,8 @@ private slots:
 
     void on_combodisc_currentIndexChanged(int index);
 
+    void on_pushplaysong_clicked();
+
 private:
     Ui::MainWindow *ui;
     bool IS_MUTE = false;

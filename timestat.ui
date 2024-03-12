@@ -27,6 +27,13 @@
      <height>461</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">QChartView {
+  background-color:rgb(34, 40, 49);
+  border-radius: 15px;
+  color:rgb(34, 40, 49);
+}</string>
+   </property>
   </widget>
   <widget class="QComboBox" name="comboduration">
    <property name="geometry">

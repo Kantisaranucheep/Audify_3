@@ -511,6 +511,7 @@ void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
     // updateNextSongList();
 
     updateSongList(playlistName);
+    currentindex = 0;
 
 }
 
@@ -876,7 +877,7 @@ void MainWindow::on_push_skip_clicked()
 
 
     qDebug() << "Playlist size: " << selectedPlaylist->getSongCount();
-
+    qDebug() << "current song: " << ui->listWidget_song->currentRow();
     // Check if the playlist is not empty
     if (selectedPlaylist && selectedPlaylist->getSongCount() > 0 && ui->listWidget_song->currentRow() >= 0) {
         if (isShuffleEnabled) {
@@ -889,6 +890,8 @@ void MainWindow::on_push_skip_clicked()
             updateNextSongList();
             playNextSong(nextSong);
         } else {
+
+            qDebug() << "skip the song";
             // If shuffle is not enabled, increment the index and loop back to the first song if needed
             currentindex = (currentindex + 1) % selectedPlaylist->getSongCount();
             const Song& nextSong = selectedPlaylist->getSongs().at(currentindex);
@@ -1014,7 +1017,7 @@ void MainWindow::on_push_shuffle_clicked()
 
         // If shuffle is disabled, reset shuffled indices
          shuffleIndices.clear();
-        currentindex = -1;
+        currentindex =-1;
     }
 }
 
@@ -1046,12 +1049,19 @@ void MainWindow::handleMediaStatusChanged(QMediaPlayer::MediaStatus status)
             if (selectedPlaylist->getSongCount() == 1) {
                 MPlayer->setPosition(0);  // Restart the same song from the beginning
                 MPlayer->play();
+                nextIndex = 0;
             } else {
                 if (isShuffleEnabled) {
                     nextIndex = (currentindex + 1) % shuffleIndices.size();
+
                 } else {
                     nextIndex = (currentindex + 1) % selectedPlaylist->getSongCount();
                 }
+
+                // Check if shuffle is enabled and the next index exceeds the playlist size
+                // if (isShuffleEnabled && nextIndex >= selectedPlaylist->getSongCount()) {
+                //     nextIndex = 0;  // Wrap around to the first song
+                // }
             }
 
             // Get the next song in the playlist
@@ -1687,5 +1697,36 @@ void MainWindow::on_combodisc_currentIndexChanged(int index)
     default:
 
         break;
+    }
+}
+
+void MainWindow::on_pushplaysong_clicked()
+{
+    QString playlistName = clickedItem->text();
+
+    // Get the playlist from the Inventory based on the label text
+    const Playlist* selectedPlaylist = nullptr;
+    const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+
+    for (const Playlist& playlist : allPlaylists) {
+        if (playlist.getName() == playlistName) {
+            selectedPlaylist = &playlist;
+            break;
+        }
+    }
+
+    // Check if the selected playlist is found
+    if (selectedPlaylist) {
+        qDebug() << "Playlist size: " << selectedPlaylist->getSongCount();
+
+        // Check if the playlist is not empty
+        if (selectedPlaylist->getSongCount() > 0) {
+            // Play the first song (index 0) of the playlist
+            const Song& firstSong = selectedPlaylist->getSongs().at(0);
+            ++firstSong.playCount;
+            qDebug() << "Playing First Song: " << firstSong.getfilename();
+            updateNextSongList();
+            playNextSong(firstSong);
+        }
     }
 }

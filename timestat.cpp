@@ -165,6 +165,18 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
     ui->comboduration->addItem("12 hours");
     ui->comboduration->addItem("6 hours");
     ui->comboduration->addItem("3 hours");
+
+    set_1->setLabelColor(QColor("#EEEEEE"));
+
+    chart->setBackgroundBrush(QBrush(QColor("#222831")));
+    axisX->setTitleBrush(QBrush(QColor("#EEEEEE")));
+    axisY->setTitleBrush(QBrush(QColor("#EEEEEE")));
+
+    chart->legend()->setLabelColor(QColor("EEEEEE"));
+    chart->setTitleBrush(QBrush(QColor("#EEEEEE")));
+
+    axisX->setLabelsColor(Qt::white);
+    axisY->setLabelsColor(Qt::white);
 }
 
 void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
@@ -211,7 +223,7 @@ void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
         QBarSet *set = new QBarSet(pair.first);
         set->append(pair.second);
         series->append(set);
-
+        set->setLabelColor(QColor("#EEEEEE"));
 
         ++count;
     }
@@ -245,6 +257,16 @@ void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
     ui->comboduration->addItem("40 times");
     ui->comboduration->addItem("28 times");
     ui->comboduration->addItem("20 times");
+
+    chart->setBackgroundBrush(QBrush(QColor("#222831")));
+    axisX->setTitleBrush(QBrush(QColor("#EEEEEE")));
+    axisY->setTitleBrush(QBrush(QColor("#EEEEEE")));
+
+    chart->legend()->setLabelColor(QColor("EEEEEE"));
+    chart->setTitleBrush(QBrush(QColor("#EEEEEE")));
+
+    axisX->setLabelsColor(Qt::white);
+    axisY->setLabelsColor(Qt::white);
 
 }
 
