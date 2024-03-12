@@ -44,6 +44,37 @@
      <height>28</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 8px;
+    min-width: 3em;
+background-color: rgb(186, 186, 186);
+}
+
+QComboBox:on {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+QComboBox QAbstractItemView {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color: rgb(186, 186, 186);
+    border: 1px solid gray;
+    box-shadow: transparent;
+    padding: 1px 1px 1px 1px
+}
+
+QComboBox::drop-down {
+    border-color: transparent;
+}</string>
+   </property>
    <property name="currentText">
     <string/>
    </property>
@@ -76,6 +107,37 @@
      <width>101</width>
      <height>28</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QComboBox {
+    border: 1px solid gray;
+    border-radius: 8px;
+    min-width: 3em;
+background-color: rgb(186, 186, 186);
+}
+
+QComboBox:on {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+QComboBox QAbstractItemView {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    background-color: rgb(186, 186, 186);
+    border: 1px solid gray;
+    box-shadow: transparent;
+    padding: 1px 1px 1px 1px
+}
+
+QComboBox::drop-down {
+    border-color: transparent;
+}</string>
    </property>
    <item>
     <property name="text">
