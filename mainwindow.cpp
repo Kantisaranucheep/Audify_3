@@ -23,6 +23,9 @@
 #include <QDate>
 #include <QMainWindow>
 
+#include <QCoreApplication>
+#include <QDir>
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
@@ -42,25 +45,27 @@ MainWindow::MainWindow(QWidget *parent)
 
     int iconSize = 40;
 
+    QString projectRoot = getProjectRootDirectory();
+
     ui->push_play->setIconSize(QSize(30, 30));
-    ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/play1.png"));
+    ui->push_play->setIcon(QIcon(projectRoot + "/Audify_3/play1.png"));
 
     ui->push_skip->setIconSize(QSize(30, 30));
-    ui->push_skip->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/skip1.png"));
+    ui->push_skip->setIcon(QIcon(projectRoot + "/Audify_3/skip1.png"));
 
     ui->push_back->setIconSize(QSize(30, 30));
-    ui->push_back->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/back1.png"));
+    ui->push_back->setIcon(QIcon(projectRoot + "/Audify_3/back1.png"));
 
     ui->volume->setIconSize(QSize(30, 30));
-    ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/volume1.png"));
+    ui->volume->setIcon(QIcon(projectRoot + "/Audify_3/volume1.png"));
 
     ui->push_shuffle->setIconSize(QSize(30, 30));
-    ui->push_shuffle->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/shuffle4.png"));
+    ui->push_shuffle->setIcon(QIcon(projectRoot + "/Audify_3/shuffle4.png"));
 
     ui->push_repeat->setIconSize(QSize(30, 30));
-    ui->push_repeat->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/repeat1.png"));
+    ui->push_repeat->setIcon(QIcon(projectRoot + "/Audify_3/repeat1.png"));
 
-    gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc7.gif");
+    gifMovie = new QMovie(projectRoot + "/Audify_3/disc7.gif");
 
     // Set the movie to the QLabel
     ui->label_4->setMovie(gifMovie);
@@ -99,7 +104,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     srand(static_cast<uint>(QTime::currentTime().msec()));
 
-    loadDataFromJson("test7.json");
+    loadDataFromJson(projectRoot + "/Audify_3/test7.json");
 
     for (const Playlist& playlist : inventory->getPlaylists()) {
         qDebug() << "Adding Playlist to Combo Box:" << playlist.getName();
@@ -128,7 +133,7 @@ MainWindow::MainWindow(QWidget *parent)
     // ui->total_duration->setText("Duration: 0:00");
     // ui->total_song->setText("0 song");
 
-    if (MainWindow::isFileLoaded("test7.json") == true) {
+    if (MainWindow::isFileLoaded(projectRoot + "/Audify_3/test7.json") == true) {
         return;
     }
     else {
@@ -214,6 +219,7 @@ void MainWindow::on_actionOpen_Audio_File_triggered()
 
 void MainWindow::on_push_play_clicked()
 {
+    QString projectRoot = getProjectRootDirectory();
     if (isPause == false)
     {
         // Resume functionality
@@ -221,7 +227,7 @@ void MainWindow::on_push_play_clicked()
         // ui->push_play->setIcon(playIcon);
 
         ui->push_play->setIconSize(QSize(30, 30));
-        ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/play1.png"));
+        ui->push_play->setIcon(QIcon(projectRoot + "/Audify_3/play1.png"));
 
         MPlayer->pause();
         gifMovie->stop();
@@ -238,7 +244,7 @@ void MainWindow::on_push_play_clicked()
         // ui->push_play->setIcon(pauseIcon);
 
         ui->push_play->setIconSize(QSize(30, 30));
-        ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/pause1.png"));
+        ui->push_play->setIcon(QIcon(projectRoot + "/Audify_3/pause1.png"));
 
         MPlayer->play();
         gifMovie->start();
@@ -250,11 +256,12 @@ void MainWindow::on_push_play_clicked()
 
 void MainWindow::on_volume_clicked()
 {
+    QString projectRoot = getProjectRootDirectory();
     if (IS_MUTE == false) {
         // QIcon volumeIcon = style()->standardIcon(QStyle::SP_MediaVolume);
         // ui->volume->setIcon(volumeIcon);
         ui->volume->setIconSize(QSize(30, 30));
-        ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/volume1.png"));
+        ui->volume->setIcon(QIcon(projectRoot+"/Audify_3/volume1.png"));
         audioOutput->setMuted(false); // Set to false to unmute
         IS_MUTE = true;
     } else {
@@ -262,7 +269,7 @@ void MainWindow::on_volume_clicked()
         // ui->volume->setIcon(volumeMutedIcon);
 
         ui->volume->setIconSize(QSize(25, 25));
-        ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/mute1.png"));
+        ui->volume->setIcon(QIcon(projectRoot+"/Audify_3/mute1.png"));
         audioOutput->setMuted(true); // Set to true to mute
         IS_MUTE = false;
     }
@@ -271,14 +278,14 @@ void MainWindow::on_volume_clicked()
 void MainWindow::on_horizontalSlider_2_valueChanged(int value)
 {
     audioOutput->setVolume(value / 100.0);
-
+    QString projectRoot = getProjectRootDirectory();
     if (value == 0) {
         ui->volume->setIconSize(QSize(25, 25));
-        ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/mute1.png"));
+        ui->volume->setIcon(QIcon(projectRoot+"/Audify_3/mute1.png"));
         IS_MUTE = true;
     } else {
         ui->volume->setIconSize(QSize(30, 30));
-        ui->volume->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/volume1.png"));
+        ui->volume->setIcon(QIcon(projectRoot+"/Audify_3/volume1.png"));
     }    // Set volume between 0.0 and 1.0
 }
 
@@ -305,11 +312,11 @@ void MainWindow::on_push_repeat_clicked()
 {
     // Set the position of the MediaPlayer to the start
     MPlayer->setPosition(0);
-
+    QString projectRoot = getProjectRootDirectory();
     // Ensure that the MediaPlayer is playing if it was paused
     if (isPause) {
         ui->push_play->setIconSize(QSize(30, 30));
-        ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/pause1.png"));
+        ui->push_play->setIcon(QIcon(projectRoot+"/Audify_3/pause1.png"));
         MPlayer->play();
         gifMovie->start();
         isPause = false;
@@ -719,6 +726,7 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
     // Get the playlist from the Inventory based on the label text
     const Playlist* selectedPlaylist = nullptr;
     const QList<Playlist>& allPlaylists = inventory->getPlaylists();
+    QString projectRoot = getProjectRootDirectory();
 
     for (const Playlist& playlist : allPlaylists) {
         if (playlist.getName() == playlistName) {
@@ -752,7 +760,7 @@ void MainWindow::on_listWidget_song_itemClicked(QListWidgetItem *item)
             audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
 
             ui->push_play->setIconSize(QSize(30, 30));
-            ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/pause1.png"));
+            ui->push_play->setIcon(QIcon(projectRoot+"/Audify_3/pause1.png"));
 
             QFileInfo fileInfo(fullFilePath);
             currentFileName = fileInfo.fileName();  // Extract only the file name
@@ -914,11 +922,12 @@ void MainWindow::on_push_back_clicked()
 
 void MainWindow::playNextSong(const Song& nextSong)
 {
+    QString projectRoot = getProjectRootDirectory();
     // Set the source and start playing the next song
     MPlayer->setSource(QUrl::fromLocalFile(nextSong.getfilename()));
     audioOutput->setVolume(ui->horizontalSlider_2->value() / 100.0);
     ui->push_play->setIconSize(QSize(30, 30));
-    ui->push_play->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/pause1.png"));
+    ui->push_play->setIcon(QIcon(projectRoot+"/Audify_3/pause1.png"));
     MPlayer->play();
     gifMovie->start();
 
@@ -946,12 +955,13 @@ void MainWindow::scrollFileName()
 void MainWindow::on_push_shuffle_clicked()
 {
     isShuffleEnabled = !isShuffleEnabled;
+    QString projectRoot = getProjectRootDirectory();
 
     // Change the shuffle icon text color to blue if shuffle is enabled
     if (isShuffleEnabled) {
         int iconSize = 30;  // Adjust the size as needed
         ui->push_shuffle->setIconSize(QSize(iconSize, iconSize));
-        ui->push_shuffle->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/shuffle7.png"));
+        ui->push_shuffle->setIcon(QIcon(projectRoot+"/Audify_3/shuffle7.png"));
         ui->push_shuffle->setStyleSheet("QPushButton { color: rgb(255, 255, 255);"
                                         "border: 3px solid #8f8f91;"
                                         "border-radius:30px;"
@@ -971,7 +981,7 @@ void MainWindow::on_push_shuffle_clicked()
     } else {
         int iconSize = 30;  // Adjust the size as needed
         ui->push_shuffle->setIconSize(QSize(iconSize, iconSize));
-        ui->push_shuffle->setIcon(QIcon("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/shuffle4.png"));
+        ui->push_shuffle->setIcon(QIcon(projectRoot+"/Audify_3/shuffle4.png"));
         ui->push_shuffle->setStyleSheet("QPushButton { color: rgb(255, 255, 255);"
                                         "border: 3px solid #8f8f91;"
                                         "border-radius:30px;"
@@ -1286,8 +1296,9 @@ void MainWindow::saveDataToJson(const QString& filename)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    QString projectRoot = getProjectRootDirectory();
     // Save data to JSON before closing the application
-    saveDataToJson("test7.json");
+    saveDataToJson(projectRoot+"/Audify_3/test7.json");
 
     // Call the base class implementation
     QMainWindow::closeEvent(event);
@@ -1295,13 +1306,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_pushsavedata_clicked()
 {
+    QString projectRoot = getProjectRootDirectory();
     // saveDataToJson("test.json");
 
     // Specify the full path to the directory where you want to save the JSON file
-    QString directoryPath = "D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3";
+    QString directoryPath = projectRoot+"/Audify_3";
 
     // Specify the filename
-    QString filename = "test7.json";
+    QString filename = projectRoot+"/Audify_3/test7.json";
 
     // Combine the directory path and filename to get the full file path
     QString fullPath = QDir(directoryPath).filePath(filename);
@@ -1574,10 +1586,11 @@ void MainWindow::on_lineEdit_textChanged(const QString& searchText)
 
 void MainWindow::on_combodisc_currentIndexChanged(int index)
 {
+    QString projectRoot = getProjectRootDirectory();
     switch (index) {
     case 0:
         // Set up the GIF animation for disc when index is 0
-        gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc7.gif");
+        gifMovie = new QMovie(projectRoot+"/Audify_3/disc7.gif");
         ui->label_4->setMovie(gifMovie);
         gifMovie->setScaledSize(ui->label_4->size());
         gifMovie->setScaledSize(QSize(240, 240));
@@ -1591,7 +1604,7 @@ void MainWindow::on_combodisc_currentIndexChanged(int index)
         }
         break;
     case 1:
-        gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc8.gif");
+        gifMovie = new QMovie(projectRoot+"/Audify_3/disc8.gif");
         ui->label_4->setMovie(gifMovie);
         gifMovie->setScaledSize(ui->label_4->size());
         gifMovie->setScaledSize(QSize(240, 240));
@@ -1605,7 +1618,7 @@ void MainWindow::on_combodisc_currentIndexChanged(int index)
         }
         break;
     case 2:
-        gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc9.gif");
+        gifMovie = new QMovie(projectRoot+"/Audify_3/disc9.gif");
         ui->label_4->setMovie(gifMovie);
         gifMovie->setScaledSize(ui->label_4->size());
         gifMovie->setScaledSize(QSize(240, 240));
@@ -1620,7 +1633,7 @@ void MainWindow::on_combodisc_currentIndexChanged(int index)
         break;
 
     case 3:
-        gifMovie = new QMovie("D:/Kant_Isaranucheep/KMITL/software engineering year1/c++/project3/Audify_3/disc10.gif");
+        gifMovie = new QMovie(projectRoot+"/Audify_3/disc10.gif");
         ui->label_4->setMovie(gifMovie);
         gifMovie->setScaledSize(ui->label_4->size());
         gifMovie->setScaledSize(QSize(180, 180));
@@ -1639,3 +1652,11 @@ void MainWindow::on_combodisc_currentIndexChanged(int index)
     }
 }
 
+QString MainWindow::getProjectRootDirectory() {
+    QString executablePath = QCoreApplication::applicationDirPath();
+    QFileInfo executableInfo(executablePath);
+    QString projectRoot = executableInfo.absolutePath();
+    QString normalizedProjectRoot = QDir::toNativeSeparators(projectRoot);
+    qDebug() << "Project Root Directory:" << normalizedProjectRoot;
+    return normalizedProjectRoot;
+}

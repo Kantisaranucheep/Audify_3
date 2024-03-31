@@ -116,6 +116,8 @@ private slots:
 
     void on_pushplaysong_clicked();
 
+    QString getProjectRootDirectory();
+
     // void onPlaylistLabelClicked(QLabel *clickedLabel);
 
     // void playlistlabelcliked();
