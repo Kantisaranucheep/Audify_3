@@ -7,15 +7,17 @@ Playlist::Playlist(const QString& name)
 {
 }
 
+void Playlist::setName(const QString& newName)
+{
+    name = newName;
+}
+
+
 QString Playlist::getName() const
 {
     return name;
 }
 
-void Playlist::setName(const QString& newName)
-{
-    name = newName;
-}
 
 void Playlist::importSong(const Song& song)
 {

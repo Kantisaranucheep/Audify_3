@@ -35,12 +35,12 @@ public:
 private slots:
 
     void durationChanged(qint64 duration);
+
     void positionChanged(qint64 progress);
 
     void on_push_play_clicked();
 
     void on_push_skip_clicked();
-
 
     void on_push_back_clicked();
 
@@ -56,30 +56,19 @@ private slots:
 
     void updateSongList(const QString &playlistName);
 
-
-
     void on_push_repeat_clicked();
 
     void on_pushaddplaylist_clicked();
 
     void updatePlaylistLabels();
 
-    // void onPlaylistLabelClicked(QLabel *clickedLabel);
-
-    // void playlistlabelcliked();
-
-
     void on_pushdelplaylist_2_clicked();
 
     void on_listWidget_itemClicked(QListWidgetItem *item);
 
-    // void on_pushaddplaylist_2_clicked();
-
     void on_pushaddsong_clicked();
 
     void on_pushdelsong_clicked();
-
-
 
     void on_listWidget_itemDoubleClicked(QListWidgetItem *item);
 
@@ -89,7 +78,6 @@ private slots:
 
     void handleMediaStatusChanged(QMediaPlayer::MediaStatus status);
 
-
     void on_push_shuffle_clicked();
 
     QList<int> generateShuffledIndices(int count);
@@ -97,9 +85,8 @@ private slots:
     void playNextSong(const Song& nextSong);
 
     void updateComboBox();
-    // void handleMovieResized(const QSize &size);
-    void on_comboPlaylist_currentIndexChanged(int index);
 
+    void on_comboPlaylist_currentIndexChanged(int index);
 
     void on_comboSong_currentIndexChanged(int index);
 
@@ -109,8 +96,6 @@ private slots:
 
     void saveDataToJson(const QString& filename);
 
-    // void createEmptyJsonFile(const QString& filename);
-
     void closeEvent(QCloseEvent *event);
 
     void on_pushsavedata_clicked();
@@ -119,16 +104,11 @@ private slots:
 
     bool isFileLoaded(const QString& filename);
 
-
     void on_pushstat_clicked();
 
     QListWidgetItem* findPlaylistItem(const QString& playlistName);
 
-
     void on_lineEdit_textChanged(const QString &arg1);
-    // void saveTotallisteningToJson(const QString& filename);
-
-    // void on_lineEdit_2_textChanged(const QString &arg1);
 
     void on_pushrename_clicked();
 
@@ -136,10 +116,26 @@ private slots:
 
     void on_pushplaysong_clicked();
 
+    // void onPlaylistLabelClicked(QLabel *clickedLabel);
+
+    // void playlistlabelcliked();
+
+    // void on_pushaddplaylist_2_clicked();
+
+    // void handleMovieResized(const QSize &size);
+
+    // void createEmptyJsonFile(const QString& filename);
+
+    // void saveTotallisteningToJson(const QString& filename);
+
+    // void on_lineEdit_2_textChanged(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
-    bool IS_MUTE = false;
+    bool IS_MUTE = true;
     bool isPause = true;
+    bool isShuffleEnabled = false;
+
     QMediaPlayer *MPlayer;
     QAudioOutput *audioOutput;
     Inventory* inventory;
@@ -152,19 +148,18 @@ private:
     QVBoxLayout *playlistLayout;
     QScrollArea* scrollArea;
     int currentindex=0;
-    // bool eventFilter(QObject *obj, QEvent *event);
     QListWidgetItem* clickedItem;
 
     QTimer *scrollTimer;
     QString currentFileName;
 
-    bool isShuffleEnabled = false;
     QList<int> shuffleIndices;
     QMovie* gifMovie;
 
     qint64 currentSongDuration;
 
     QElapsedTimer elapsedTimer;
+    // bool eventFilter(QObject *obj, QEvent *event);
     // qint64 totallistening;
 
 
