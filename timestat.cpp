@@ -119,7 +119,7 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
     // Iterate through the array and retrieve total listening duration for all available days
     int daysCount = 0;
     int arraySize = totalListeningArray.size();
-    for (int i = arraySize - 1; i >= 0 && daysCount < 5; --i) {
+    for (int i = arraySize - 1; i >= 0; --i) {
         QJsonObject dayObject = totalListeningArray[i].toObject();
         QString dateString = dayObject.keys().first();
         int durationInMillis = dayObject.value(dateString).toInt();
@@ -128,6 +128,9 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
         totallistening.prepend(durationInHours); // Prepend to maintain reverse order
         dateLabels.prepend(QDateTime::fromString(dateString, "yyyy-MM-dd").toString("d/M/yyyy"));
         ++daysCount;
+        if (daysCount >= 5) {
+            break; // Stop iterating if we have collected data for the last 5 days
+        }
     }
 
     // Create a bar series and set
@@ -136,7 +139,7 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
     set_1->setLabelBrush(QBrush("#EEEEEE"));
 
     // Append data to the bar set
-    for (int i =  totallistening.size() - 5; i < totallistening.size(); ++i) {
+    for (int i = 0; i < totallistening.size(); ++i) {
         set_1->append(totallistening[i]);
         qDebug() << "json duration : " << totallistening[i];
     }
@@ -181,6 +184,7 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
     chart->setBackgroundBrush(QBrush(QColor("#222831")));
     chart->setTitleBrush(QBrush(QColor("#EEEEEE"))); // Set chart title color
 }
+
 
 void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
 {

@@ -30,6 +30,7 @@ int Song::getPlayCount()const{
 void Song::incrementPlayCount(){
     ++playCount;
 }
+
 void Song::setPlayCount(int count)
 {
     playCount = count;
