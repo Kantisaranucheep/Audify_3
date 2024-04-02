@@ -9,7 +9,7 @@
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/カントリーロートCover.mp3",
-                    "playcount": 37
+                    "playcount": 38
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/ODESZA - Meridian.mp3",
@@ -17,7 +17,7 @@
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/Dream Lantern  Violin Orchestra [Your Name  Kimi no Na wa OST] 君の名は 夢灯籠 オーケストラ Radwimps.mp3",
-                    "playcount": 44
+                    "playcount": 45
                 },
                 {
                     "filename": "C:/Users/hp/Downloads/If I could be a constellation.mp3",
@@ -349,6 +349,12 @@
         },
         {
             "2024-03-31": 105723
+        },
+        {
+            "2024-04-01": 17299
+        },
+        {
+            "2024-04-02": 65687
         }
     ]
 }

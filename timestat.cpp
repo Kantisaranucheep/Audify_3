@@ -23,8 +23,9 @@ TimeStat::TimeStat(QWidget *parent)
     connect(ui->comboduration, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &TimeStat::on_comboduration_currentIndexChanged);
 
+    QString projectRoot = getProjectRootDirectory();
     // Read JSON data from a file
-    QFile file("test7.json");
+    QFile file(projectRoot + "/Audify_3/test7.json");
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QByteArray jsonData = file.readAll();
         file.close();
@@ -113,15 +114,20 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
     QList<int> totallistening;
     QStringList dateLabels;
 
+    QDateTime currentDate = QDateTime::currentDateTime();
+
     // Iterate through the array and retrieve total listening duration for all available days
-    for (const QJsonValue& dateObjectValue : totalListeningArray) {
-        QJsonObject dayObject = dateObjectValue.toObject();
+    int daysCount = 0;
+    int arraySize = totalListeningArray.size();
+    for (int i = arraySize - 1; i >= 0 && daysCount < 5; --i) {
+        QJsonObject dayObject = totalListeningArray[i].toObject();
         QString dateString = dayObject.keys().first();
         int durationInMillis = dayObject.value(dateString).toInt();
         // Convert duration from milliseconds to decimal hours
         double durationInHours = static_cast<double>(durationInMillis) / (1000.0 * 60.0); // 1 hour = 1000 milliseconds * 60 seconds * 60 minutes
-        totallistening.append(durationInHours);
-        dateLabels.append(QDateTime::fromString(dateString, "yyyy-MM-dd").toString("d/M/yyyy"));
+        totallistening.prepend(durationInHours); // Prepend to maintain reverse order
+        dateLabels.prepend(QDateTime::fromString(dateString, "yyyy-MM-dd").toString("d/M/yyyy"));
+        ++daysCount;
     }
 
     // Create a bar series and set
@@ -130,7 +136,7 @@ void TimeStat::generateTotalListeningGraph(const QJsonArray& totalListeningArray
     set_1->setLabelBrush(QBrush("#EEEEEE"));
 
     // Append data to the bar set
-    for (int i = 0; i < totallistening.size(); ++i) {
+    for (int i =  totallistening.size() - 5; i < totallistening.size(); ++i) {
         set_1->append(totallistening[i]);
         qDebug() << "json duration : " << totallistening[i];
     }
@@ -275,9 +281,10 @@ void TimeStat::generateTopPlayCountGraph(const QJsonArray& playlistsArray)
 
 void TimeStat::on_combomode_currentIndexChanged(int index)
 {
+    QString projectRoot = getProjectRootDirectory();
     if (index == 0) {
         // Read JSON data from a file
-        QFile file("test7.json");
+        QFile file(projectRoot + "/Audify_3/test7.json");
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QByteArray jsonData = file.readAll();
             file.close();
@@ -330,4 +337,12 @@ void TimeStat::on_combomode_currentIndexChanged(int index)
     }
 }
 
+QString TimeStat::getProjectRootDirectory() {
+    QString executablePath = QCoreApplication::applicationDirPath();
+    QFileInfo executableInfo(executablePath);
+    QString projectRoot = executableInfo.absolutePath();
+    QString normalizedProjectRoot = QDir::toNativeSeparators(projectRoot);
+    qDebug() << "Project Root Directory:" << normalizedProjectRoot;
+    return normalizedProjectRoot;
+}
 

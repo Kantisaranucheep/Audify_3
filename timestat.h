@@ -27,6 +27,7 @@ private:
     Ui::TimeStat *ui;
     void generateTopPlayCountGraph(const QJsonArray& playlistsArray);
     void generateTotalListeningGraph(const QJsonArray& totalListeningArray);
+    QString getProjectRootDirectory();
 
 };
 
