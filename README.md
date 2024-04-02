@@ -9,6 +9,14 @@ Audify is a music player program developed primarily in C++ (95.4%) with some pa
 - **User-Friendly Interface**: Intuitive interface designed for seamless navigation.
 - **Customization Options**: Tailor your music experience with various settings and options by changing the disc image.
 
+## Development
+
+This project is a group project for the Object-Oriented Programming course of Software Engineering program at King Mongkut's Institute of Technology Ladkrabang (KMITL).
+**Developed by:
+- Kant Isaranucheep
+- Sran Jarurangsripattanakul
+- Tanakrit Doltanakarn
+
 ## Requirements
 
 - Qt Creator IDE
