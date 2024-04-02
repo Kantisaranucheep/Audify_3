@@ -4,10 +4,10 @@ Audify is a music player program developed primarily in C++ (95.4%) with some pa
 
 ## Features
 
-- **Audio Playback**: Play your favorite audio files with ease.
+- **Audio Playback**: Play your favorite audio files with ease, including MP3 files.
 - **Graphical Visualization**: Visualize your music with Qt Charts, Qt Data Visualization, and Qt Graph libraries.
 - **User-Friendly Interface**: Intuitive interface designed for seamless navigation.
-- **Customization Options**: Tailor your music experience with various settings and options.
+- **Customization Options**: Tailor your music experience with various settings and options by changing the disc image.
 
 ## Requirements
 
